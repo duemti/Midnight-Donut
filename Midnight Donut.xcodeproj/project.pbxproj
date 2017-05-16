@@ -1,0 +1,571 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D97EC7F05D89073C2D33C81 /* Pods_Midnight_DonutTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6150FEF547754BDAA085495 /* Pods_Midnight_DonutTests.framework */; };
+		69449DAD1EC9E06B00EAD81F /* PlacesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69449DAC1EC9E06B00EAD81F /* PlacesTableViewController.swift */; };
+		69449DB11EC9F1AE00EAD81F /* PlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69449DB01EC9F1AE00EAD81F /* PlaceTableViewCell.swift */; };
+		6995027E1EC5F5E200FE1866 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6995027D1EC5F5E200FE1866 /* AppDelegate.swift */; };
+		699502801EC5F5E200FE1866 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6995027F1EC5F5E200FE1866 /* FirstViewController.swift */; };
+		699502851EC5F5E200FE1866 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 699502831EC5F5E200FE1866 /* Main.storyboard */; };
+		699502871EC5F5E200FE1866 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699502861EC5F5E200FE1866 /* Assets.xcassets */; };
+		6995028A1EC5F5E200FE1866 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 699502881EC5F5E200FE1866 /* LaunchScreen.storyboard */; };
+		699502951EC5F5E200FE1866 /* Midnight_DonutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699502941EC5F5E200FE1866 /* Midnight_DonutTests.swift */; };
+		FBB73185C9D4578DF5AADB3D /* Pods_Midnight_Donut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB677D6EE40B288F2262045F /* Pods_Midnight_Donut.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		699502911EC5F5E200FE1866 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 699502721EC5F5E100FE1866 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 699502791EC5F5E200FE1866;
+			remoteInfo = "Midnight Donut";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		63F083DE330F0D01A7ED5985 /* Pods-Midnight Donut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight Donut.release.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight Donut/Pods-Midnight Donut.release.xcconfig"; sourceTree = "<group>"; };
+		69449DAC1EC9E06B00EAD81F /* PlacesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesTableViewController.swift; sourceTree = "<group>"; };
+		69449DB01EC9F1AE00EAD81F /* PlaceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceTableViewCell.swift; sourceTree = "<group>"; };
+		6995027A1EC5F5E200FE1866 /* Midnight Donut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Midnight Donut.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6995027D1EC5F5E200FE1866 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6995027F1EC5F5E200FE1866 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		699502841EC5F5E200FE1866 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		699502861EC5F5E200FE1866 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		699502891EC5F5E200FE1866 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6995028B1EC5F5E200FE1866 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		699502901EC5F5E200FE1866 /* Midnight DonutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Midnight DonutTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		699502941EC5F5E200FE1866 /* Midnight_DonutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Midnight_DonutTests.swift; sourceTree = "<group>"; };
+		699502961EC5F5E200FE1866 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D216B2B953EA584EC0D4842 /* Pods-Midnight DonutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight DonutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight DonutTests/Pods-Midnight DonutTests.release.xcconfig"; sourceTree = "<group>"; };
+		CB677D6EE40B288F2262045F /* Pods_Midnight_Donut.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Midnight_Donut.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D224D32440581C799D7390BF /* Pods-Midnight Donut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight Donut.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight Donut/Pods-Midnight Donut.debug.xcconfig"; sourceTree = "<group>"; };
+		D6150FEF547754BDAA085495 /* Pods_Midnight_DonutTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Midnight_DonutTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEB92FECE2931F6118325056 /* Pods-Midnight DonutTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight DonutTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight DonutTests/Pods-Midnight DonutTests.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		699502771EC5F5E200FE1866 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBB73185C9D4578DF5AADB3D /* Pods_Midnight_Donut.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6995028D1EC5F5E200FE1866 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D97EC7F05D89073C2D33C81 /* Pods_Midnight_DonutTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		112441D27F25156CF5AF7660 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CB677D6EE40B288F2262045F /* Pods_Midnight_Donut.framework */,
+				D6150FEF547754BDAA085495 /* Pods_Midnight_DonutTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		699502711EC5F5E100FE1866 = {
+			isa = PBXGroup;
+			children = (
+				6995027C1EC5F5E200FE1866 /* Midnight Donut */,
+				699502931EC5F5E200FE1866 /* Midnight DonutTests */,
+				6995027B1EC5F5E200FE1866 /* Products */,
+				924DAD373076DDF336029B61 /* Pods */,
+				112441D27F25156CF5AF7660 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		6995027B1EC5F5E200FE1866 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6995027A1EC5F5E200FE1866 /* Midnight Donut.app */,
+				699502901EC5F5E200FE1866 /* Midnight DonutTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6995027C1EC5F5E200FE1866 /* Midnight Donut */ = {
+			isa = PBXGroup;
+			children = (
+				6995027D1EC5F5E200FE1866 /* AppDelegate.swift */,
+				6995027F1EC5F5E200FE1866 /* FirstViewController.swift */,
+				69449DAC1EC9E06B00EAD81F /* PlacesTableViewController.swift */,
+				69449DB01EC9F1AE00EAD81F /* PlaceTableViewCell.swift */,
+				699502831EC5F5E200FE1866 /* Main.storyboard */,
+				699502861EC5F5E200FE1866 /* Assets.xcassets */,
+				699502881EC5F5E200FE1866 /* LaunchScreen.storyboard */,
+				6995028B1EC5F5E200FE1866 /* Info.plist */,
+			);
+			path = "Midnight Donut";
+			sourceTree = "<group>";
+		};
+		699502931EC5F5E200FE1866 /* Midnight DonutTests */ = {
+			isa = PBXGroup;
+			children = (
+				699502941EC5F5E200FE1866 /* Midnight_DonutTests.swift */,
+				699502961EC5F5E200FE1866 /* Info.plist */,
+			);
+			path = "Midnight DonutTests";
+			sourceTree = "<group>";
+		};
+		924DAD373076DDF336029B61 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D224D32440581C799D7390BF /* Pods-Midnight Donut.debug.xcconfig */,
+				63F083DE330F0D01A7ED5985 /* Pods-Midnight Donut.release.xcconfig */,
+				FEB92FECE2931F6118325056 /* Pods-Midnight DonutTests.debug.xcconfig */,
+				8D216B2B953EA584EC0D4842 /* Pods-Midnight DonutTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		699502791EC5F5E200FE1866 /* Midnight Donut */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 699502991EC5F5E200FE1866 /* Build configuration list for PBXNativeTarget "Midnight Donut" */;
+			buildPhases = (
+				8888BC58D96B4E5DA05AE01A /* [CP] Check Pods Manifest.lock */,
+				699502761EC5F5E200FE1866 /* Sources */,
+				699502771EC5F5E200FE1866 /* Frameworks */,
+				699502781EC5F5E200FE1866 /* Resources */,
+				68D1AE7453250100281F6650 /* [CP] Embed Pods Frameworks */,
+				8271C5B4859FEC6C7794B4BE /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Midnight Donut";
+			productName = "Midnight Donut";
+			productReference = 6995027A1EC5F5E200FE1866 /* Midnight Donut.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6995028F1EC5F5E200FE1866 /* Midnight DonutTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6995029C1EC5F5E200FE1866 /* Build configuration list for PBXNativeTarget "Midnight DonutTests" */;
+			buildPhases = (
+				9DB7B585543FCFE8FA94E60A /* [CP] Check Pods Manifest.lock */,
+				6995028C1EC5F5E200FE1866 /* Sources */,
+				6995028D1EC5F5E200FE1866 /* Frameworks */,
+				6995028E1EC5F5E200FE1866 /* Resources */,
+				57E20625BDAA57490E922458 /* [CP] Embed Pods Frameworks */,
+				38321FEEAFD1F4A61706D386 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				699502921EC5F5E200FE1866 /* PBXTargetDependency */,
+			);
+			name = "Midnight DonutTests";
+			productName = "Midnight DonutTests";
+			productReference = 699502901EC5F5E200FE1866 /* Midnight DonutTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		699502721EC5F5E100FE1866 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Dumitru PETROV";
+				TargetAttributes = {
+					699502791EC5F5E200FE1866 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 4UQ3Z4MMAM;
+						ProvisioningStyle = Automatic;
+					};
+					6995028F1EC5F5E200FE1866 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 699502791EC5F5E200FE1866;
+					};
+				};
+			};
+			buildConfigurationList = 699502751EC5F5E100FE1866 /* Build configuration list for PBXProject "Midnight Donut" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 699502711EC5F5E100FE1866;
+			productRefGroup = 6995027B1EC5F5E200FE1866 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				699502791EC5F5E200FE1866 /* Midnight Donut */,
+				6995028F1EC5F5E200FE1866 /* Midnight DonutTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		699502781EC5F5E200FE1866 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6995028A1EC5F5E200FE1866 /* LaunchScreen.storyboard in Resources */,
+				699502871EC5F5E200FE1866 /* Assets.xcassets in Resources */,
+				699502851EC5F5E200FE1866 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6995028E1EC5F5E200FE1866 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		38321FEEAFD1F4A61706D386 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Midnight DonutTests/Pods-Midnight DonutTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		57E20625BDAA57490E922458 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Midnight DonutTests/Pods-Midnight DonutTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		68D1AE7453250100281F6650 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Midnight Donut/Pods-Midnight Donut-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8271C5B4859FEC6C7794B4BE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Midnight Donut/Pods-Midnight Donut-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8888BC58D96B4E5DA05AE01A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		9DB7B585543FCFE8FA94E60A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		699502761EC5F5E200FE1866 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6995027E1EC5F5E200FE1866 /* AppDelegate.swift in Sources */,
+				699502801EC5F5E200FE1866 /* FirstViewController.swift in Sources */,
+				69449DAD1EC9E06B00EAD81F /* PlacesTableViewController.swift in Sources */,
+				69449DB11EC9F1AE00EAD81F /* PlaceTableViewCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6995028C1EC5F5E200FE1866 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				699502951EC5F5E200FE1866 /* Midnight_DonutTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		699502921EC5F5E200FE1866 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 699502791EC5F5E200FE1866 /* Midnight Donut */;
+			targetProxy = 699502911EC5F5E200FE1866 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		699502831EC5F5E200FE1866 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				699502841EC5F5E200FE1866 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		699502881EC5F5E200FE1866 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				699502891EC5F5E200FE1866 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		699502971EC5F5E200FE1866 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		699502981EC5F5E200FE1866 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6995029A1EC5F5E200FE1866 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D224D32440581C799D7390BF /* Pods-Midnight Donut.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4UQ3Z4MMAM;
+				INFOPLIST_FILE = "Midnight Donut/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "dpetrov.Midnight-Donut";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		6995029B1EC5F5E200FE1866 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63F083DE330F0D01A7ED5985 /* Pods-Midnight Donut.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4UQ3Z4MMAM;
+				INFOPLIST_FILE = "Midnight Donut/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "dpetrov.Midnight-Donut";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		6995029D1EC5F5E200FE1866 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FEB92FECE2931F6118325056 /* Pods-Midnight DonutTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Midnight DonutTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "dpetrov.Midnight-DonutTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Midnight Donut.app/Midnight Donut";
+			};
+			name = Debug;
+		};
+		6995029E1EC5F5E200FE1866 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8D216B2B953EA584EC0D4842 /* Pods-Midnight DonutTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Midnight DonutTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "dpetrov.Midnight-DonutTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Midnight Donut.app/Midnight Donut";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		699502751EC5F5E100FE1866 /* Build configuration list for PBXProject "Midnight Donut" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				699502971EC5F5E200FE1866 /* Debug */,
+				699502981EC5F5E200FE1866 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		699502991EC5F5E200FE1866 /* Build configuration list for PBXNativeTarget "Midnight Donut" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6995029A1EC5F5E200FE1866 /* Debug */,
+				6995029B1EC5F5E200FE1866 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6995029C1EC5F5E200FE1866 /* Build configuration list for PBXNativeTarget "Midnight DonutTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6995029D1EC5F5E200FE1866 /* Debug */,
+				6995029E1EC5F5E200FE1866 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 699502721EC5F5E100FE1866 /* Project object */;
+}
