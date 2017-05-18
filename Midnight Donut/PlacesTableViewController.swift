@@ -30,6 +30,19 @@ class PlacesTableViewController: UITableViewController, SendDataThroughVCDelegat
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
+    
+    // Update tableview everytime it is entered.
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
+    // changing navigation bar height.
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        let height: CGFloat = 50
+        let bounds = self.navigationController?.navigationBar.bounds
+        self.navigationController?.navigationBar.frame = CGRect(x: 0, y: 0, width: bounds!.width, height: bounds!.height + height)
+    }
 
     // MARK: - Table view data source
 
@@ -46,14 +59,24 @@ class PlacesTableViewController: UITableViewController, SendDataThroughVCDelegat
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "mycell", for: indexPath) as! PlaceTableViewCell
-        // Configure the cell...
-        let place = places[indexPath.row]
+        if places.count != 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "mycell", for: indexPath) as! PlaceTableViewCell
+            // Configure the cell...
+            
+            let place = places[indexPath.row]
 
-        cell.nameLabelCell.text = place.name
-        cell.addressLabelCell.text = place.formattedAddress
-        
-        return cell
+            cell.nameLabelCell.text = place.name
+            cell.addressLabelCell.text = place.formattedAddress
+            print("Yep!")
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+            
+            cell.textLabel?.text = "No Data."
+            cell.textLabel?.textAlignment = .center
+            
+            return cell
+        }
     }
 
     /*
