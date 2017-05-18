@@ -22,6 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Google Places API Key.
         GMSPlacesClient.provideAPIKey("AIzaSyBH9l0IodrxU3HS-l7tQlx8RR26H84ItwY")
         GMSServices.provideAPIKey("AIzaSyBH9l0IodrxU3HS-l7tQlx8RR26H84ItwY")
+        
+        // Changing Tab bar Background color.
+        let tbController = self.window?.rootViewController as! UITabBarController
+        
+        tbController.tabBar.barTintColor = UIColor(red:0.25, green:0.25, blue:0.25, alpha:1.0)
         return true
     }
 

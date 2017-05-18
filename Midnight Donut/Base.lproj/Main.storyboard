@@ -35,10 +35,10 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="md_3" translatesAutoresizingMaskIntoConstraints="NO" id="a4e-X9-Ffx">
-                                <rect key="frame" x="16" y="78" width="343" height="280"/>
+                                <rect key="frame" x="16" y="28" width="343" height="280"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bHx-M6-m4H">
-                                <rect key="frame" x="109" y="292" width="157" height="82"/>
+                                <rect key="frame" x="118.5" y="563" width="138" height="47"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="25"/>
                                 <state key="normal" title="Find a Place"/>
@@ -49,21 +49,21 @@
                         </subviews>
                         <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="a4e-X9-Ffx" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="58" id="JNE-hd-dlJ"/>
+                            <constraint firstItem="a4e-X9-Ffx" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="8" id="JNE-hd-dlJ"/>
                             <constraint firstItem="gKY-so-h4v" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="M43-5b-BEX"/>
                             <constraint firstItem="a4e-X9-Ffx" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="MmJ-sz-XSO"/>
                             <constraint firstItem="a4e-X9-Ffx" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailingMargin" id="Qjl-1w-9bi"/>
                             <constraint firstItem="bHx-M6-m4H" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="eea-lr-dUu"/>
                             <constraint firstItem="a4e-X9-Ffx" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="h1B-lz-OBJ"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="bHx-M6-m4H" secondAttribute="bottom" constant="8" id="r1D-Q4-Yev"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="gKY-so-h4v"/>
-                                <exclude reference="bHx-M6-m4H"/>
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="home" id="acW-dT-cKf"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
@@ -139,7 +139,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aq9-Iy-M7z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="342"/>
+            <point key="canvasLocation" x="750" y="476"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -162,7 +162,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
+        <image name="home" width="25" height="25"/>
         <image name="md_3" width="465" height="280"/>
         <image name="mini_donut" width="112" height="112"/>
     </resources>
