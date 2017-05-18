@@ -44,7 +44,6 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             self.placesClient.currentPlace(callback: { (placeLikelihoodList, error) -> Void in
                 if let error = error {
                     print("Pick Place error: \(error.localizedDescription)")
-                    self.nameLabel.text = "try again"
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     return
                 }
@@ -52,15 +51,13 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                 if let placeLikelihoodList = placeLikelihoodList {
                     let placesTab = self.tabBarController?.viewControllers?[1] as! PlacesTableViewController
                     placesTab.finishPassing(places: placeLikelihoodList)
-                    
-//                    self.delegate?.finishPassing(places: placeLikelihoodList)
                     print("Sending the Places...")
                     
                     let place = placeLikelihoodList.likelihoods.first?.place
                     if let place = place {
                         DispatchQueue.main.async {
-                            self.nameLabel.text = place.name
-                            self.addressLabel.text = place.formattedAddress!
+//                            self.nameLabel.text = place.name
+//                            self.addressLabel.text = place.formattedAddress!
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         }
                     } else {

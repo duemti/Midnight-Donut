@@ -13,10 +13,23 @@ class PlacesTableViewController: UITableViewController, SendDataThroughVCDelegat
     
     //MAEK: Properties.
     var places = [GMSPlace]()
+    let allTypes: [String] = ["bakery", "bar", "cafe", "convenience_store", "food", "grocery_or_supermarket", "meal_delivery", "meal_takeaway", "restaurant", "store", "gas_station"]
+    let placeToEat: [String] = ["food", "cafe", "restaurant", "meal_delivery"]
     
     func finishPassing(places: GMSPlaceLikelihoodList) {
+        var countTags: Int = 0
+        
         for place in places.likelihoods {
-            self.places.append(place.place)
+            for type in allTypes {
+                // Filtering the returned Arroy of Places.
+                if place.place.types.contains(type) {
+                    if countTags == 0 {
+                        self.places.append(place.place)
+                        countTags = 1
+                    }
+                }
+            }
+            countTags = 0
         }
         print("Received the Places.")
     }

@@ -69,14 +69,33 @@
             </objects>
             <point key="canvasLocation" x="749.60000000000002" y="-320.68965517241384"/>
         </scene>
-        <!--Item-->
+        <!--Share-->
+        <scene sceneID="KIu-EU-XNs">
+            <objects>
+                <viewController id="9TQ-Zr-cCL" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="W63-p6-KX4"/>
+                        <viewControllerLayoutGuide type="bottom" id="RkA-mz-aAe"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kAB-Nf-4d3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Share" image="share" id="8a8-sx-URC"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WJa-Wd-Czx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1591" y="0.0"/>
+        </scene>
+        <!--Places-->
         <scene sceneID="lWU-JD-6QW">
             <objects>
                 <tableViewController id="Tnt-tg-n1N" customClass="PlacesTableViewController" customModule="Midnight_Donut" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="vAo-7D-Qtg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                         <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="zfX-4a-PBn">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -135,7 +154,7 @@
                             <outlet property="delegate" destination="Tnt-tg-n1N" id="cmx-cK-4ji"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Item" id="aiY-Tc-iTG"/>
+                    <tabBarItem key="tabBarItem" title="Places" image="places_list" id="aiY-Tc-iTG"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aq9-Iy-M7z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -154,6 +173,7 @@
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="Tnt-tg-n1N" kind="relationship" relationship="viewControllers" id="Nxf-rF-xbQ"/>
+                        <segue destination="9TQ-Zr-cCL" kind="relationship" relationship="viewControllers" id="1OR-da-ORO"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -165,5 +185,7 @@
         <image name="home" width="25" height="25"/>
         <image name="md_3" width="465" height="280"/>
         <image name="mini_donut" width="112" height="112"/>
+        <image name="places_list" width="25" height="25"/>
+        <image name="share" width="25" height="25"/>
     </resources>
 </document>
