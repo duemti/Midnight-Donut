@@ -11,8 +11,10 @@ import GooglePlaces
 import CoreLocation
 import GooglePlacePicker
 
+public let TAGS = "restaurant"
+
 protocol SendDataThroughVCDelegate {
-    func finishPassing(places: GMSPlaceLikelihoodList)
+    func finishPassing(places: [Place])
 }
 
 class FirstViewController: UIViewController, CLLocationManagerDelegate {
@@ -21,79 +23,96 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var placesClient: GMSPlacesClient!
     var locationManager = CLLocationManager()
     var delegate: SendDataThroughVCDelegate?
+    var places = [Place]()
 
     // Labels to display info.
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var findAPlace: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Customizing the button
+        findAPlace.layer.cornerRadius = 5
         
         locationManager.delegate = self
         
         placesClient = GMSPlacesClient.shared()
     }
-
-    // Google Place
+    
+    // Search for a place.
     @IBAction func getCurrentPlace(_ sender: UIButton) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         // Request permission to locate.
         locationManager.requestWhenInUseAuthorization()
+        var showAlert = false
         
-        DispatchQueue.global(qos: .default).async {
-            self.placesClient.currentPlace(callback: { (placeLikelihoodList, error) -> Void in
-                if let error = error {
-                    print("Pick Place error: \(error.localizedDescription)")
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                    return
-                }
-                
-                if let placeLikelihoodList = placeLikelihoodList {
-                    let placesTab = self.tabBarController?.viewControllers?[1] as! PlacesTableViewController
-                    placesTab.finishPassing(places: placeLikelihoodList)
-                    print("Sending the Places...")
-                    
-                    let place = placeLikelihoodList.likelihoods.first?.place
-                    if let place = place {
-                        DispatchQueue.main.async {
-//                            self.nameLabel.text = place.name
-//                            self.addressLabel.text = place.formattedAddress!
-                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                        }
-                    } else {
-                        print("Can't get the address.")
-                    }
-                }
-            })
+        if CLLocationManager.locationServicesEnabled() {
+            switch CLLocationManager.authorizationStatus() {
+            case .notDetermined, .restricted:
+                print("No Location Access.")
+            case .authorizedWhenInUse, .authorizedAlways:
+                print("Location Access Granted.")
+                getThePlaces()
+            case .denied:
+                showAlert = true
+                print("Location Access Denied.")
+            }
+        } else {
+            print("Location services are not enabled")
+        }
+        
+        if showAlert {
+            let alert = UIAlertController(title: "Please enable location from Settings->Midnight Donut", message: "Used to detect places near you.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
-    @IBOutlet weak var pickNameLabel: UILabel!
-    @IBOutlet weak var pickAddressLabel: UILabel!
-    // Google Place Picker
-    @IBAction func pickThePlace(_ sender: UIButton) {
-        let config = GMSPlacePickerConfig(viewport: nil)
-        let placePicker = GMSPlacePicker(config: config)
-        
-        placePicker.pickPlace(callback: { (place, error) -> Void in
+    func getThePlaces() {
+        //MARK: - Variables
+        let key = "AIzaSyABjELFCIbnytefGjThre9r_A0DhTk9AVg"
+        let location = locationManager.location?.coordinate
+        let url = URL(string: "https://maps.googleapis.com/maps/api/place/textsearch/json?location=\(location!.latitude),\(location!.longitude)&type=\(TAGS)&key=\(key)")
+        URLSession.shared.dataTask(with: url!) { (data, respoonse, error) in
             if let error = error {
-                print("Pick Place error: \(error.localizedDescription)")
+                print("Error: \(error)")
                 return
             }
             
-            guard let place = place else {
-                print("No place selected")
-                return
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any?]
+                
+                let results = json["results"] as! [[String: Any?]]
+                for place in results {
+                    var hours = [String]()
+                    var status: Bool = false
+                    var rating = "0"
+                    // Initializing a new place.
+                    let geometry = place["geometry"] as! [String: Any?]
+                    // Check Open Status and if Exist Hours.
+                    let openNow = place["opening_hours"] as? [String: Any?]
+                    if openNow != nil {
+                        status = openNow!["open_now"] as! Bool
+                        hours = openNow!["weekday_text"] as! [String]
+                        print("==>\(openNow?["weekday_text"])<==")
+                    }
+                    if place["rating"] != nil{//let val = place["rating"] as? String {
+                        print("exists")
+                        rating = String(format: "%.1f", place["rating"] as! Float)
+                    }
+                    let newPlace = Place(place["name"] as! String, rating, place["formatted_address"] as! String, place["id"] as! String, place["types"] as! [String], status ? "open" : "closed", hours, geometry["location"] as! [String: Double], geometry["viewport"] as! [String: [String: Double]])
+                    
+                    // Adding an place to places list.
+                    self.places.append(newPlace)
+                }
+            }catch let error {
+                print("Error while parsing json: \(error)")
             }
             
-            self.pickNameLabel.text = place.name
-            self.pickAddressLabel.text = place.formattedAddress!
-            print("Place name \(place.name)")
-            print("Place address \(place.formattedAddress)")
-            print("Place attributions \(place.attributions)")
-        })
+            let placesTab = self.tabBarController?.viewControllers?[1] as! PlacesCollectionViewController
+            placesTab.finishPassing(places: self.places)
+            print("==>Sending \(self.places.count) ...")
+        }.resume()
     }
-    
 }
 
 

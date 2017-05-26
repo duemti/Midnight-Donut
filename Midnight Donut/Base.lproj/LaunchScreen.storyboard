@@ -21,37 +21,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Midnight Donut" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oWV-sl-bjq">
-                                <rect key="frame" x="38" y="306" width="299" height="56"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="40"/>
-                                <color key="textColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" red="0.60000002379999995" green="0.40000000600000002" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <size key="shadowOffset" width="4" height="-1"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loadingImage" translatesAutoresizingMaskIntoConstraints="NO" id="UfC-Ow-AOQ">
-                                <rect key="frame" x="112" y="148" width="150" height="150"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="FHo-X6-2B4"/>
-                                    <constraint firstAttribute="height" constant="150" id="WUp-7D-LHf"/>
-                                </constraints>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mainDonut" translatesAutoresizingMaskIntoConstraints="NO" id="kj5-0c-nWz">
+                                <rect key="frame" x="0.0" y="193.5" width="375" height="280"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="oWV-sl-bjq" firstAttribute="top" secondItem="UfC-Ow-AOQ" secondAttribute="bottom" constant="8" id="GDu-CC-Xb7"/>
-                            <constraint firstItem="UfC-Ow-AOQ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Gnv-kz-HR5"/>
-                            <constraint firstItem="oWV-sl-bjq" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="W0j-gI-b9O"/>
-                            <constraint firstItem="oWV-sl-bjq" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="lhR-fK-Scf"/>
+                            <constraint firstItem="kj5-0c-nWz" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ahC-XG-6iT"/>
+                            <constraint firstItem="kj5-0c-nWz" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="uPe-pN-UBO"/>
+                            <constraint firstItem="kj5-0c-nWz" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="znY-zY-bZY"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
     <resources>
-        <image name="loadingImage" width="256" height="256"/>
+        <image name="mainDonut" width="465" height="280"/>
     </resources>
 </document>
