@@ -260,7 +260,6 @@
                                             <constraint firstAttribute="bottom" secondItem="HB0-7f-USn" secondAttribute="bottom" constant="4" id="iSM-TD-rJm"/>
                                             <constraint firstItem="HB0-7f-USn" firstAttribute="leading" secondItem="sUE-o7-6TU" secondAttribute="leading" constant="4" id="lBx-PM-ag1"/>
                                         </constraints>
-                                        <size key="customSize" width="57" height="32"/>
                                         <connections>
                                             <outlet property="tagNameLabel" destination="HB0-7f-USn" id="EwR-oA-T2E"/>
                                         </connections>

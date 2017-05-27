@@ -11,17 +11,10 @@ import UIKit
 private let firstReuseIdentifier = "Cell"
 private let secondReuseIdentifier = "NoDataCell"
 
-class PlacesCollectionViewController: UICollectionViewController, SendDataThroughVCDelegate {
+class PlacesCollectionViewController: UICollectionViewController {
     
     //MARK: Properties.
     var places = [Place]()
-    let allTypes: [String] = ["bakery", "bar", "cafe", "convenience_store", "food", "grocery_or_supermarket", "meal_delivery", "meal_takeaway", "restaurant", "store", "gas_station"]
-    let placeToEat: [String] = ["food", "cafe", "restaurant", "meal_delivery"]
-    
-    func finishPassing(places: [Place]) {
-        self.places = places
-        print("Received the Places.")
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,4 +102,11 @@ class PlacesCollectionViewController: UICollectionViewController, SendDataThroug
     }
     */
 
+}
+
+extension PlacesCollectionViewController {
+    func finishPassing(places: [Place]) {
+        self.places = places
+        print("Received the Places.")
+    }
 }

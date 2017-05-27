@@ -11,18 +11,15 @@ import GooglePlaces
 import CoreLocation
 import GooglePlacePicker
 
-public let TAGS = "restaurant"
-
-protocol SendDataThroughVCDelegate {
-    func finishPassing(places: [Place])
-}
-
 class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
     //MARK: Properties.
+    
+    let KEY = "AIzaSyABjELFCIbnytefGjThre9r_A0DhTk9AVg"
+    var allTags: [String] = ["bakery", "bar", "convenience_store", "grocery_or_supermarket", "meal_delivery", "meal_takeaway", "store", "gas_station"]
+    var selectedTags: [String] = ["food", "cafe", "restaurant"]
     var placesClient: GMSPlacesClient!
-    var locationManager = CLLocationManager()
-    var delegate: SendDataThroughVCDelegate?
+    let locationManager = CLLocationManager()
     var places = [Place]()
 
     // Labels to display info.
@@ -33,15 +30,15 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         
         // Customizing the button
         findAPlace.layer.cornerRadius = 5
-        
-        locationManager.delegate = self
-        
+        getPlaceInfo("ChIJd2HNqEt8yUARGqhGQCgGSKQ")
         placesClient = GMSPlacesClient.shared()
     }
     
     // Search for a place.
     @IBAction func getCurrentPlace(_ sender: UIButton) {
         // Request permission to locate.
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         var showAlert = false
         
@@ -66,12 +63,36 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             self.present(alert, animated: true, completion: nil)
         }
     }
-    
+}
+
+// MARK: - Search place for detailed info.
+extension FirstViewController {
+    func getPlaceInfo(_ id: String) {
+        let url = URL(string: "https://maps.googleapis.com/maps/api/place/details/json?placeid=\(id)&key=\(KEY)")
+        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            if let error = error {
+                print("Error while retrieving place info: \(error)")
+                return
+            }
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any?]
+                print(json)
+            }catch let error {
+                print("Error while parsing json: \(error)")//////////////////////////////////////
+            }
+        }
+    }
+}
+
+// MARK: - Search for places.
+extension FirstViewController {
     func getThePlaces() {
         //MARK: - Variables
-        let key = "AIzaSyABjELFCIbnytefGjThre9r_A0DhTk9AVg"
-        let location = locationManager.location?.coordinate
-        let url = URL(string: "https://maps.googleapis.com/maps/api/place/textsearch/json?location=\(location!.latitude),\(location!.longitude)&type=\(TAGS)&key=\(key)")
+        guard let location = locationManager.location?.coordinate else {
+            print("Err: location is nil. \(locationManager.location)")
+            return
+        }
+        let url = URL(string: "https://maps.googleapis.com/maps/api/place/textsearch/json?location=\(location.latitude),\(location.longitude)&type=\(selectedTags.joined(separator: "|"))&key=\(KEY)")
         URLSession.shared.dataTask(with: url!) { (data, respoonse, error) in
             if let error = error {
                 print("Error: \(error)")
@@ -99,7 +120,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                         print("exists")
                         rating = String(format: "%.1f", place["rating"] as! Float)
                     }
-                    let newPlace = Place(place["name"] as! String, rating, place["formatted_address"] as! String, place["id"] as! String, place["types"] as! [String], status ? "open" : "closed", hours, geometry["location"] as! [String: Double], geometry["viewport"] as! [String: [String: Double]])
+                    let newPlace = Place(place["name"] as! String, rating, place["formatted_address"] as! String, place["place_id"] as! String, place["types"] as! [String], status ? "open" : "closed", hours, geometry["location"] as! [String: Double], geometry["viewport"] as! [String: [String: Double]])
                     
                     // Adding an place to places list.
                     self.places.append(newPlace)
@@ -111,7 +132,18 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             let placesTab = self.tabBarController?.viewControllers?[1] as! PlacesCollectionViewController
             placesTab.finishPassing(places: self.places)
             print("==>Sending \(self.places.count) ...")
-        }.resume()
+            }.resume()
+    }
+}
+
+extension FirstViewController {
+    func getCurrentTags() -> [Int: [String]] {
+        return [0: allTags, 1: selectedTags]
+    }
+    
+    func update(tags: [Int: [String]]) {
+        allTags = tags[0]!
+        selectedTags = tags[1]!
     }
 }
 

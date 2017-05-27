@@ -8,9 +8,25 @@
 
 import UIKit
 
+extension UIView {
+    var snapshot : UIView? {
+        var image: UIImage? = nil
+        UIGraphicsBeginImageContext(bounds.size)
+        if let context = UIGraphicsGetCurrentContext() {
+            self.layer.render(in: context)
+            image = UIGraphicsGetImageFromCurrentImageContext()
+        }
+        UIGraphicsEndImageContext()
+        let snapshot: UIView = UIImageView(image: image)
+        
+        return snapshot
+    }
+}
+
 class SettingsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     // MARK: - Properties
+    var placeTab: FirstViewController!
     var longPressGestureRecognizer: UILongPressGestureRecognizer!
     let colors: [(bgColor: UIColor, txtColor: UIColor)] = [(UIColor(red:0.79, green:0.00, blue:0.02, alpha:1.0), UIColor(red:0.69, green:0.00, blue:0.00, alpha:1.0)),
                                                            (UIColor(red:1.00, green:0.43, blue:0.00, alpha:1.0), UIColor(red:0.90, green:0.33, blue:0.00, alpha:1.0)),
@@ -19,7 +35,7 @@ class SettingsViewController: UIViewController, UICollectionViewDelegate, UIColl
                                                            (UIColor(red:0.00, green:0.75, blue:0.98, alpha:1.0), UIColor(red:0.00, green:0.65, blue:0.89, alpha:1.0)),
                                                            (UIColor(red:0.75, green:0.07, blue:0.55, alpha:1.0), UIColor(red:0.65, green:0.00, blue:0.45, alpha:1.0))]
     
-    var tags: [Int: [String]]! = [0: ["bakery", "bar", "cafe", "convenience_store", "grocery_or_supermarket", "meal_delivery", "meal_takeaway", "restaurant", "store", "gas_station"], 1: ["food"]]
+    var tags: [Int: [String]]!
     @IBOutlet weak var collectionView: UICollectionView!
 
     override func viewDidLoad() {
@@ -28,13 +44,19 @@ class SettingsViewController: UIViewController, UICollectionViewDelegate, UIColl
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.reloadData()
-        
+        placeTab = self.tabBarController?.viewControllers?[0] as! FirstViewController
+        tags = self.placeTab.getCurrentTags()
         addSubviews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        collectionView.reloadData()
+        tags = self.placeTab.getCurrentTags()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        placeTab.update(tags: tags)
     }
     
     func getCurrentTag(for indexPath: IndexPath) -> String {
@@ -42,6 +64,7 @@ class SettingsViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
 }
 
+// MARK: - Reselect tags.
 extension SettingsViewController {
     
     func addSubviews() {
@@ -52,82 +75,91 @@ extension SettingsViewController {
     
     func longPressGestureRecognizerAction(sender: UILongPressGestureRecognizer) {
         let state = sender.state
-        var locationInView = sender.location(in: collectionView)
+        let locationInView = sender.location(in: collectionView)
         var indexPath = collectionView.indexPathForItem(at: locationInView)
-        print("=> \(locationInView) \(indexPath) \(state)")
         
+        // Structs for saving cell info.
         struct My {
-            static var cellSnapshot: UIView? = nil
+            static var cellSnapshot : UIView? = nil
         }
-        
-        struct Path {
-            static var initialIndexPath: NSIndexPath? = nil
+        struct First {
+            static var index : IndexPath? = nil
         }
-        
+        struct Last {
+            static var index: IndexPath? = nil
+        }
         switch state {
         case .began:
             if indexPath != nil {
-                Path.initialIndexPath = indexPath as NSIndexPath?
+                First.index = indexPath
+                Last.index = indexPath
                 let cell = collectionView.cellForItem(at: indexPath!) as! TagsCollectionViewCell
-                My.cellSnapshot = snapshopOfCell(inputView: cell)
-                var center = cell.center
-                My.cellSnapshot?.center = center
+                My.cellSnapshot = cell.snapshot
+                My.cellSnapshot?.center = cell.center
                 My.cellSnapshot?.alpha = 0.0
                 collectionView.addSubview(My.cellSnapshot!)
                 
-                UIView.animate(withDuration: 0.25, animations: { () -> Void in
-                    center.y = locationInView.y
-                    My.cellSnapshot!.center = center
-                    My.cellSnapshot!.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-                    My.cellSnapshot!.alpha = 0.98
-                    cell.alpha = 0.0
-                    
-                }, completion: { (finished) -> Void in
+                UIView.animate(withDuration: 0.1, animations: {
+                    My.cellSnapshot?.alpha = 0.97
+                    My.cellSnapshot?.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+                }, completion: { (finished) in
                     if finished {
                         cell.isHidden = true
-                }
+                    }
                 })
             }
+            print("=====>Gesture began.")
         case .changed:
-            var center = My.cellSnapshot!.center
-            center.y = locationInView.y
-            My.cellSnapshot!.center = center
-            if ((indexPath != nil) && (indexPath != Path.initialIndexPath as!  IndexPath)) {
-                swap(&tags[0]![indexPath!.row], &tags[0]![Path.initialIndexPath!.row])
-                collectionView.moveItem(at: Path.initialIndexPath! as IndexPath, to: indexPath!)
-                Path.initialIndexPath = indexPath as NSIndexPath?
+            My.cellSnapshot?.center = locationInView
+            if indexPath != nil && First.index != nil {
+                let newRow = indexPath!.row
+                let newSection = indexPath!.section
+                let row = First.index!.row
+                let section = First.index!.section
+                
+                // Swap tags that are in same section of collectionView.
+                if newRow != row {
+                    if newSection == section {
+                        // Swapping Tags using tuples.
+                        (tags[section]![newRow], tags[section]![row]) = (tags[section]![row], tags[section]![newRow])
+                        collectionView.moveItem(at: First.index!, to: indexPath!)
+                    } else {
+                        // Swap tags that are in Different same sections of CollectionView.
+                        tags[newSection]?.append(tags[section]![row])
+                        tags[section]?.remove(at: row)
+                        collectionView.moveItem(at: First.index!, to: indexPath!)
+                        print(tags)
+                    }
+                    First.index = indexPath
+                }
+                
+                if indexPath != Last.index {
+                    Last.index = indexPath
+                }
+            }
+        case .ended:
+            if First.index != nil {
+                let cell = collectionView.cellForItem(at: First.index!)!
+                cell.isHidden = false
+                cell.alpha = 0.0
+                UIView.animate(withDuration: 0.25, animations: {
+                    My.cellSnapshot?.center = cell.center
+                    My.cellSnapshot?.transform = CGAffineTransform.identity
+                    My.cellSnapshot?.alpha = 0.0
+                    cell.alpha = 1.0
+                }, completion: { (finished) in
+                    if finished {
+                        First.index = nil
+                        Last.index = nil
+                        My.cellSnapshot?.removeFromSuperview()
+                        My.cellSnapshot = nil
+                    }
+                })
+                print("Gesture ended.")
             }
         default:
-            let cell = collectionView.cellForItem(at: indexPath!) as! TagsCollectionViewCell
-            cell.isHidden = false
-            cell.alpha = 0.0
-            UIView.animate(withDuration: 0.25, animations: { () -> Void in
-                My.cellSnapshot!.center = cell.center
-                My.cellSnapshot!.transform = .identity
-                My.cellSnapshot!.alpha = 0.0
-                cell.alpha = 1.0
-            }, completion: { (finished) -> Void in
-                if finished {
-                    Path.initialIndexPath = nil
-                    My.cellSnapshot!.removeFromSuperview()
-                    My.cellSnapshot = nil
-                }
-            })
+            print("Gesture default.")
         }
-    }
-    
-    func snapshopOfCell(inputView: UIView) -> UIView {
-        UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0.0)
-        inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let image = UIGraphicsGetImageFromCurrentImageContext()! as UIImage
-        UIGraphicsEndImageContext()
-        let cellSnapshot : UIView = UIImageView(image: image)
-        cellSnapshot.layer.masksToBounds = false
-        cellSnapshot.layer.cornerRadius = 0.0
-        cellSnapshot.layer.shadowOffset = CGSize(width: -5, height: 0)
-        cellSnapshot.layer.shadowRadius = 5.0
-        cellSnapshot.layer.shadowOpacity = 0.4
-        return cellSnapshot
     }
 }
 
@@ -138,7 +170,7 @@ extension SettingsViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tags[section]!.count
+        return tags[section]?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
