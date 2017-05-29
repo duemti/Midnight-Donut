@@ -16,8 +16,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     //MARK: Properties.
     
     let KEY = "AIzaSyABjELFCIbnytefGjThre9r_A0DhTk9AVg"
-    var allTags: [String] = ["bakery", "bar", "convenience_store", "grocery_or_supermarket", "meal_delivery", "meal_takeaway", "store", "gas_station"]
-    var selectedTags: [String] = ["food", "cafe", "restaurant"]
+    var allTags: [String] = ["food", "bakery", "bar", "convenience_store", "grocery_or_supermarket", "meal_delivery", "meal_takeaway", "store", "gas_station"]
+    var selectedTags: [String] = ["cafe", "restaurant"]
     var placesClient: GMSPlacesClient!
     let locationManager = CLLocationManager()
     var places = [Place]()
@@ -28,8 +28,15 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Customizing the button
-        findAPlace.layer.cornerRadius = 5
+        // Customizing the Main BUTTON.
+        findAPlace.layer.cornerRadius = 70
+        findAPlace.layer.shadowColor = UIColor.white.cgColor
+        findAPlace.layer.shadowOffset = CGSize(width: 5, height: 5)
+        findAPlace.layer.shadowOpacity = 1.0
+        
+        let shadowPath = UIBezierPath(ovalIn: findAPlace.bounds)
+        findAPlace.layer.shadowPath = shadowPath.cgPath
+        
         getPlaceInfo("ChIJd2HNqEt8yUARGqhGQCgGSKQ")
         placesClient = GMSPlacesClient.shared()
     }
@@ -92,13 +99,19 @@ extension FirstViewController {
             print("Err: location is nil. \(locationManager.location)")
             return
         }
-        let url = URL(string: "https://maps.googleapis.com/maps/api/place/textsearch/json?location=\(location.latitude),\(location.longitude)&type=\(selectedTags.joined(separator: "|"))&key=\(KEY)")
-        URLSession.shared.dataTask(with: url!) { (data, respoonse, error) in
+        let types = selectedTags.joined(separator: "|")
+        print(types)
+        guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/textsearch/json?location=\(location.latitude),\(location.longitude)&types=cafe&key=\(KEY)") else {
+            print("URL is nil.")
+            return
+        }
+        print(url)
+        URLSession.shared.dataTask(with: url) { (data, respoonse, error) in
             if let error = error {
                 print("Error: \(error)")
                 return
             }
-            
+             
             do {
                 let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any?]
                 
@@ -116,8 +129,7 @@ extension FirstViewController {
                         hours = openNow!["weekday_text"] as! [String]
                         print("==>\(openNow?["weekday_text"])<==")
                     }
-                    if place["rating"] != nil{//let val = place["rating"] as? String {
-                        print("exists")
+                    if place["rating"] != nil{
                         rating = String(format: "%.1f", place["rating"] as! Float)
                     }
                     let newPlace = Place(place["name"] as! String, rating, place["formatted_address"] as! String, place["place_id"] as! String, place["types"] as! [String], status ? "open" : "closed", hours, geometry["location"] as! [String: Double], geometry["viewport"] as! [String: [String: Double]])
@@ -127,12 +139,16 @@ extension FirstViewController {
                 }
             }catch let error {
                 print("Error while parsing json: \(error)")
+                return
             }
             
-            let placesTab = self.tabBarController?.viewControllers?[1] as! PlacesCollectionViewController
-            placesTab.finishPassing(places: self.places)
-            print("==>Sending \(self.places.count) ...")
-            }.resume()
+            DispatchQueue.main.async {
+                let placesTab = self.tabBarController?.viewControllers?[1] as! PlacesCollectionViewController
+                placesTab.finishPassing(places: self.places)
+                print("==>Sending \(self.places.count) ...")
+                self.displayError(message: "Success", err: false)
+            }
+        }.resume()
     }
 }
 
@@ -144,6 +160,41 @@ extension FirstViewController {
     func update(tags: [Int: [String]]) {
         allTags = tags[0]!
         selectedTags = tags[1]!
+    }
+}
+
+// Pop UP.
+extension FirstViewController {
+    func displayError(message: String, err: Bool) {
+        let popup = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        let label = UILabel()
+        popup.backgroundColor = err ? UIColor(red:0.33, green:0.00, blue:0.00, alpha:1.0) : UIColor(red:0.00, green:0.27, blue:0.00, alpha:1.0)
+        label.text = message
+        label.textAlignment = .center
+        label.textColor = .white
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        popup.addSubview(label)
+        popup.addConstraint(NSLayoutConstraint(item: label, attribute: .leading, relatedBy: .equal, toItem: popup, attribute: .leading, multiplier: 1, constant: 0))
+        popup.addConstraint(NSLayoutConstraint(item: label, attribute: .trailing, relatedBy: .equal, toItem: popup, attribute: .trailing, multiplier: 1, constant: 0))
+        popup.addConstraint(NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: popup, attribute: .centerY, multiplier: 1, constant: 0))
+        
+        popup.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.view.addSubview(popup)
+        self.view.addConstraint(NSLayoutConstraint(item: popup, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50))
+        self.view.addConstraint(NSLayoutConstraint(item: popup, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 8))
+        self.view.addConstraint(NSLayoutConstraint(item: popup, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: -8))
+        self.view.addConstraint(NSLayoutConstraint(item: popup, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 20))
+        
+        // the alert view
+        // change to desired number of seconds (in this case 5 seconds)
+        let when = DispatchTime.now() + 3
+        DispatchQueue.main.asyncAfter(deadline: when){
+            // your code with delay
+            popup.removeFromSuperview()
+        }
     }
 }
 
