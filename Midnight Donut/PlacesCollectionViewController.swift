@@ -52,6 +52,10 @@ class PlacesCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if places.count != 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: firstReuseIdentifier, for: indexPath) as! PlacesCollectionViewCell
+            
+            // Design my cell...
+            cell.layer.borderWidth = 1
+            cell.layer.borderColor = UIColor(red:0.65, green:0.65, blue:0.00, alpha:1.0).cgColor
             // Configure the cell...
             
             let place = places[indexPath.row]
@@ -60,8 +64,7 @@ class PlacesCollectionViewController: UICollectionViewController {
             cell.placeName.text = place.name
             cell.placeAddress.text = address[0]
             cell.placeRating.text = place.rating
-            cell.placeStatus.text = place.openNow
-            print("Places exists!")
+            cell.placeStatus.text = place.openNow ? "open" : "closed"
             return cell
         } else {
             // Display Cell with "No Places" message if [places] is empty ...

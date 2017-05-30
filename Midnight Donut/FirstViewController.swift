@@ -16,8 +16,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     //MARK: Properties.
     
     let KEY = "AIzaSyABjELFCIbnytefGjThre9r_A0DhTk9AVg"
-    var allTags: [String] = ["food", "bakery", "bar", "convenience_store", "grocery_or_supermarket", "meal_delivery", "meal_takeaway", "store", "gas_station"]
-    var selectedTags: [String] = ["cafe", "restaurant"]
+    var allTags: [String] = ["food", "restaurant", "bakery", "bar", "convenience_store", "grocery_or_supermarket", "meal_delivery", "meal_takeaway", "store", "gas_station"]
+    var selectedTags: [String] = ["cafe"]
     var placesClient: GMSPlacesClient!
     let locationManager = CLLocationManager()
     var places = [Place]()
@@ -28,16 +28,13 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Customizing the Main BUTTON.
-        findAPlace.layer.cornerRadius = 70
-        findAPlace.layer.shadowColor = UIColor.white.cgColor
-        findAPlace.layer.shadowOffset = CGSize(width: 5, height: 5)
-        findAPlace.layer.shadowOpacity = 1.0
+        /* ========================        Customizing the Main BUTTON.   ========================= */
+        applyDesignForMainButton()
+        /* ========================================================================================= */
         
         let shadowPath = UIBezierPath(ovalIn: findAPlace.bounds)
         findAPlace.layer.shadowPath = shadowPath.cgPath
-        
-        getPlaceInfo("ChIJd2HNqEt8yUARGqhGQCgGSKQ")
+
         placesClient = GMSPlacesClient.shared()
     }
     
@@ -74,41 +71,94 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
 
 // MARK: - Search place for detailed info.
 extension FirstViewController {
-    func getPlaceInfo(_ id: String) {
-        let url = URL(string: "https://maps.googleapis.com/maps/api/place/details/json?placeid=\(id)&key=\(KEY)")
-        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+    func getInfoFor(place: Place) {
+        guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/details/json?placeid=\(place.place_id)&key=\(KEY)") else {
+            print("url is nil")
+            return
+        }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let error = error {
                 print("Error while retrieving place info: \(error)")
                 return
             }
             do {
                 let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any?]
-                print(json)
+                
+                let result = json["result"] as! [String: Any?]
+                let status = json["status"] as! String
+                if status == "OK" {
+                    // Filling my place with VITAL DATA
+                    if let workTime = result["opening_hours"] as? [String: Any?] {
+                        if let openNow = workTime["open_now"] as? Bool {
+                            place.setFor(openNow: openNow)
+                        }
+                        if let periods = workTime["periods"] as? [[String: [String: Any]]] {
+                            place.setFor(periods: periods)
+                        }
+                        if let weekdayText = workTime["weekday_text"] as? [String] {
+                            place.setFor(weekdays: weekdayText)
+                        }
+                    }
+                    if let rating = result["rating"] as? String {
+                        place.setFor(rating: rating)
+                    }
+                } else if status == "OVER_QUERY_LIMIT" {
+                    self.displayMessage(message: "Limit Reached for today 😭", err: true)
+                }
+                print("GOT: status->\(status)")
             }catch let error {
-                print("Error while parsing json: \(error)")//////////////////////////////////////
+                print("Error while parsing json: \(error)")
             }
-        }
+        }.resume()
+    }
+}
+
+// Main Button Design.
+extension FirstViewController {
+    func applyDesignForMainButton() {
+        findAPlace.layer.cornerRadius = 70
+        findAPlace.backgroundColor = UIColor(red:0.27, green:0.27, blue:0.27, alpha:1.0)
+        findAPlace.setTitleColor(UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0), for: .normal)
+        findAPlace.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
+        findAPlace.titleLabel?.textAlignment = .center
+        
+        findAPlace.titleLabel?.layer.shadowOffset = CGSize(width: -2, height: 2)
+        findAPlace.titleLabel?.layer.shouldRasterize = true
+        findAPlace.titleLabel?.layer.shadowRadius = 1
+        findAPlace.titleLabel?.layer.shadowOpacity = 1
+        findAPlace.titleLabel?.layer.shadowColor = UIColor(red:0.07, green:0.07, blue:0.07, alpha:1.0).cgColor
+        
+        findAPlace.layer.shadowColor = UIColor(red:0.07, green:0.07, blue:0.07, alpha:1.0).cgColor
+        findAPlace.layer.shadowOffset = CGSize(width: -5, height: 8)
+        findAPlace.layer.shadowOpacity = 1.0
+        // On Click.
+        findAPlace.setTitleColor(UIColor(red:0.90, green:0.81, blue:0.54, alpha:1.0), for: .highlighted)
     }
 }
 
 // MARK: - Search for places.
 extension FirstViewController {
     func getThePlaces() {
+        // Clear previous Searches.
+        if !self.places.isEmpty {
+            self.places.removeAll()
+        }
         //MARK: - Variables
         guard let location = locationManager.location?.coordinate else {
-            print("Err: location is nil. \(locationManager.location)")
+            print("Err: location is nil.")
+            self.displayMessage(message: "Cannot Locate You 😥", err: true)
             return
         }
         let types = selectedTags.joined(separator: "|")
-        print(types)
-        guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/textsearch/json?location=\(location.latitude),\(location.longitude)&types=cafe&key=\(KEY)") else {
+        guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/textsearch/json?location=\(location.latitude),\(location.longitude)&types=\(types)&key=\(KEY)") else {
             print("URL is nil.")
+            self.displayMessage(message: "Error, While searching... 🙁", err: true)
             return
         }
-        print(url)
         URLSession.shared.dataTask(with: url) { (data, respoonse, error) in
             if let error = error {
                 print("Error: \(error)")
+                self.displayMessage(message: "Error, Try Again, 🙁", err: true)
                 return
             }
              
@@ -117,36 +167,25 @@ extension FirstViewController {
                 
                 let results = json["results"] as! [[String: Any?]]
                 for place in results {
-                    var hours = [String]()
-                    var status: Bool = false
-                    var rating = "0"
                     // Initializing a new place.
                     let geometry = place["geometry"] as! [String: Any?]
-                    // Check Open Status and if Exist Hours.
-                    let openNow = place["opening_hours"] as? [String: Any?]
-                    if openNow != nil {
-                        status = openNow!["open_now"] as! Bool
-                        hours = openNow!["weekday_text"] as! [String]
-                        print("==>\(openNow?["weekday_text"])<==")
-                    }
-                    if place["rating"] != nil{
-                        rating = String(format: "%.1f", place["rating"] as! Float)
-                    }
-                    let newPlace = Place(place["name"] as! String, rating, place["formatted_address"] as! String, place["place_id"] as! String, place["types"] as! [String], status ? "open" : "closed", hours, geometry["location"] as! [String: Double], geometry["viewport"] as! [String: [String: Double]])
+                    // Instantiate a New Place.
+                    let newPlace = Place(place["name"] as! String, place["formatted_address"] as! String, place["place_id"] as! String, place["types"] as! [String], geometry["location"] as! [String: Double], geometry["viewport"] as! [String: [String: Double]])
                     
                     // Adding an place to places list.
+                    self.getInfoFor(place: newPlace)
                     self.places.append(newPlace)
                 }
             }catch let error {
                 print("Error while parsing json: \(error)")
+                self.displayMessage(message: "An Error occured 😡", err: true)
                 return
             }
             
             DispatchQueue.main.async {
                 let placesTab = self.tabBarController?.viewControllers?[1] as! PlacesCollectionViewController
                 placesTab.finishPassing(places: self.places)
-                print("==>Sending \(self.places.count) ...")
-                self.displayError(message: "Success", err: false)
+                self.displayMessage(message: "You got Your Places! 😎", err: false)
             }
         }.resume()
     }
@@ -163,15 +202,17 @@ extension FirstViewController {
     }
 }
 
-// Pop UP.
+// Custom Pop UP UIView.
 extension FirstViewController {
-    func displayError(message: String, err: Bool) {
+    func displayMessage(message: String, err: Bool) {
         let popup = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         let label = UILabel()
         popup.backgroundColor = err ? UIColor(red:0.33, green:0.00, blue:0.00, alpha:1.0) : UIColor(red:0.00, green:0.27, blue:0.00, alpha:1.0)
+        popup.layer.cornerRadius = 6
         label.text = message
         label.textAlignment = .center
         label.textColor = .white
+        label.alpha = 0.0
         
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -183,17 +224,37 @@ extension FirstViewController {
         popup.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.addSubview(popup)
-        self.view.addConstraint(NSLayoutConstraint(item: popup, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50))
         self.view.addConstraint(NSLayoutConstraint(item: popup, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 8))
         self.view.addConstraint(NSLayoutConstraint(item: popup, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: -8))
         self.view.addConstraint(NSLayoutConstraint(item: popup, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 20))
+        // Animate Height.
+        let height = NSLayoutConstraint(item: popup, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)
+        animatePopup(item: popup, label: label, constraint: height, remove: false)
         
-        // the alert view
+        
         // change to desired number of seconds (in this case 5 seconds)
-        let when = DispatchTime.now() + 3
-        DispatchQueue.main.asyncAfter(deadline: when){
-            // your code with delay
-            popup.removeFromSuperview()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+            self.animatePopup(item: popup, label: label, constraint: height, remove: true)
+        }
+    }
+    
+    func animatePopup(item: UIView, label: UILabel, constraint: NSLayoutConstraint, remove: Bool) {
+        self.view.layoutIfNeeded()
+        if remove {
+            constraint.constant = 0
+        }
+        UIView.animate(withDuration: 0.4, animations: { 
+            self.view.addConstraint(constraint)
+            if remove {
+                label.alpha = 0.0
+            } else {
+                label.alpha = 1.0
+            }
+            self.view.layoutIfNeeded()
+        }) { (finished) in
+            if remove {
+                item.removeFromSuperview()
+            }
         }
     }
 }
