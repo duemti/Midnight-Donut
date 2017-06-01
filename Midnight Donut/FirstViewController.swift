@@ -84,9 +84,9 @@ extension FirstViewController {
             do {
                 let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any?]
                 
-                let result = json["result"] as! [String: Any?]
                 let status = json["status"] as! String
                 if status == "OK" {
+                    let result = json["result"] as! [String: Any?]
                     // Filling my place with VITAL DATA
                     if let workTime = result["opening_hours"] as? [String: Any?] {
                         if let openNow = workTime["open_now"] as? Bool {
@@ -100,7 +100,7 @@ extension FirstViewController {
                         }
                     }
                     if let rating = result["rating"] as? Float {
-                        place.setFor(rating: String(format: "%.1f", rating))
+                        place.setFor(rating: rating)
                     }
                 } else if status == "OVER_QUERY_LIMIT" {
                     self.displayMessage(message: "Limit Reached for today 😭", err: true)
@@ -190,7 +190,7 @@ extension FirstViewController {
             }
             
             DispatchQueue.main.async {
-                let placesTab = self.tabBarController?.viewControllers?[1] as! PlacesCollectionViewController
+                let placesTab = self.tabBarController?.viewControllers?[1] as! PlacesViewController
                 placesTab.finishPassing(places: self.places)
                 self.displayMessage(message: "You got Your Places! 😎", err: false)
             }
@@ -216,9 +216,9 @@ extension FirstViewController {
         let label = UILabel()
         popup.backgroundColor = err ? UIColor(red:0.33, green:0.00, blue:0.00, alpha:1.0) : UIColor(red:0.00, green:0.27, blue:0.00, alpha:1.0)
         popup.layer.cornerRadius = 6
+        label.textColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
         label.text = message
         label.textAlignment = .center
-        label.textColor = .white
         label.alpha = 0.0
         
         label.translatesAutoresizingMaskIntoConstraints = false

@@ -6,9 +6,13 @@ target 'Midnight Donut' do
   use_frameworks!
 
   # Pods for Midnight Donut
+  # Google Maps
   pod 'GooglePlaces'
   pod 'GooglePlacePicker'
   pod 'GoogleMaps'
+  
+	# MapBox Map
+	pod 'Mapbox-iOS-SDK', '~> 3.5'
 
   target 'Midnight DonutTests' do
     inherit! :search_paths

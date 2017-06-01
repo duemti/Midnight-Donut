@@ -36,5 +36,11 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Dosis-SemiBold.ttf</string>
+	</array>
+	<key>MGLMapboxAccessToken</key>
+	<string>pk.eyJ1IjoiZHBldHJvdiIsImEiOiJjajJuaG82eTQwMW05MnFud3Z2Z2RmMjBnIn0.NIM_MpHJAJOOy2gGGT3UYw</string>
 </dict>
 </plist>

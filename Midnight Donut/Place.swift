@@ -17,7 +17,7 @@ class Place: NSObject {
     let viewport: [String: [String: Double]]
     
     // Optionals.
-    var rating: String? = nil
+    var rating: Float = 0.0
     var openNow: Bool = false
     var weekdays: [String]? = nil
     var periods: [[String: [String: Any]]]? = nil
@@ -32,7 +32,7 @@ class Place: NSObject {
     }
     
     override var description: String {
-        return "{name: \(self.name!), rating: \(self.rating!), address: \(self.formattedAddress!)}"
+        return "{name: \(self.name!), rating: \(self.rating), address: \(self.formattedAddress!)}"
     }
 }
 
@@ -46,7 +46,7 @@ extension Place {
         self.weekdays = weekdays
     }
     
-    func setFor(rating: String) {
+    func setFor(rating: Float) {
         self.rating = rating
     }
     
