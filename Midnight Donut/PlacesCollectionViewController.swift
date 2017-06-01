@@ -15,7 +15,7 @@ class PlacesCollectionViewController: UICollectionViewController {
     
     //MARK: Properties.
     var places = [Place]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -65,6 +65,11 @@ class PlacesCollectionViewController: UICollectionViewController {
             cell.placeAddress.text = address[0]
             cell.placeRating.text = place.rating
             cell.placeStatus.text = place.openNow ? "open" : "closed"
+            if let rating = place.rating {
+                cell.setRatingValue( Float(rating)! )
+            } else {
+                cell.setRatingValue( 4.4 )
+            }
             return cell
         } else {
             // Display Cell with "No Places" message if [places] is empty ...
@@ -112,4 +117,8 @@ extension PlacesCollectionViewController {
         self.places = places
         print("Received the Places.")
     }
+}
+
+extension PlacesCollectionViewController {
+    
 }

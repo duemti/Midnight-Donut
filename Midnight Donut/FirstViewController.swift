@@ -72,8 +72,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
 // MARK: - Search place for detailed info.
 extension FirstViewController {
     func getInfoFor(place: Place) {
-        guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/details/json?placeid=\(place.place_id)&key=\(KEY)") else {
-            print("url is nil")
+        guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/details/json?placeid=\(place.place_id!)&key=\(KEY)") else {
+            print("url is nil \(place.place_id!)")
             return
         }
         URLSession.shared.dataTask(with: url) { (data, response, error) in
@@ -99,8 +99,8 @@ extension FirstViewController {
                             place.setFor(weekdays: weekdayText)
                         }
                     }
-                    if let rating = result["rating"] as? String {
-                        place.setFor(rating: rating)
+                    if let rating = result["rating"] as? Float {
+                        place.setFor(rating: String(format: "%.1f", rating))
                     }
                 } else if status == "OVER_QUERY_LIMIT" {
                     self.displayMessage(message: "Limit Reached for today 😭", err: true)
@@ -116,6 +116,13 @@ extension FirstViewController {
 // Main Button Design.
 extension FirstViewController {
     func applyDesignForMainButton() {
+//        let textAttributes = [
+//            NSStrokeColorAttributeName: UIColor(red:0.07, green:0.07, blue:0.07, alpha:1.0),
+//            NSStrokeWidthAttributeName: -6.0,
+//        ] as [String : Any]
+//        let attributedTitle = NSAttributedString(string: "find a place", attributes: textAttributes)
+//        findAPlace.setAttributedTitle(attributedTitle, for: .normal)
+        
         findAPlace.layer.cornerRadius = 70
         findAPlace.backgroundColor = UIColor(red:0.27, green:0.27, blue:0.27, alpha:1.0)
         findAPlace.setTitleColor(UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0), for: .normal)
