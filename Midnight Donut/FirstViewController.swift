@@ -116,17 +116,9 @@ extension FirstViewController {
 // Main Button Design.
 extension FirstViewController {
     func applyDesignForMainButton() {
-//        let textAttributes = [
-//            NSStrokeColorAttributeName: UIColor(red:0.07, green:0.07, blue:0.07, alpha:1.0),
-//            NSStrokeWidthAttributeName: -6.0,
-//        ] as [String : Any]
-//        let attributedTitle = NSAttributedString(string: "find a place", attributes: textAttributes)
-//        findAPlace.setAttributedTitle(attributedTitle, for: .normal)
-        
         findAPlace.layer.cornerRadius = 70
         findAPlace.backgroundColor = UIColor(red:0.27, green:0.27, blue:0.27, alpha:1.0)
         findAPlace.setTitleColor(UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0), for: .normal)
-        findAPlace.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
         findAPlace.titleLabel?.textAlignment = .center
         
         findAPlace.titleLabel?.layer.shadowOffset = CGSize(width: -2, height: 2)
@@ -218,6 +210,7 @@ extension FirstViewController {
         popup.layer.cornerRadius = 6
         label.textColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
         label.text = message
+        label.font = UIFont(name: "Sniglet-Regular", size: 16)
         label.textAlignment = .center
         label.alpha = 0.0
         

@@ -10,17 +10,8 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Dosis-Bold.ttf">
-            <string>Dosis-Bold</string>
-        </array>
-        <array key="Dosis-Medium.ttf">
-            <string>Dosis-Medium</string>
-        </array>
-        <array key="Dosis-SemiBold.ttf">
-            <string>Dosis-SemiBold</string>
-        </array>
-        <array key="JosefinSans-BoldItalic.ttf">
-            <string>JosefinSans-BoldItalic</string>
+        <array key="Sniglet-Regular.ttf">
+            <string>Sniglet-Regular</string>
         </array>
     </customFonts>
     <scenes>
@@ -58,7 +49,7 @@
                                     <constraint firstAttribute="width" constant="140" id="FtE-NM-Hy0"/>
                                     <constraint firstAttribute="height" constant="140" id="wfG-Pv-HJY"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="25"/>
+                                <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="31"/>
                                 <size key="titleShadowOffset" width="23" height="0.0"/>
                                 <state key="normal" title="Find a Place"/>
                                 <connections>
@@ -140,7 +131,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yea-Nw-xYJ">
-                                                    <rect key="frame" x="22" y="57" width="179" height="35"/>
+                                                    <rect key="frame" x="8" y="57" width="179" height="35"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emtyStar" translatesAutoresizingMaskIntoConstraints="NO" id="5qg-wE-Ogf">
                                                             <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
@@ -231,59 +222,54 @@
                                                         <constraint firstAttribute="width" constant="65" id="XsB-5d-QCw"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="place name" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kMT-br-hSd">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="place name" lineBreakMode="clip" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="kMT-br-hSd">
                                                     <rect key="frame" x="4" y="10" width="264" height="33"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="33" id="FXy-0c-puS"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="24"/>
+                                                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="24"/>
                                                     <color key="textColor" red="0.64705882349999999" green="0.64705882349999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="place address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="144-N3-fTQ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="place address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="144-N3-fTQ">
                                                     <rect key="frame" x="4" y="37" width="264" height="20"/>
                                                     <fontDescription key="fontDescription" name="AvenirNextCondensed-Italic" family="Avenir Next Condensed" pointSize="14"/>
                                                     <color key="textColor" red="0.64705882349999999" green="0.64705882349999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dBs-Vu-ACs">
-                                                    <rect key="frame" x="209" y="61" width="29" height="28"/>
+                                                    <rect key="frame" x="195" y="61" width="29" height="28"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="28" id="Uw7-A9-aec"/>
                                                         <constraint firstAttribute="width" constant="28.5" id="aF2-OS-wMS"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="Dosis-Medium" family="Dosis" pointSize="20"/>
+                                                    <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="20"/>
                                                     <color key="textColor" red="0.64705882349999999" green="0.64705882349999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Eu-at-Pfw">
-                                                    <rect key="frame" x="4" y="104" width="90" height="25"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="90" id="KTm-Xm-nCt"/>
-                                                        <constraint firstAttribute="height" constant="25" id="c1E-tW-jzS"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="JosefinSans-BoldItalic" family="Josefin Sans" pointSize="16"/>
+                                                    <rect key="frame" x="8" y="107" width="49" height="22"/>
+                                                    <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="17"/>
                                                     <color key="textColor" red="0.64705882349999999" green="0.64705882349999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ija-O5-WFh">
-                                                    <rect key="frame" x="8" y="134" width="189" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <rect key="frame" x="8" y="132" width="189" height="20"/>
+                                                    <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="16"/>
                                                     <color key="textColor" red="0.58431372549019611" green="0.59215686274509804" blue="0.015686274509803921" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="yea-Nw-xYJ" firstAttribute="leading" secondItem="7UF-vw-IyI" secondAttribute="leadingMargin" id="4jw-rY-Rl8"/>
                                             <constraint firstItem="ija-O5-WFh" firstAttribute="leading" secondItem="7UF-vw-IyI" secondAttribute="leadingMargin" id="56x-ZK-gJR"/>
                                             <constraint firstAttribute="trailing" secondItem="GyN-KY-71u" secondAttribute="trailing" id="7t5-sV-f1h"/>
                                             <constraint firstAttribute="trailing" secondItem="kMT-br-hSd" secondAttribute="trailing" constant="2" id="8d0-YN-oqv"/>
-                                            <constraint firstAttribute="leadingMargin" secondItem="yea-Nw-xYJ" secondAttribute="leading" constant="-14" id="Dat-fS-BgR"/>
-                                            <constraint firstItem="dBs-Vu-ACs" firstAttribute="leading" secondItem="GeK-qD-74N" secondAttribute="trailing" constant="8" id="Ibn-QY-W2a"/>
-                                            <constraint firstItem="7Eu-at-Pfw" firstAttribute="leading" secondItem="7UF-vw-IyI" secondAttribute="leading" constant="4" id="Nqp-YY-GGE"/>
+                                            <constraint firstItem="dBs-Vu-ACs" firstAttribute="leading" secondItem="yea-Nw-xYJ" secondAttribute="trailing" constant="8" id="IR0-E5-FW7"/>
+                                            <constraint firstItem="7Eu-at-Pfw" firstAttribute="leading" secondItem="7UF-vw-IyI" secondAttribute="leading" constant="8" id="Nqp-YY-GGE"/>
                                             <constraint firstItem="144-N3-fTQ" firstAttribute="leading" secondItem="7UF-vw-IyI" secondAttribute="leading" constant="4" id="UDN-EP-PBj"/>
                                             <constraint firstItem="yea-Nw-xYJ" firstAttribute="top" secondItem="7UF-vw-IyI" secondAttribute="topMargin" constant="49" id="UUo-PY-qS8"/>
-                                            <constraint firstAttribute="bottom" secondItem="7Eu-at-Pfw" secondAttribute="bottom" constant="31" id="YOA-F2-Pte"/>
                                             <constraint firstItem="GyN-KY-71u" firstAttribute="leading" secondItem="ija-O5-WFh" secondAttribute="trailing" constant="8" id="bd4-Ku-rzi"/>
                                             <constraint firstItem="dBs-Vu-ACs" firstAttribute="centerY" secondItem="yea-Nw-xYJ" secondAttribute="centerY" id="ddM-ay-EOO"/>
                                             <constraint firstItem="kMT-br-hSd" firstAttribute="top" secondItem="7UF-vw-IyI" secondAttribute="top" constant="10" id="dzn-jV-frx"/>
@@ -292,6 +278,7 @@
                                             <constraint firstAttribute="bottom" secondItem="GyN-KY-71u" secondAttribute="bottom" id="ihx-8v-8i6"/>
                                             <constraint firstItem="kMT-br-hSd" firstAttribute="leading" secondItem="7UF-vw-IyI" secondAttribute="leading" constant="4" id="muK-iA-gex"/>
                                             <constraint firstItem="144-N3-fTQ" firstAttribute="top" secondItem="kMT-br-hSd" secondAttribute="bottom" constant="-6" id="olS-TI-K9A"/>
+                                            <constraint firstItem="ija-O5-WFh" firstAttribute="top" secondItem="7Eu-at-Pfw" secondAttribute="bottom" constant="3" id="sGq-sL-ZN1"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="directionImage" destination="GyN-KY-71u" id="7MC-aN-LaD"/>
@@ -319,10 +306,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="270" height="160"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Places! 🙁" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w3z-7d-XzP">
-                                                    <rect key="frame" x="8" y="62" width="254" height="37"/>
-                                                    <fontDescription key="fontDescription" name="Dosis-Bold" family="Dosis" pointSize="29"/>
-                                                    <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Empty !" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w3z-7d-XzP">
+                                                    <rect key="frame" x="8" y="61" width="254" height="38"/>
+                                                    <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="30"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="0.10000000000000001" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -345,7 +332,7 @@
                                     <constraint firstAttribute="width" constant="100" id="dqv-2M-XPs"/>
                                     <constraint firstAttribute="height" constant="50" id="vFF-c1-IBP"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Dosis-SemiBold" family="Dosis" pointSize="28"/>
+                                <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="30"/>
                                 <color key="textColor" red="1" green="0.90588235294117647" blue="0.63529411764705879" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>

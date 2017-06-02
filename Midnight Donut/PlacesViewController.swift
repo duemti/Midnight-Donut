@@ -24,12 +24,6 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
         
         collectionView.delegate = self
         collectionView.dataSource = self
-//        mainTitleLabel.font = UIFont(name: "Dosis-SemiBold", size: 30)
-    }
-    
-    // Update tableview everytime it is entered.
-    override func viewWillAppear(_ animated: Bool) {
-        collectionView?.reloadData()
     }
     
     // MARK: UICollectionViewDataSource
@@ -55,9 +49,12 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             
             /*                  Setting theme Color             */
             let theme = themeColor[0]
-            mainTitleLabel.textColor = theme
+            
             cell.layer.borderWidth = 1
             cell.layer.cornerRadius = 5
+            cell.directionImage.layer.cornerRadius = 5
+            
+            mainTitleLabel.textColor = theme
             cell.layer.borderColor = theme.cgColor
             cell.placeName.textColor = theme
             cell.placeAddress.textColor = theme
@@ -70,9 +67,9 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             cell.placeName.text = place.name
             cell.placeAddress.text = address[0]
             cell.placeRating.text = String(format: "%.1f", place.rating)
+            cell.rating = place.rating
             cell.placeStatus.text = place.openNow ? "Open Now" : "Closed Now"
             cell.placeHours.text = place.weekdays?[4]
-            cell.setRatingValue(place.rating)
             return cell
         } else {
             // Display Cell with "No Places" message if [places] is empty ...
@@ -116,16 +113,17 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
 }
 
 extension PlacesViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cv = collectionView.bounds.size.width
-        let size = CGSize(width: cv, height: 160)
-        return size
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let cv = collectionView.bounds.size.width
+//        let size = CGSize(width: cv, height: 160)
+//        return size
+//    }
 }
 
 extension PlacesViewController {
     func finishPassing(places: [Place]) {
         self.places = places
+//        collectionView?.reloadData()
         print("Received the Places.")
     }
 }
@@ -134,7 +132,20 @@ extension PlacesViewController {
 // MARK: - Sorting Functions.
 extension PlacesViewController {
     @IBAction func sortTopRated(_ sender: UIButton) {
-        print("sort 1")
+        let count = places.count
+        
+        if count != 0 {
+            var index = 1
+            while index < count {
+                
+                if places[index - 1].rating < places[index].rating {
+                    swap(&places[index - 1], &places[index])
+                    index = 0
+                }
+                index += 1
+            }
+            collectionView.reloadData()
+        }
     }
     
     @IBAction func sortNearest(_ sender: UIButton) {

@@ -31,21 +31,38 @@ class PlacesCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var fullStar_4: UIImageView!
     @IBOutlet weak var fullStar_5: UIImageView!
     
+    var rating: Float = 0.0 {
+        didSet {
+            print("didset")
+            setRatingValue(rating)
+        }
+    }
+    
     // Sets the Rating View.
-    func setRatingValue(_ value: Float) {
+    private func setRatingValue(_ value: Float) {
+//        fullStar_1.isHidden = true
+//        fullStar_2.isHidden = true
+//        fullStar_3.isHidden = true
+//        fullStar_4.isHidden = true
+//        fullStar_5.isHidden = true
         let fullStars = [fullStar_1, fullStar_2, fullStar_3, fullStar_4, fullStar_5]
-        let emtyStars = [star_1, star_2, star_3, star_4, star_5]
-        
-        for i in 0..<5 {
+//        star_1.isHidden = false
+//        star_2.isHidden = false
+//        star_3.isHidden = false
+//        star_4.isHidden = false
+//        star_5.isHidden = false
+//        let emptyStars = [star_1, star_2, star_3, star_4, star_5]
+        if value == 0.0 {
+            return
+        }
+        for i in 0..<fullStars.count {
             let full_Star = fullStars[i]!
-            let emty_Star = emtyStars[i]!
             
             if value >= Float(i + 1) {
-                // Removing empty star image.
-                emty_Star.isHidden = true
                 // Making visible full star image.
+                full_Star.layer.mask = nil
                 full_Star.isHidden = false
-            } else {
+            } else if value > Float(i) && value < Float(i + 1) {
                 let maskLayer = CALayer()
                 let maskWidth: CGFloat = CGFloat(value - Float(i)) * full_Star.frame.size.width
                 let maskHeight: CGFloat = full_Star.frame.size.height
@@ -53,7 +70,9 @@ class PlacesCollectionViewCell: UICollectionViewCell {
                 maskLayer.backgroundColor = UIColor.black.cgColor
                 full_Star.layer.mask = maskLayer
                 full_Star.isHidden = false
-                break
+            } else {
+                full_Star.layer.mask = nil
+                full_Star.isHidden = true
             }
         }
     }
