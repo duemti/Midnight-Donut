@@ -17,6 +17,7 @@ class PlacesCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var placeStatus: UILabel!
     @IBOutlet weak var directionImage: UIImageView!
     @IBOutlet weak var placeHours: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
     
     //MARK: - Rating Control.
     @IBOutlet weak var star_1: UIImageView!
@@ -33,7 +34,6 @@ class PlacesCollectionViewCell: UICollectionViewCell {
     
     var rating: Float = 0.0 {
         didSet {
-            print("didset")
             setRatingValue(rating)
         }
     }

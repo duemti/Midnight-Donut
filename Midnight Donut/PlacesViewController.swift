@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 private let firstReuseIdentifier = "Cell"
 private let secondReuseIdentifier = "NoDataCell"
@@ -18,12 +19,31 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
     var places = [Place]()
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var mainTitleLabel: UILabel!
+    @IBOutlet weak var topRatedButton: UIButton!
+    @IBOutlet weak var nearestButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        topRatedButton.setTitleColor(UIColor(red:0.18, green:0.22, blue:0.24, alpha:1.0), for: .disabled)
+        topRatedButton.setTitleColor(UIColor(red:0.18, green:0.22, blue:0.24, alpha:1.0), for: .selected)
+        nearestButton.setTitleColor(UIColor(red:0.18, green:0.22, blue:0.24, alpha:1.0), for: .disabled)
+        nearestButton.setTitleColor(UIColor(red:0.18, green:0.22, blue:0.24, alpha:1.0), for: .selected)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if places.count > 0 {
+            topRatedButton.isEnabled = true
+            nearestButton.isEnabled = true
+        } else {
+            topRatedButton.isEnabled = false
+            nearestButton.isEnabled = false
+        }
+        
+        animateTextAppearence()
     }
     
     // MARK: UICollectionViewDataSource
@@ -46,6 +66,7 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             
             let place = places[indexPath.row]
             let address = place.formattedAddress.components(separatedBy: ",")
+            let dayOfTheWeek = Calendar.current.component(.weekdayOrdinal, from: Date())
             
             /*                  Setting theme Color             */
             let theme = themeColor[0]
@@ -62,14 +83,16 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             cell.directionImage.backgroundColor = theme
             cell.placeRating.textColor = theme
             cell.placeHours.textColor = theme
+            cell.distanceLabel.textColor = theme
             /*                   THEME SETTED                   */
             
             cell.placeName.text = place.name
             cell.placeAddress.text = address[0]
             cell.placeRating.text = String(format: "%.1f", place.rating)
             cell.rating = place.rating
-            cell.placeStatus.text = place.openNow ? "Open Now" : "Closed Now"
-            cell.placeHours.text = place.weekdays?[4]
+            cell.placeStatus.text = place.openNow
+            cell.placeHours.text = place.weekdays?[dayOfTheWeek]
+            cell.distanceLabel.text = place.distanceText
             return cell
         } else {
             // Display Cell with "No Places" message if [places] is empty ...
@@ -79,52 +102,39 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
-    // MARK: UICollectionViewDelegate
-    
-    /*
-     // Uncomment this method to specify if the specified item should be highlighted during tracking
-     override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment this method to specify if the specified item should be selected
-     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-     override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-     
-     }
-     */
-    
+    // MARK: - Animation Section.
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cell.alpha = 0.0
+        cell.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        
+        UIView.animate(withDuration: 0.5) {
+            cell.alpha = 1.0
+            cell.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        }
+    }
+    /****************************************************************************************************************************************************************/
 }
+
+// MARK: - Actions When Tapped a Cell.
+extension PlacesViewController: CLLocationManagerDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let maps = tabBarController?.viewControllers?[2] as! MapViewController
+        let location = CLLocationManager().location?.coordinate
+        let destination = places[indexPath.item]
+        
+        maps.s = location
+        maps.d = destination.place_id
+        print("Tap")
+    }
+}
+/*********************************************************************************************************************************************************************/
 
 extension PlacesViewController: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let cv = collectionView.bounds.size.width
-//        let size = CGSize(width: cv, height: 160)
-//        return size
-//    }
-}
-
-extension PlacesViewController {
-    func finishPassing(places: [Place]) {
-        self.places = places
-//        collectionView?.reloadData()
-        print("Received the Places.")
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // Size of collection View minus(-) 20 pixels because of MainScreen.
+        let cellWidth = UIScreen.main.bounds.width - 32
+        let size = CGSize(width: cellWidth, height: 160)
+        return size
     }
 }
 
@@ -133,22 +143,61 @@ extension PlacesViewController {
 extension PlacesViewController {
     @IBAction func sortTopRated(_ sender: UIButton) {
         let count = places.count
+        self.nearestButton.isEnabled = true
+        self.topRatedButton.isEnabled = false
         
         if count != 0 {
             var index = 1
             while index < count {
-                
                 if places[index - 1].rating < places[index].rating {
                     swap(&places[index - 1], &places[index])
+                    UIView.animate(withDuration: 1, animations: {
+                        self.collectionView.moveItem(at: IndexPath(item: index - 1, section: 0), to: IndexPath(item: index, section: 0))
+                    })
                     index = 0
                 }
                 index += 1
             }
-            collectionView.reloadData()
         }
     }
-    
+
     @IBAction func sortNearest(_ sender: UIButton) {
-        print("sort 2")
+        let count = places.count
+        self.nearestButton.isEnabled = false
+        self.topRatedButton.isEnabled = true
+        
+        if count != 0 {
+            var index = 1
+            while index < count {
+                if places[index - 1].distanceValue > places[index].distanceValue {
+                    swap(&places[index - 1], &places[index])
+                    UIView.animate(withDuration: 1, animations: {
+                        self.collectionView.moveItem(at: IndexPath(item: index - 1, section: 0), to: IndexPath(item: index, section: 0))
+                    })
+                    index = 0
+                }
+                index += 1
+            }
+        }
+    }
+}
+
+extension PlacesViewController {
+    func finishPassing(places: [Place]) {
+        self.places = places
+        collectionView?.reloadData()
+        print("Received the Places.")
+    }
+    
+    func animateTextAppearence() {
+        topRatedButton.transform = CGAffineTransform(translationX: -90, y: 0)
+        nearestButton.transform = CGAffineTransform(translationX: 90, y: 0)
+        mainTitleLabel.transform = CGAffineTransform(translationX: 0, y: -60)
+        
+        UIView.animate(withDuration: 0.5) {
+            self.topRatedButton.transform = .identity
+            self.nearestButton.transform = .identity
+            self.mainTitleLabel.transform = .identity
+        }
     }
 }

@@ -7,18 +7,22 @@
 //
 
 import UIKit
+import CoreLocation
 
 class Place: NSObject {
     let name: String!
     let formattedAddress: String!
     let place_id: String!
     let tags: [String]!
-    let location: [String: Double]
     let viewport: [String: [String: Double]]
+    var location = CLLocationCoordinate2D()
+    
+    var distanceText: String = "n/a"
+    var distanceValue: Int = 0
     
     // Optionals.
     var rating: Float = 0.0
-    var openNow: Bool = false
+    var openNow: String = "n/a"
     var weekdays: [String]? = nil
     var periods: [[String: [String: Any]]]? = nil
     
@@ -27,7 +31,8 @@ class Place: NSObject {
         self.formattedAddress = address
         self.place_id = place_id
         self.tags = tags
-        self.location = location
+        self.location.latitude = location["lat"]!
+        self.location.longitude = location["lng"]!
         self.viewport = viewport
     }
     
@@ -38,7 +43,7 @@ class Place: NSObject {
 
 // MARK: - Constructors.
 extension Place {
-    func setFor(openNow: Bool) {
+    func setFor(openNow: String) {
         self.openNow = openNow
     }
     
@@ -52,5 +57,10 @@ extension Place {
     
     func setFor(periods: [[String: [String: Any]]]) {
         self.periods = periods
+    }
+    
+    func setFor(distanceText: String, distanceValue: Int) {
+        self.distanceText = distanceText
+        self.distanceValue = distanceValue
     }
 }

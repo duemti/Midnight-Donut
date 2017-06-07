@@ -13,9 +13,9 @@ import GooglePlacePicker
 
 class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
-    //MARK: Properties.
+    //MARK: - Properties.
     
-    let KEY = "AIzaSyABjELFCIbnytefGjThre9r_A0DhTk9AVg"
+    let KEY = "AIzaSyABjELFCIbnytefGjThre9r_A0DhTk9AVg" // Google Places API Key.
     var allTags: [String] = ["food", "restaurant", "bakery", "bar", "convenience_store", "grocery_or_supermarket", "meal_delivery", "meal_takeaway", "store", "gas_station"]
     var selectedTags: [String] = ["cafe"]
     var placesClient: GMSPlacesClient!
@@ -42,11 +42,12 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func getCurrentPlace(_ sender: UIButton) {
         // Request permission to locate.
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         var showAlert = false
         
         if CLLocationManager.locationServicesEnabled() {
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            
             switch CLLocationManager.authorizationStatus() {
             case .notDetermined, .restricted:
                 print("No Location Access.")
@@ -90,7 +91,7 @@ extension FirstViewController {
                     // Filling my place with VITAL DATA
                     if let workTime = result["opening_hours"] as? [String: Any?] {
                         if let openNow = workTime["open_now"] as? Bool {
-                            place.setFor(openNow: openNow)
+                            place.setFor(openNow: openNow ? "Open Now" : "Closed Now")
                         }
                         if let periods = workTime["periods"] as? [[String: [String: Any]]] {
                             place.setFor(periods: periods)
@@ -171,6 +172,8 @@ extension FirstViewController {
                     // Instantiate a New Place.
                     let newPlace = Place(place["name"] as! String, place["formatted_address"] as! String, place["place_id"] as! String, place["types"] as! [String], geometry["location"] as! [String: Double], geometry["viewport"] as! [String: [String: Double]])
                     
+                    // Calculating Distance.
+                    self.findDirectionsToThePlace(origin: location, destination: newPlace)
                     // Adding an place to places list.
                     self.getInfoFor(place: newPlace)
                     self.places.append(newPlace)
@@ -256,6 +259,44 @@ extension FirstViewController {
                 item.removeFromSuperview()
             }
         }
+    }
+}
+
+// Request #R1
+extension FirstViewController {
+    func findDirectionsToThePlace(origin: CLLocationCoordinate2D, destination place: Place) {
+        let key = "AIzaSyCPBu09mUuPcNZSZg9qfT-PV3xjKVf4Fw4" // Google Directions API Key.
+        let stringURL = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin.latitude),\(origin.longitude)&destination=place_id:\(place.place_id!)&key=\(key)"
+        guard let url = URL(string: stringURL) else {
+            print("Error: Direction URL is nul.")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any?]
+                
+                let status = json["status"] as! String
+                if status == "OK" {
+                    print(json["routes"] as! [[String: Any?]])
+        
+                    let routes = json["routes"] as! [[String: Any?]]
+                    let legs = routes[0]["legs"] as! [[String: Any?]]
+                    let distance = legs[0]["distance"] as! [String: Any]
+                    print("wazzzz")
+                    place.setFor(distanceText: distance["text"] as! String, distanceValue: distance["value"] as! Int)
+                } else {
+                    print("Error #R1: \(status)")
+                }
+            } catch let error {
+                print("Error: Map - while parsing json - \(error).")
+            }
+        }.resume()
     }
 }
 

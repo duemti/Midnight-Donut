@@ -95,7 +95,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		697CD1021EE1A15700138DF2 /* plces */ = {
+		697CD1021EE1A15700138DF2 /* places */ = {
 			isa = PBXGroup;
 			children = (
 				69449DB41ED32A7000EAD81F /* PlacesViewController.swift */,
@@ -103,7 +103,23 @@
 				69449DB81ED32F3A00EAD81F /* EmptyCollectionViewCell.swift */,
 				69945AAB1ED42B3D004586C2 /* Place.swift */,
 			);
-			name = plces;
+			name = places;
+			sourceTree = "<group>";
+		};
+		697CD1071EE8226A00138DF2 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				697E8B7C1EE049EE00D72467 /* MapViewController.swift */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
+		697CD1081EE8227B00138DF2 /* Landing VC */ = {
+			isa = PBXGroup;
+			children = (
+				6995027F1EC5F5E200FE1866 /* FirstViewController.swift */,
+			);
+			name = "Landing VC";
 			sourceTree = "<group>";
 		};
 		69945AAD1ED6ABEC004586C2 /* Settings */ = {
@@ -139,12 +155,12 @@
 		6995027C1EC5F5E200FE1866 /* Midnight Donut */ = {
 			isa = PBXGroup;
 			children = (
+				6995027D1EC5F5E200FE1866 /* AppDelegate.swift */,
 				69FC48AF1EE02D06005593C3 /* fonts */,
 				69945AAD1ED6ABEC004586C2 /* Settings */,
-				6995027D1EC5F5E200FE1866 /* AppDelegate.swift */,
-				697CD1021EE1A15700138DF2 /* plces */,
-				6995027F1EC5F5E200FE1866 /* FirstViewController.swift */,
-				697E8B7C1EE049EE00D72467 /* MapViewController.swift */,
+				697CD1021EE1A15700138DF2 /* places */,
+				697CD1071EE8226A00138DF2 /* Map */,
+				697CD1081EE8227B00138DF2 /* Landing VC */,
 				699502831EC5F5E200FE1866 /* Main.storyboard */,
 				699502861EC5F5E200FE1866 /* Assets.xcassets */,
 				699502881EC5F5E200FE1866 /* LaunchScreen.storyboard */,
