@@ -16,8 +16,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     //MARK: - Properties.
     
     let KEY = "AIzaSyABjELFCIbnytefGjThre9r_A0DhTk9AVg" // Google Places API Key.
-    var allTags: [String] = ["food", "restaurant", "bakery", "bar", "convenience_store", "grocery_or_supermarket", "meal_delivery", "meal_takeaway", "store", "gas_station"]
-    var selectedTags: [String] = ["cafe"]
+    var allTags: [String] = ["food", "cafe", "bakery", "bar", "convenience_store", "grocery_or_supermarket", "meal_delivery", "meal_takeaway", "store", "gas_station"]
+    var selectedTags: [String] = ["restaurant"]
     var placesClient: GMSPlacesClient!
     let locationManager = CLLocationManager()
     var places = [Place]()
@@ -91,7 +91,7 @@ extension FirstViewController {
                     // Filling my place with VITAL DATA
                     if let workTime = result["opening_hours"] as? [String: Any?] {
                         if let openNow = workTime["open_now"] as? Bool {
-                            place.setFor(openNow: openNow ? "Open Now" : "Closed Now")
+                            place.setFor(openNow: openNow ? "OPEN Now" : "Closed Now")
                         }
                         if let periods = workTime["periods"] as? [[String: [String: Any]]] {
                             place.setFor(periods: periods)
@@ -150,11 +150,12 @@ extension FirstViewController {
             return
         }
         let types = selectedTags.joined(separator: "|")
-        guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/textsearch/json?location=\(location.latitude),\(location.longitude)&types=\(types)&key=\(KEY)") else {
+        guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/textsearch/json?location=\(location.latitude),\(location.longitude)&rankby=distance&type=\(types)&key=\(KEY)") else {
             print("URL is nil.")
             self.displayMessage(message: "Error, While searching... 🙁", err: true)
             return
         }
+        print("https://maps.googleapis.com/maps/api/place/textsearch/json?location=\(location.latitude),\(location.longitude)&rankby=distance&radius=500&type=\(types)&key=\(KEY)")
         URLSession.shared.dataTask(with: url) { (data, respoonse, error) in
             if let error = error {
                 print("Error: \(error)")
@@ -166,17 +167,28 @@ extension FirstViewController {
                 let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any?]
                 
                 let results = json["results"] as! [[String: Any?]]
-                for place in results {
-                    // Initializing a new place.
-                    let geometry = place["geometry"] as! [String: Any?]
-                    // Instantiate a New Place.
-                    let newPlace = Place(place["name"] as! String, place["formatted_address"] as! String, place["place_id"] as! String, place["types"] as! [String], geometry["location"] as! [String: Double], geometry["viewport"] as! [String: [String: Double]])
-                    
-                    // Calculating Distance.
-                    self.findDirectionsToThePlace(origin: location, destination: newPlace)
-                    // Adding an place to places list.
-                    self.getInfoFor(place: newPlace)
-                    self.places.append(newPlace)
+                let status = json["status"] as! String
+                
+                print(status)
+                if status == "OK" {
+                    for place in results {
+                        // Initializing a new place.
+                        let geometry = place["geometry"] as! [String: Any?]
+                        // Instantiate a New Place.
+                        let newPlace = Place(place["name"] as! String, place["formatted_address"] as! String, place["place_id"] as! String, place["types"] as! [String], geometry["location"] as! [String: Double], geometry["viewport"] as! [String: [String: Double]])
+                        
+                        // Calculating Distance.
+                        self.findDirectionsToThePlace(origin: location, destination: newPlace)
+                        // Adding an place to places list.
+                        self.getInfoFor(place: newPlace)
+                        self.places.append(newPlace)
+                    }
+                } else if status == "ZERO_RESULTS" {
+                    self.displayMessage(message: "Zero Results.", err: false, yellow: true)
+                } else if status == "OVER_QUERY_LIMIT" {
+                    self.displayMessage(message: "Limit Reached for today 😭", err: true)
+                } else {
+                    self.displayMessage(message: "Some error occured 🙁", err: true)
                 }
             }catch let error {
                 print("Error while parsing json: \(error)")
@@ -206,10 +218,14 @@ extension FirstViewController {
 
 // Custom Pop UP UIView.
 extension FirstViewController {
-    func displayMessage(message: String, err: Bool) {
+    func displayMessage(message: String, err: Bool, yellow: Bool? = false) {
         let popup = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         let label = UILabel()
-        popup.backgroundColor = err ? UIColor(red:0.33, green:0.00, blue:0.00, alpha:1.0) : UIColor(red:0.00, green:0.27, blue:0.00, alpha:1.0)
+        if yellow == true {
+            popup.backgroundColor = UIColor(red:0.85, green:0.90, blue:0.40, alpha:1.0)
+        } else {
+            popup.backgroundColor = err ? UIColor(red:0.33, green:0.00, blue:0.00, alpha:1.0) : UIColor(red:0.00, green:0.27, blue:0.00, alpha:1.0)
+        }
         popup.layer.cornerRadius = 6
         label.textColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
         label.text = message
@@ -283,12 +299,9 @@ extension FirstViewController {
                 
                 let status = json["status"] as! String
                 if status == "OK" {
-                    print(json["routes"] as! [[String: Any?]])
-        
                     let routes = json["routes"] as! [[String: Any?]]
                     let legs = routes[0]["legs"] as! [[String: Any?]]
                     let distance = legs[0]["distance"] as! [String: Any]
-                    print("wazzzz")
                     place.setFor(distanceText: distance["text"] as! String, distanceValue: distance["value"] as! Int)
                 } else {
                     print("Error #R1: \(status)")

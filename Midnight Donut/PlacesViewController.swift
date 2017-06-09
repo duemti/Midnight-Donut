@@ -55,6 +55,7 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = places.count
+        print(count)
         return count == 0 ? 1 : count
     }
     
@@ -65,8 +66,9 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             // Configure the cell...
             
             let place = places[indexPath.row]
+            print(places.count)
             let address = place.formattedAddress.components(separatedBy: ",")
-            let dayOfTheWeek = Calendar.current.component(.weekdayOrdinal, from: Date())
+            let dayOfTheWeek = findDayOfTheWeek(Calendar.current.component(.weekday, from: Date()))
             
             /*                  Setting theme Color             */
             let theme = themeColor[0]
@@ -113,17 +115,27 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     /****************************************************************************************************************************************************************/
+    
 }
 
-// MARK: - Actions When Tapped a Cell.
+// MARK: - Action: Provide Directions on the Map.
 extension PlacesViewController: CLLocationManagerDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let maps = tabBarController?.viewControllers?[2] as! MapViewController
-        let location = CLLocationManager().location?.coordinate
-        let destination = places[indexPath.item]
-        
-        maps.s = location
-        maps.d = destination.place_id
+//        let maps = tabBarController?.viewControllers?[2] as! MapViewController
+//        let location = CLLocationManager().location?.coordinate
+//        let destination = places[indexPath.item]
+//        
+//        maps.s = location
+//        maps.d = destination.place_id
+        if let cell = collectionView.cellForItem(at: indexPath) as? PlacesCollectionViewCell {
+            UIView.animate(withDuration: 0.25, animations: {
+                cell.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
+            }, completion: { (finished) in
+                UIView.animate(withDuration: 0.5) {
+                    cell.transform = .identity
+                }
+            })
+        }
         print("Tap")
     }
 }
@@ -141,26 +153,29 @@ extension PlacesViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Sorting Functions.
 extension PlacesViewController {
+    // Sorting the cells TOP RATED FIRST.
     @IBAction func sortTopRated(_ sender: UIButton) {
         let count = places.count
         self.nearestButton.isEnabled = true
         self.topRatedButton.isEnabled = false
         
+        
         if count != 0 {
             var index = 1
+            
             while index < count {
-                if places[index - 1].rating < places[index].rating {
-                    swap(&places[index - 1], &places[index])
-                    UIView.animate(withDuration: 1, animations: {
-                        self.collectionView.moveItem(at: IndexPath(item: index - 1, section: 0), to: IndexPath(item: index, section: 0))
-                    })
+                if self.places[index - 1].rating < self.places[index].rating {
+                    swap(&self.places[index - 1], &self.places[index])
                     index = 0
                 }
                 index += 1
             }
+            // Refresh So that the user whould see cells swapping.
+            refreshCells()
         }
     }
 
+    // Sorting the cells TO NEAREST.
     @IBAction func sortNearest(_ sender: UIButton) {
         let count = places.count
         self.nearestButton.isEnabled = false
@@ -171,24 +186,54 @@ extension PlacesViewController {
             while index < count {
                 if places[index - 1].distanceValue > places[index].distanceValue {
                     swap(&places[index - 1], &places[index])
-                    UIView.animate(withDuration: 1, animations: {
-                        self.collectionView.moveItem(at: IndexPath(item: index - 1, section: 0), to: IndexPath(item: index, section: 0))
-                    })
                     index = 0
                 }
                 index += 1
             }
+            // Refresh So that the user whould see cells swapping.
+            refreshCells()
+        }
+    }
+    
+    // Refresheshing So that the user whould see cells swapping.
+    func refreshCells() {
+        let count = places.count
+        var index = 0
+        
+        while index != count {
+            var cellIndex = 0
+            let place = places[index].name!
+            
+            while cellIndex < count {
+                guard let cell = collectionView.cellForItem(at: IndexPath(item: cellIndex, section: 0)) as? PlacesCollectionViewCell else {
+                    cellIndex += 1
+                    continue
+                }
+                if cell.placeName.text == place && index != cellIndex {
+                    UIView.animate(withDuration: 1.5, animations: {
+                        self.collectionView.performBatchUpdates({
+                            self.collectionView.moveItem(at: IndexPath(item: cellIndex, section: 0), to: IndexPath(item: index, section: 0))
+                            self.collectionView.moveItem(at: IndexPath(item: index, section: 0), to: IndexPath(item: cellIndex, section: 0))
+                        })
+                    })
+                    break
+                }
+                cellIndex += 1
+            }
+            index += 1
         }
     }
 }
 
 extension PlacesViewController {
+    // MARK: - Receiving Requested places from firstviewcontroller
     func finishPassing(places: [Place]) {
         self.places = places
         collectionView?.reloadData()
         print("Received the Places.")
     }
     
+    // MARK: - Some cool animation when VC is presented.
     func animateTextAppearence() {
         topRatedButton.transform = CGAffineTransform(translationX: -90, y: 0)
         nearestButton.transform = CGAffineTransform(translationX: 90, y: 0)
@@ -198,6 +243,28 @@ extension PlacesViewController {
             self.topRatedButton.transform = .identity
             self.nearestButton.transform = .identity
             self.mainTitleLabel.transform = .identity
+        }
+    }
+    
+    // MARK: - Return right day of the week.
+    func findDayOfTheWeek(_ today: Int) -> Int {
+        switch today {
+        case 1:
+            return 6
+        case 2:
+            return 0
+        case 3:
+            return 1
+        case 4:
+            return 2
+        case 5:
+            return 3
+        case 6:
+            return 4
+        case 7:
+            return 5
+        default:
+            return 0
         }
     }
 }

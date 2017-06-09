@@ -11,6 +11,7 @@
 		69449DB51ED32A7000EAD81F /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69449DB41ED32A7000EAD81F /* PlacesViewController.swift */; };
 		69449DB71ED32A9000EAD81F /* PlacesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69449DB61ED32A9000EAD81F /* PlacesCollectionViewCell.swift */; };
 		69449DB91ED32F3A00EAD81F /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69449DB81ED32F3A00EAD81F /* EmptyCollectionViewCell.swift */; };
+		697CD10A1EEAF7C000138DF2 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CD1091EEAF7BC00138DF2 /* StartViewController.swift */; };
 		697E8B791EE032E600D72467 /* Dosis in Resources */ = {isa = PBXBuildFile; fileRef = 69FC48B81EE031CB005593C3 /* Dosis */; };
 		697E8B7D1EE049EE00D72467 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E8B7C1EE049EE00D72467 /* MapViewController.swift */; };
 		69945AAC1ED42B3D004586C2 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69945AAB1ED42B3D004586C2 /* Place.swift */; };
@@ -42,6 +43,7 @@
 		69449DB41ED32A7000EAD81F /* PlacesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
 		69449DB61ED32A9000EAD81F /* PlacesCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesCollectionViewCell.swift; sourceTree = "<group>"; };
 		69449DB81ED32F3A00EAD81F /* EmptyCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCollectionViewCell.swift; sourceTree = "<group>"; };
+		697CD1091EEAF7BC00138DF2 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		697E8B7C1EE049EE00D72467 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		69945AAB1ED42B3D004586C2 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		69945AAE1ED6AC09004586C2 /* TagsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				6995027D1EC5F5E200FE1866 /* AppDelegate.swift */,
+				697CD1091EEAF7BC00138DF2 /* StartViewController.swift */,
 				69FC48AF1EE02D06005593C3 /* fonts */,
 				69945AAD1ED6ABEC004586C2 /* Settings */,
 				697CD1021EE1A15700138DF2 /* places */,
@@ -408,6 +411,7 @@
 				69945AB31ED6C5E7004586C2 /* HeaderCollectionReusableView.swift in Sources */,
 				69449DB51ED32A7000EAD81F /* PlacesViewController.swift in Sources */,
 				69945AAF1ED6AC09004586C2 /* TagsCollectionViewCell.swift in Sources */,
+				697CD10A1EEAF7C000138DF2 /* StartViewController.swift in Sources */,
 				69449DB71ED32A9000EAD81F /* PlacesCollectionViewCell.swift in Sources */,
 				69945AAC1ED42B3D004586C2 /* Place.swift in Sources */,
 				69449DB91ED32F3A00EAD81F /* EmptyCollectionViewCell.swift in Sources */,

@@ -24,11 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSServices.provideAPIKey("AIzaSyBH9l0IodrxU3HS-l7tQlx8RR26H84ItwY")
         
         // Customizing Tab Bar Controller my Way.
-        let tbController = self.window?.rootViewController as! UITabBarController
-        
-        tbController.tabBar.barTintColor = UIColor(red:0.25, green:0.25, blue:0.25, alpha:1.0)
-        tbController.tabBar.tintColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
+        UITabBar.appearance().tintColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
+        UITabBar.appearance().barTintColor = UIColor(red:0.25, green:0.25, blue:0.25, alpha:1.0)
         UITabBarItem.appearance().setTitleTextAttributes( [NSFontAttributeName: UIFont(name: "Sniglet-Regular", size: 10)!] , for: .normal)
+        
         return true
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="N8L-yP-TBp">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -544,10 +544,43 @@
             </objects>
             <point key="canvasLocation" x="2311" y="0.0"/>
         </scene>
+        <!--Start View Controller-->
+        <scene sceneID="cgV-ah-Yv6">
+            <objects>
+                <viewController id="N8L-yP-TBp" customClass="StartViewController" customModule="Midnight_Donut" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lXe-MO-JAc"/>
+                        <viewControllerLayoutGuide type="bottom" id="pPI-Rg-t07"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="NIq-A8-ZaG">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mainDonut" translatesAutoresizingMaskIntoConstraints="NO" id="Uxl-qZ-lAI">
+                                <rect key="frame" x="0.0" y="193" width="375" height="280"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Uxl-qZ-lAI" firstAttribute="centerY" secondItem="NIq-A8-ZaG" secondAttribute="centerY" id="4fx-Tz-mLJ"/>
+                            <constraint firstItem="Uxl-qZ-lAI" firstAttribute="centerX" secondItem="NIq-A8-ZaG" secondAttribute="centerX" id="cQp-y4-VSt"/>
+                            <constraint firstAttribute="trailing" secondItem="Uxl-qZ-lAI" secondAttribute="trailing" id="l5K-lJ-gft"/>
+                            <constraint firstItem="Uxl-qZ-lAI" firstAttribute="leading" secondItem="NIq-A8-ZaG" secondAttribute="leading" id="sbG-rb-VJn"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="logoOfTheAppImageView" destination="Uxl-qZ-lAI" id="aXe-ZF-uab"/>
+                        <segue destination="49e-Tb-3d3" kind="show" identifier="startTheApp" id="2hh-n1-YSh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3RK-Ss-2DS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-759" y="2"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
-                <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="myTabBarViewController" id="49e-Tb-3d3" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
@@ -578,6 +611,7 @@
         <image name="emtyStar" width="40" height="40"/>
         <image name="fullStar" width="40" height="40"/>
         <image name="home" width="25" height="25"/>
+        <image name="mainDonut" width="465" height="280"/>
         <image name="maps" width="25" height="25"/>
         <image name="md_3" width="465" height="280"/>
         <image name="none_image" width="194" height="250"/>
