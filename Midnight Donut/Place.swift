@@ -22,7 +22,8 @@ class Place: NSObject {
     
     // Optionals.
     var rating: Float = 0.0
-    var openNow: String = "n/a"
+    var openNowText: String = "n/a"
+    var openNowBool: Bool = false
     var weekdays: [String]? = nil
     var periods: [[String: [String: Any]]]? = nil
     
@@ -43,8 +44,9 @@ class Place: NSObject {
 
 // MARK: - Constructors.
 extension Place {
-    func setFor(openNow: String) {
-        self.openNow = openNow
+    func setFor(openNow: Bool) {
+        self.openNowText = openNow ? "OPEN Now" : "Closed Now"
+        self.openNowBool = openNow
     }
     
     func setFor(weekdays: [String]) {

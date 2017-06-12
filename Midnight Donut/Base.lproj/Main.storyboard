@@ -253,7 +253,7 @@
                                                     <color key="textColor" red="0.64705882349999999" green="0.64705882349999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ija-O5-WFh">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="ija-O5-WFh">
                                                     <rect key="frame" x="8" y="132" width="189" height="20"/>
                                                     <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="16"/>
                                                     <color key="textColor" red="0.58431372549019611" green="0.59215686274509804" blue="0.015686274509803921" alpha="1" colorSpace="calibratedRGB"/>
@@ -356,9 +356,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Cl-Sl-M5j">
-                                <rect key="frame" x="16" y="79" width="70" height="30"/>
+                                <rect key="frame" x="16" y="76" width="82" height="33"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="15"/>
                                 <size key="titleShadowOffset" width="0.0" height="1"/>
-                                <state key="normal" title="Top Rated">
+                                <state key="normal" title="TOP RATED">
                                     <color key="titleColor" red="0.58823529409999997" green="0.58823529409999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
@@ -366,24 +367,52 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Yg-nw-qYw">
-                                <rect key="frame" x="305" y="79" width="54" height="30"/>
-                                <state key="normal" title="Nearest">
+                                <rect key="frame" x="292" y="76" width="67" height="33"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="15"/>
+                                <state key="normal" title="NEAREST">
                                     <color key="titleColor" red="0.58823529411764708" green="0.58823529411764708" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="sortNearest:" destination="4v1-3Y-uoh" eventType="touchUpInside" id="I5S-We-hOb"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J8A-aH-i1y">
+                                <rect key="frame" x="311" y="28" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="3an-fD-KcQ"/>
+                                    <constraint firstAttribute="height" constant="40" id="KBP-ct-lc0"/>
+                                </constraints>
+                                <state key="normal" image="fullHeart">
+                                    <color key="titleColor" red="0.44705882352941179" green="0.45882352941176469" blue="0.36862745098039218" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="favoriteAction:" destination="4v1-3Y-uoh" eventType="touchUpInside" id="HgS-yd-uKq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BnS-0Q-fth">
+                                <rect key="frame" x="156" y="76" width="64" height="33"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="15"/>
+                                <state key="normal" title="OPENED">
+                                    <color key="titleColor" red="0.58823529411764708" green="0.58823529411764708" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="openNowAction:" destination="4v1-3Y-uoh" eventType="touchUpInside" id="Fvv-WY-Xzt"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="vTr-HP-Dke" firstAttribute="leading" secondItem="n6g-3R-FuC" secondAttribute="leadingMargin" id="08j-g2-bmw"/>
+                            <constraint firstItem="vTr-HP-Dke" firstAttribute="top" secondItem="BnS-0Q-fth" secondAttribute="bottom" constant="8" id="2lV-Qe-WT5"/>
                             <constraint firstItem="dg3-eQ-Sax" firstAttribute="top" secondItem="rvh-hp-4Gq" secondAttribute="bottom" id="IDL-b3-3pJ"/>
                             <constraint firstItem="vTr-HP-Dke" firstAttribute="top" secondItem="rvh-hp-4Gq" secondAttribute="bottom" constant="97" id="JMd-5c-LYt"/>
+                            <constraint firstItem="J8A-aH-i1y" firstAttribute="trailing" secondItem="n6g-3R-FuC" secondAttribute="trailingMargin" constant="-8" id="JWn-xW-4PB"/>
+                            <constraint firstItem="J8A-aH-i1y" firstAttribute="top" secondItem="rvh-hp-4Gq" secondAttribute="bottom" constant="8" id="Kqn-R2-OgQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="vTr-HP-Dke" secondAttribute="trailing" id="LVV-c1-KOH"/>
                             <constraint firstItem="dg3-eQ-Sax" firstAttribute="centerX" secondItem="n6g-3R-FuC" secondAttribute="centerX" id="RGJ-Ed-skR"/>
                             <constraint firstItem="vTr-HP-Dke" firstAttribute="top" secondItem="9Yg-nw-qYw" secondAttribute="bottom" constant="8" id="Ygh-c0-NlH"/>
                             <constraint firstItem="vTr-HP-Dke" firstAttribute="top" secondItem="6Cl-Sl-M5j" secondAttribute="bottom" constant="8" id="ZDF-lq-5wH"/>
+                            <constraint firstItem="BnS-0Q-fth" firstAttribute="centerX" secondItem="n6g-3R-FuC" secondAttribute="centerX" id="dhc-zh-EVh"/>
                             <constraint firstAttribute="leadingMargin" secondItem="6Cl-Sl-M5j" secondAttribute="leading" id="mtl-DH-Uww"/>
                             <constraint firstItem="t2j-ES-st5" firstAttribute="top" secondItem="vTr-HP-Dke" secondAttribute="bottom" constant="8" id="pRG-f8-wau"/>
                             <constraint firstAttribute="trailingMargin" secondItem="9Yg-nw-qYw" secondAttribute="trailing" id="ugo-Aw-vct"/>
@@ -392,14 +421,16 @@
                     <tabBarItem key="tabBarItem" title="Places" image="places_list" id="uEM-vR-Kjk"/>
                     <connections>
                         <outlet property="collectionView" destination="vTr-HP-Dke" id="Pye-HO-h85"/>
+                        <outlet property="favoriteButton" destination="J8A-aH-i1y" id="jde-IA-GVz"/>
                         <outlet property="mainTitleLabel" destination="dg3-eQ-Sax" id="Jc0-MI-KcA"/>
                         <outlet property="nearestButton" destination="9Yg-nw-qYw" id="N4J-Z7-TX0"/>
+                        <outlet property="openNowButton" destination="BnS-0Q-fth" id="RNX-oe-vMO"/>
                         <outlet property="topRatedButton" destination="6Cl-Sl-M5j" id="Ymc-b6-szL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="syf-Ax-Lz1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="794" y="393"/>
+            <point key="canvasLocation" x="792.79999999999995" y="392.65367316341832"/>
         </scene>
         <!--Settings-->
         <scene sceneID="WpZ-7h-U99">
@@ -522,23 +553,9 @@
                     <view key="view" contentMode="scaleToFill" id="ib1-p6-wIq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="HuF-Tm-R08">
-                                <rect key="frame" x="16" y="110" width="343" height="508"/>
-                            </mapView>
-                        </subviews>
                         <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstItem="cew-RV-igo" firstAttribute="top" secondItem="HuF-Tm-R08" secondAttribute="bottom" id="GYi-S0-o7S"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="HuF-Tm-R08" secondAttribute="trailing" id="dEy-XC-T36"/>
-                            <constraint firstItem="HuF-Tm-R08" firstAttribute="top" secondItem="gSL-OW-KRb" secondAttribute="bottom" constant="90" id="oo9-11-6eE"/>
-                            <constraint firstItem="HuF-Tm-R08" firstAttribute="leading" secondItem="ib1-p6-wIq" secondAttribute="leadingMargin" id="wlZ-6P-IvJ"/>
-                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="maps" id="586-b5-P78"/>
-                    <connections>
-                        <outlet property="mapView" destination="HuF-Tm-R08" id="Gnq-YD-DLK"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yG6-KJ-DGN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -609,6 +626,7 @@
     <resources>
         <image name="directions" width="240" height="240"/>
         <image name="emtyStar" width="40" height="40"/>
+        <image name="fullHeart" width="50" height="50"/>
         <image name="fullStar" width="40" height="40"/>
         <image name="home" width="25" height="25"/>
         <image name="mainDonut" width="465" height="280"/>

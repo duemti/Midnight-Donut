@@ -20,7 +20,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var selectedTags: [String] = ["restaurant"]
     var placesClient: GMSPlacesClient!
     let locationManager = CLLocationManager()
-    var places = [Place]()
+    var nextTokenResult: String? = nil
+    
 
     // Labels to display info.
     @IBOutlet weak var findAPlace: UIButton!
@@ -53,7 +54,19 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                 print("No Location Access.")
             case .authorizedWhenInUse, .authorizedAlways:
                 print("Location Access Granted.")
-                getThePlaces()
+                guard let location = locationManager.location?.coordinate else {
+                    print("Err: location is nil.")
+                    self.displayMessage(message: "Try Again 😥", err: true)
+                    return
+                }
+                getThePlaces(from: "location=\(location.latitude),\(location.longitude)&rankby=distance&types=\(selectedTags.joined(separator: "|"))&key=\(KEY)", completion: { (newPlaces) in
+                    if let places = newPlaces {
+                        DispatchQueue.main.async {
+                            self.sendPlacesToPlacesVC(places: places)
+                            self.displayMessage(message: "You got Your Places! 😎", err: false)
+                        }
+                    }
+                })
             case .denied:
                 showAlert = true
                 print("Location Access Denied.")
@@ -70,7 +83,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     }
 }
 
-// MARK: - Search place for detailed info.
+// MARK: - Search place for detailed info. // Request #R2
 extension FirstViewController {
     func getInfoFor(place: Place) {
         guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/details/json?placeid=\(place.place_id!)&key=\(KEY)") else {
@@ -91,7 +104,7 @@ extension FirstViewController {
                     // Filling my place with VITAL DATA
                     if let workTime = result["opening_hours"] as? [String: Any?] {
                         if let openNow = workTime["open_now"] as? Bool {
-                            place.setFor(openNow: openNow ? "OPEN Now" : "Closed Now")
+                            place.setFor(openNow: openNow)
                         }
                         if let periods = workTime["periods"] as? [[String: [String: Any]]] {
                             place.setFor(periods: periods)
@@ -105,8 +118,9 @@ extension FirstViewController {
                     }
                 } else if status == "OVER_QUERY_LIMIT" {
                     self.displayMessage(message: "Limit Reached for today 😭", err: true)
+                } else {
+                    print("Error: R#2 -> status->\(status)")
                 }
-                print("GOT: status->\(status)")
             }catch let error {
                 print("Error while parsing json: \(error)")
             }
@@ -136,26 +150,17 @@ extension FirstViewController {
     }
 }
 
-// MARK: - Search for places.
+// MARK: - Search for places. // Request #R1
 extension FirstViewController {
-    func getThePlaces() {
-        // Clear previous Searches.
-        if !self.places.isEmpty {
-            self.places.removeAll()
-        }
+    func getThePlaces(from query: String, completion: @escaping (_: [Place]?) -> Void) {
+        var newPlaces = [Place]()
+        
         //MARK: - Variables
-        guard let location = locationManager.location?.coordinate else {
-            print("Err: location is nil.")
-            self.displayMessage(message: "Cannot Locate You 😥", err: true)
-            return
-        }
-        let types = selectedTags.joined(separator: "|")
-        guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/textsearch/json?location=\(location.latitude),\(location.longitude)&rankby=distance&type=\(types)&key=\(KEY)") else {
+        guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/textsearch/json?\(query)") else {
             print("URL is nil.")
             self.displayMessage(message: "Error, While searching... 🙁", err: true)
             return
         }
-        print("https://maps.googleapis.com/maps/api/place/textsearch/json?location=\(location.latitude),\(location.longitude)&rankby=distance&radius=500&type=\(types)&key=\(KEY)")
         URLSession.shared.dataTask(with: url) { (data, respoonse, error) in
             if let error = error {
                 print("Error: \(error)")
@@ -171,6 +176,9 @@ extension FirstViewController {
                 
                 print(status)
                 if status == "OK" {
+                    if let nextToken = json["next_page_token"] as? String {
+                        self.nextTokenResult = "pagetoken=\(nextToken)&key=\(self.KEY)"
+                    }
                     for place in results {
                         // Initializing a new place.
                         let geometry = place["geometry"] as! [String: Any?]
@@ -178,29 +186,27 @@ extension FirstViewController {
                         let newPlace = Place(place["name"] as! String, place["formatted_address"] as! String, place["place_id"] as! String, place["types"] as! [String], geometry["location"] as! [String: Double], geometry["viewport"] as! [String: [String: Double]])
                         
                         // Calculating Distance.
-                        self.findDirectionsToThePlace(origin: location, destination: newPlace)
+//                        self.findDirectionsToThePlace(origin: location, destination: newPlace)
                         // Adding an place to places list.
                         self.getInfoFor(place: newPlace)
-                        self.places.append(newPlace)
+                        newPlaces.append(newPlace)
                     }
                 } else if status == "ZERO_RESULTS" {
                     self.displayMessage(message: "Zero Results.", err: false, yellow: true)
+                    return
                 } else if status == "OVER_QUERY_LIMIT" {
                     self.displayMessage(message: "Limit Reached for today 😭", err: true)
+                    return
                 } else {
                     self.displayMessage(message: "Some error occured 🙁", err: true)
+                    return
                 }
             }catch let error {
                 print("Error while parsing json: \(error)")
                 self.displayMessage(message: "An Error occured 😡", err: true)
                 return
             }
-            
-            DispatchQueue.main.async {
-                let placesTab = self.tabBarController?.viewControllers?[1] as! PlacesViewController
-                placesTab.finishPassing(places: self.places)
-                self.displayMessage(message: "You got Your Places! 😎", err: false)
-            }
+            completion(newPlaces)
         }.resume()
     }
 }
@@ -213,6 +219,11 @@ extension FirstViewController {
     func update(tags: [Int: [String]]) {
         allTags = tags[0]!
         selectedTags = tags[1]!
+    }
+    
+    func sendPlacesToPlacesVC(places: [Place]) {
+        let placesTab = self.tabBarController?.viewControllers?[1] as! PlacesViewController
+        placesTab.finishPassing(places: places)
     }
 }
 
@@ -278,7 +289,7 @@ extension FirstViewController {
     }
 }
 
-// Request #R1
+// Request #R3
 extension FirstViewController {
     func findDirectionsToThePlace(origin: CLLocationCoordinate2D, destination place: Place) {
         let key = "AIzaSyCPBu09mUuPcNZSZg9qfT-PV3xjKVf4Fw4" // Google Directions API Key.
@@ -304,7 +315,7 @@ extension FirstViewController {
                     let distance = legs[0]["distance"] as! [String: Any]
                     place.setFor(distanceText: distance["text"] as! String, distanceValue: distance["value"] as! Int)
                 } else {
-                    print("Error #R1: \(status)")
+                    print("Error #R3: \(status)")
                 }
             } catch let error {
                 print("Error: Map - while parsing json - \(error).")

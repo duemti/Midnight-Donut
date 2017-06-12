@@ -16,11 +16,14 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     //MARK: Properties.
     let themeColor: [UIColor] = [UIColor(red:0.61, green:0.69, blue:0.49, alpha:1.0), UIColor(red:0.49, green:0.61, blue:0.69, alpha:1.0), UIColor(red:0.69, green:0.58, blue:0.49, alpha:1.0), UIColor(red:0.65, green:0.65, blue:0.00, alpha:1.0)]
+    var allPlaces = [Place]()
     var places = [Place]()
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var mainTitleLabel: UILabel!
     @IBOutlet weak var topRatedButton: UIButton!
     @IBOutlet weak var nearestButton: UIButton!
+    @IBOutlet weak var openNowButton: UIButton!
+    @IBOutlet weak var favoriteButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +58,6 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = places.count
-        print(count)
         return count == 0 ? 1 : count
     }
     
@@ -66,7 +68,6 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             // Configure the cell...
             
             let place = places[indexPath.row]
-            print(places.count)
             let address = place.formattedAddress.components(separatedBy: ",")
             let dayOfTheWeek = findDayOfTheWeek(Calendar.current.component(.weekday, from: Date()))
             
@@ -92,7 +93,7 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             cell.placeAddress.text = address[0]
             cell.placeRating.text = String(format: "%.1f", place.rating)
             cell.rating = place.rating
-            cell.placeStatus.text = place.openNow
+            cell.placeStatus.text = place.openNowText
             cell.placeHours.text = place.weekdays?[dayOfTheWeek]
             cell.distanceLabel.text = place.distanceText
             return cell
@@ -121,16 +122,14 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
 // MARK: - Action: Provide Directions on the Map.
 extension PlacesViewController: CLLocationManagerDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let maps = tabBarController?.viewControllers?[2] as! MapViewController
-//        let location = CLLocationManager().location?.coordinate
-//        let destination = places[indexPath.item]
-//        
-//        maps.s = location
-//        maps.d = destination.place_id
         if let cell = collectionView.cellForItem(at: indexPath) as? PlacesCollectionViewCell {
             UIView.animate(withDuration: 0.25, animations: {
                 cell.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
             }, completion: { (finished) in
+                let maps = self.tabBarController?.viewControllers?[2] as! MapViewController
+                maps.destinationPlace = self.places[indexPath.item]
+                maps.findDirectionsToThePlace()
+                
                 UIView.animate(withDuration: 0.5) {
                     cell.transform = .identity
                 }
@@ -223,12 +222,83 @@ extension PlacesViewController {
             index += 1
         }
     }
+    
+    // Refresheshing So that the user whould see cells dissappearing/appearing.
+//    func refreshDeletedOrAddedCells() {
+//        for 
+//    }
+    
+    @IBAction func openNowAction(_ sender: UIButton) {
+        if sender.titleLabel?.text == "ALL" {
+            places.removeAll()
+            for place in allPlaces {
+                if place.openNowBool == true {
+                    places.append(place)
+                }
+            }
+            sender.setTitle("OPENED", for: .normal)
+            collectionView.reloadData()
+        } else {
+            sender.setTitle("ALL", for: .normal)
+            places = allPlaces
+            collectionView.reloadData()
+        }
+    }
+    
+    @IBAction func favoriteAction(_ sender: UIButton) {
+    }
+    
+    // Load more Places.
+    func loadMorePlaces() {
+        let placesTab = self.tabBarController?.viewControllers?[0] as! FirstViewController
+        if let next = placesTab.nextTokenResult {
+            placesTab.getThePlaces(from: next) { (morePlaces) in
+                if let morePlaces = morePlaces {
+                    DispatchQueue.main.async {
+                        self.allPlaces += morePlaces
+                        let startIndex = self.places.count
+                        
+                        // Filter result if user requested ONLY opened places.
+                        if self.openNowButton.titleLabel?.text == "OPENED" {
+                            var counter = 0
+                            for place in morePlaces {
+                                if place.openNowBool == true {
+                                    self.places.append(place)
+                                    counter += 1
+                                }
+                            }
+                            self.reloadItemsFrom(index: startIndex, totalOf: counter)
+                        }
+                            // If user choose to be listed all places Even closed.
+                        else {
+                            self.reloadItemsFrom(index: startIndex, totalOf: morePlaces.count)
+                        }
+                        placesTab.displayMessage(message: "You got More Places! 😎", err: false)
+                    }
+                }
+            }
+        }
+    }
+    
+    // Reload the item from collection view from specified position up.
+    func reloadItemsFrom(index: Int, totalOf: Int) {
+        var items = [IndexPath]()
+        var counter: Int = index
+        let until = index + totalOf
+        
+        while counter < until {
+            items.append(IndexPath(item: counter, section: 0))
+            counter += 1
+        }
+        collectionView.insertItems(at: items)
+    }
 }
 
 extension PlacesViewController {
     // MARK: - Receiving Requested places from firstviewcontroller
     func finishPassing(places: [Place]) {
         self.places = places
+        self.allPlaces = places
         collectionView?.reloadData()
         print("Received the Places.")
     }
@@ -238,11 +308,17 @@ extension PlacesViewController {
         topRatedButton.transform = CGAffineTransform(translationX: -90, y: 0)
         nearestButton.transform = CGAffineTransform(translationX: 90, y: 0)
         mainTitleLabel.transform = CGAffineTransform(translationX: 0, y: -60)
+        openNowButton.transform = CGAffineTransform(translationX: 0, y: -40)
+        openNowButton.alpha = 0.0
+        favoriteButton.alpha = 0.0
         
         UIView.animate(withDuration: 0.5) {
             self.topRatedButton.transform = .identity
             self.nearestButton.transform = .identity
             self.mainTitleLabel.transform = .identity
+            self.openNowButton.transform = .identity
+            self.openNowButton.alpha = 1.0
+            self.favoriteButton.alpha = 1.0
         }
     }
     

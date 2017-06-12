@@ -12,7 +12,7 @@
 		69449DB71ED32A9000EAD81F /* PlacesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69449DB61ED32A9000EAD81F /* PlacesCollectionViewCell.swift */; };
 		69449DB91ED32F3A00EAD81F /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69449DB81ED32F3A00EAD81F /* EmptyCollectionViewCell.swift */; };
 		697CD10A1EEAF7C000138DF2 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CD1091EEAF7BC00138DF2 /* StartViewController.swift */; };
-		697E8B791EE032E600D72467 /* Dosis in Resources */ = {isa = PBXBuildFile; fileRef = 69FC48B81EE031CB005593C3 /* Dosis */; };
+		697CD10E1EEECF9200138DF2 /* style.json in Resources */ = {isa = PBXBuildFile; fileRef = 697CD10D1EEECF9200138DF2 /* style.json */; };
 		697E8B7D1EE049EE00D72467 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E8B7C1EE049EE00D72467 /* MapViewController.swift */; };
 		69945AAC1ED42B3D004586C2 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69945AAB1ED42B3D004586C2 /* Place.swift */; };
 		69945AAF1ED6AC09004586C2 /* TagsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69945AAE1ED6AC09004586C2 /* TagsCollectionViewCell.swift */; };
@@ -44,6 +44,7 @@
 		69449DB61ED32A9000EAD81F /* PlacesCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesCollectionViewCell.swift; sourceTree = "<group>"; };
 		69449DB81ED32F3A00EAD81F /* EmptyCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCollectionViewCell.swift; sourceTree = "<group>"; };
 		697CD1091EEAF7BC00138DF2 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
+		697CD10D1EEECF9200138DF2 /* style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = style.json; sourceTree = "<group>"; };
 		697E8B7C1EE049EE00D72467 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		69945AAB1ED42B3D004586C2 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		69945AAE1ED6AC09004586C2 /* TagsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -60,7 +61,6 @@
 		699502941EC5F5E200FE1866 /* Midnight_DonutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Midnight_DonutTests.swift; sourceTree = "<group>"; };
 		699502961EC5F5E200FE1866 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69BCCA8B1EE1767E00FA8020 /* Sniglet-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sniglet-Regular.ttf"; sourceTree = "<group>"; };
-		69FC48B81EE031CB005593C3 /* Dosis */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Dosis; sourceTree = "<group>"; };
 		8D216B2B953EA584EC0D4842 /* Pods-Midnight DonutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight DonutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight DonutTests/Pods-Midnight DonutTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB677D6EE40B288F2262045F /* Pods_Midnight_Donut.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Midnight_Donut.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D224D32440581C799D7390BF /* Pods-Midnight Donut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight Donut.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight Donut/Pods-Midnight Donut.debug.xcconfig"; sourceTree = "<group>"; };
@@ -124,6 +124,14 @@
 			name = "Landing VC";
 			sourceTree = "<group>";
 		};
+		697CD10B1EEECF2200138DF2 /* styleMap */ = {
+			isa = PBXGroup;
+			children = (
+				697CD10D1EEECF9200138DF2 /* style.json */,
+			);
+			name = styleMap;
+			sourceTree = "<group>";
+		};
 		69945AAD1ED6ABEC004586C2 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +168,7 @@
 				6995027D1EC5F5E200FE1866 /* AppDelegate.swift */,
 				697CD1091EEAF7BC00138DF2 /* StartViewController.swift */,
 				69FC48AF1EE02D06005593C3 /* fonts */,
+				697CD10B1EEECF2200138DF2 /* styleMap */,
 				69945AAD1ED6ABEC004586C2 /* Settings */,
 				697CD1021EE1A15700138DF2 /* places */,
 				697CD1071EE8226A00138DF2 /* Map */,
@@ -185,7 +194,6 @@
 			isa = PBXGroup;
 			children = (
 				69BCCA8B1EE1767E00FA8020 /* Sniglet-Regular.ttf */,
-				69FC48B81EE031CB005593C3 /* Dosis */,
 			);
 			name = fonts;
 			sourceTree = "<group>";
@@ -292,9 +300,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				69BCCA8C1EE1768B00FA8020 /* Sniglet-Regular.ttf in Resources */,
-				697E8B791EE032E600D72467 /* Dosis in Resources */,
 				6995028A1EC5F5E200FE1866 /* LaunchScreen.storyboard in Resources */,
 				699502871EC5F5E200FE1866 /* Assets.xcassets in Resources */,
+				697CD10E1EEECF9200138DF2 /* style.json in Resources */,
 				699502851EC5F5E200FE1866 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
