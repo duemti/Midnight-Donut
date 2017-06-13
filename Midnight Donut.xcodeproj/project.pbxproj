@@ -13,6 +13,7 @@
 		69449DB91ED32F3A00EAD81F /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69449DB81ED32F3A00EAD81F /* EmptyCollectionViewCell.swift */; };
 		697CD10A1EEAF7C000138DF2 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CD1091EEAF7BC00138DF2 /* StartViewController.swift */; };
 		697CD10E1EEECF9200138DF2 /* style.json in Resources */ = {isa = PBXBuildFile; fileRef = 697CD10D1EEECF9200138DF2 /* style.json */; };
+		697CD1141EF0537D00138DF2 /* glass-breaking.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 697CD1131EF0537800138DF2 /* glass-breaking.mp3 */; };
 		697E8B7D1EE049EE00D72467 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E8B7C1EE049EE00D72467 /* MapViewController.swift */; };
 		69945AAC1ED42B3D004586C2 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69945AAB1ED42B3D004586C2 /* Place.swift */; };
 		69945AAF1ED6AC09004586C2 /* TagsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69945AAE1ED6AC09004586C2 /* TagsCollectionViewCell.swift */; };
@@ -45,6 +46,7 @@
 		69449DB81ED32F3A00EAD81F /* EmptyCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCollectionViewCell.swift; sourceTree = "<group>"; };
 		697CD1091EEAF7BC00138DF2 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		697CD10D1EEECF9200138DF2 /* style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = style.json; sourceTree = "<group>"; };
+		697CD1131EF0537800138DF2 /* glass-breaking.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "glass-breaking.mp3"; sourceTree = "<group>"; };
 		697E8B7C1EE049EE00D72467 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		69945AAB1ED42B3D004586C2 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		69945AAE1ED6AC09004586C2 /* TagsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 		697CD1021EE1A15700138DF2 /* places */ = {
 			isa = PBXGroup;
 			children = (
+				697CD1131EF0537800138DF2 /* glass-breaking.mp3 */,
 				69449DB41ED32A7000EAD81F /* PlacesViewController.swift */,
 				69449DB61ED32A9000EAD81F /* PlacesCollectionViewCell.swift */,
 				69449DB81ED32F3A00EAD81F /* EmptyCollectionViewCell.swift */,
@@ -132,14 +135,14 @@
 			name = styleMap;
 			sourceTree = "<group>";
 		};
-		69945AAD1ED6ABEC004586C2 /* Settings */ = {
+		69945AAD1ED6ABEC004586C2 /* More */ = {
 			isa = PBXGroup;
 			children = (
 				69945AB01ED6AC32004586C2 /* SettingsViewController.swift */,
 				69945AAE1ED6AC09004586C2 /* TagsCollectionViewCell.swift */,
 				69945AB21ED6C5E7004586C2 /* HeaderCollectionReusableView.swift */,
 			);
-			name = Settings;
+			name = More;
 			sourceTree = "<group>";
 		};
 		699502711EC5F5E100FE1866 = {
@@ -169,9 +172,9 @@
 				697CD1091EEAF7BC00138DF2 /* StartViewController.swift */,
 				69FC48AF1EE02D06005593C3 /* fonts */,
 				697CD10B1EEECF2200138DF2 /* styleMap */,
-				69945AAD1ED6ABEC004586C2 /* Settings */,
-				697CD1021EE1A15700138DF2 /* places */,
+				69945AAD1ED6ABEC004586C2 /* More */,
 				697CD1071EE8226A00138DF2 /* Map */,
+				697CD1021EE1A15700138DF2 /* places */,
 				697CD1081EE8227B00138DF2 /* Landing VC */,
 				699502831EC5F5E200FE1866 /* Main.storyboard */,
 				699502861EC5F5E200FE1866 /* Assets.xcassets */,
@@ -303,6 +306,7 @@
 				6995028A1EC5F5E200FE1866 /* LaunchScreen.storyboard in Resources */,
 				699502871EC5F5E200FE1866 /* Assets.xcassets in Resources */,
 				697CD10E1EEECF9200138DF2 /* style.json in Resources */,
+				697CD1141EF0537D00138DF2 /* glass-breaking.mp3 in Resources */,
 				699502851EC5F5E200FE1866 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -566,7 +570,7 @@
 				INFOPLIST_FILE = "Midnight Donut/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "dpetrov.Midnight-Donut";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fitnesslabs.Midnight-Donut";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -582,7 +586,7 @@
 				INFOPLIST_FILE = "Midnight Donut/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "dpetrov.Midnight-Donut";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fitnesslabs.Midnight-Donut";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;

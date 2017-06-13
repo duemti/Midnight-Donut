@@ -82,25 +82,6 @@
             </objects>
             <point key="canvasLocation" x="794" y="-359"/>
         </scene>
-        <!--Share-->
-        <scene sceneID="KIu-EU-XNs">
-            <objects>
-                <viewController id="9TQ-Zr-cCL" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="W63-p6-KX4"/>
-                        <viewControllerLayoutGuide type="bottom" id="RkA-mz-aAe"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="kAB-Nf-4d3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Share" image="share" id="8a8-sx-URC"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WJa-Wd-Czx" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1526" y="-359"/>
-        </scene>
         <!--Places-->
         <scene sceneID="sfp-IS-baJ">
             <objects>
@@ -377,10 +358,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J8A-aH-i1y">
-                                <rect key="frame" x="311" y="28" width="40" height="40"/>
+                                <rect key="frame" x="316" y="28" width="35" height="35"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="3an-fD-KcQ"/>
-                                    <constraint firstAttribute="height" constant="40" id="KBP-ct-lc0"/>
+                                    <constraint firstAttribute="width" constant="35" id="3an-fD-KcQ"/>
+                                    <constraint firstAttribute="height" constant="35" id="KBP-ct-lc0"/>
                                 </constraints>
                                 <state key="normal" image="fullHeart">
                                     <color key="titleColor" red="0.44705882352941179" green="0.45882352941176469" blue="0.36862745098039218" alpha="1" colorSpace="calibratedRGB"/>
@@ -432,7 +413,7 @@
             </objects>
             <point key="canvasLocation" x="792.79999999999995" y="392.65367316341832"/>
         </scene>
-        <!--Settings-->
+        <!--More-->
         <scene sceneID="WpZ-7h-U99">
             <objects>
                 <viewController id="Loq-MC-373" customClass="SettingsViewController" customModule="Midnight_Donut" customModuleProvider="target" sceneMemberID="viewController">
@@ -533,7 +514,7 @@
                             <constraint firstItem="wiU-hB-LGS" firstAttribute="top" secondItem="IHe-nF-juy" secondAttribute="bottom" constant="8" id="rm4-LZ-UoP"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" image="settings" id="TXl-rG-niw"/>
+                    <tabBarItem key="tabBarItem" title="More" image="settings" id="TXl-rG-niw"/>
                     <connections>
                         <outlet property="collectionView" destination="oGA-9S-l1l" id="ALw-hK-G88"/>
                     </connections>
@@ -559,7 +540,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yG6-KJ-DGN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2311" y="0.0"/>
+            <point key="canvasLocation" x="1526" y="-359"/>
         </scene>
         <!--Start View Controller-->
         <scene sceneID="cgV-ah-Yv6">
@@ -608,7 +589,6 @@
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="4v1-3Y-uoh" kind="relationship" relationship="viewControllers" id="WhW-7P-o4c"/>
                         <segue destination="spB-FJ-1lt" kind="relationship" relationship="viewControllers" id="lef-nJ-AWP"/>
-                        <segue destination="9TQ-Zr-cCL" kind="relationship" relationship="viewControllers" id="v1i-R8-pc9"/>
                         <segue destination="Loq-MC-373" kind="relationship" relationship="viewControllers" id="Qr0-4W-7gs"/>
                     </connections>
                 </tabBarController>
@@ -635,6 +615,5 @@
         <image name="none_image" width="194" height="250"/>
         <image name="places_list" width="25" height="25"/>
         <image name="settings" width="25" height="25"/>
-        <image name="share" width="25" height="25"/>
     </resources>
 </document>

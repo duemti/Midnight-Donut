@@ -35,9 +35,6 @@ class MapViewController: UIViewController {
         }
         
         view = mapView
-        if let destination = destinationPlace {
-            findDirectionsToThePlace()
-        }
     }
     
     func seValue(for place: Place) {
@@ -96,7 +93,8 @@ extension MapViewController {
         // Draw route
         let path: GMSPath = GMSPath(fromEncodedPath: polyline)!
         let routePolyline = GMSPolyline(path: path)
-        
+        routePolyline.strokeWidth = 10
+        routePolyline.strokeColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
         routePolyline.map = self.mapView
     }
 }

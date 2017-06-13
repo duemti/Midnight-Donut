@@ -56,11 +56,12 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                 print("Location Access Granted.")
                 guard let location = locationManager.location?.coordinate else {
                     print("Err: location is nil.")
-                    self.displayMessage(message: "Try Again 😥", err: true)
+                    self.displayMessageAsync("Try Again 😥", true)
                     return
                 }
-                getThePlaces(from: "location=\(location.latitude),\(location.longitude)&rankby=distance&types=\(selectedTags.joined(separator: "|"))&key=\(KEY)", completion: { (newPlaces) in
-                    if let places = newPlaces {
+                getThePlaces(from: "location=\(location.latitude),\(location.longitude)&rankby=distance&types=\(selectedTags.joined(separator: "|"))&key=\(KEY)", completion: { (newPlaces, success) in
+                    if let places = newPlaces, success {
+                        print("Good \(success) -> \(places.count)")
                         DispatchQueue.main.async {
                             self.sendPlacesToPlacesVC(places: places)
                             self.displayMessage(message: "You got Your Places! 😎", err: false)
@@ -83,11 +84,11 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     }
 }
 
-// MARK: - Search place for detailed info. // Request #R2
+// MARK: - Search place for detailed info. // Request #->R2
 extension FirstViewController {
-    func getInfoFor(place: Place) {
+    func getInfoFor(place: Place, completion: @escaping (Bool) -> ()) {
         guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/details/json?placeid=\(place.place_id!)&key=\(KEY)") else {
-            print("url is nil \(place.place_id!)")
+            print("url is nil #->R2")
             return
         }
         URLSession.shared.dataTask(with: url) { (data, response, error) in
@@ -95,64 +96,58 @@ extension FirstViewController {
                 print("Error while retrieving place info: \(error)")
                 return
             }
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any?]
-                
-                let status = json["status"] as! String
-                if status == "OK" {
-                    let result = json["result"] as! [String: Any?]
-                    // Filling my place with VITAL DATA
-                    if let workTime = result["opening_hours"] as? [String: Any?] {
-                        if let openNow = workTime["open_now"] as? Bool {
-                            place.setFor(openNow: openNow)
+            
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any?]
+                    
+                    let status = json["status"] as! String
+                    if status == "OK" {
+                        let result = json["result"] as! [String: Any?]
+                        
+                        // Filling my place with VITAL DATA
+                        if let workTime = result["opening_hours"] as? [String: Any?] {
+                            if let openNow = workTime["open_now"] as? Bool {
+                                place.setFor(openNow: openNow)
+                            }
+                            if let periods = workTime["periods"] as? [[String: [String: Any]]] {
+                                place.setFor(periods: periods)
+                            }
+                            if let weekdayText = workTime["weekday_text"] as? [String] {
+                                place.setFor(weekdays: weekdayText)
+                            }
                         }
-                        if let periods = workTime["periods"] as? [[String: [String: Any]]] {
-                            place.setFor(periods: periods)
+                        if let rating = result["rating"] as? Float {
+                            place.setFor(rating: rating)
                         }
-                        if let weekdayText = workTime["weekday_text"] as? [String] {
-                            place.setFor(weekdays: weekdayText)
-                        }
+                        completion(true)
+                    } else {
+                        self.googleError(status: status, requestNumber: "#->R2")
+                        completion(false)
                     }
-                    if let rating = result["rating"] as? Float {
-                        place.setFor(rating: rating)
-                    }
-                } else if status == "OVER_QUERY_LIMIT" {
-                    self.displayMessage(message: "Limit Reached for today 😭", err: true)
-                } else {
-                    print("Error: R#2 -> status->\(status)")
+                }catch let error {
+                    print("Error while parsing json: \(error)")
+                    completion(false)
                 }
-            }catch let error {
-                print("Error while parsing json: \(error)")
             }
         }.resume()
     }
-}
-
-// Main Button Design.
-extension FirstViewController {
-    func applyDesignForMainButton() {
-        findAPlace.layer.cornerRadius = 70
-        findAPlace.backgroundColor = UIColor(red:0.27, green:0.27, blue:0.27, alpha:1.0)
-        findAPlace.setTitleColor(UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0), for: .normal)
-        findAPlace.titleLabel?.textAlignment = .center
-        
-        findAPlace.titleLabel?.layer.shadowOffset = CGSize(width: -2, height: 2)
-        findAPlace.titleLabel?.layer.shouldRasterize = true
-        findAPlace.titleLabel?.layer.shadowRadius = 1
-        findAPlace.titleLabel?.layer.shadowOpacity = 1
-        findAPlace.titleLabel?.layer.shadowColor = UIColor(red:0.07, green:0.07, blue:0.07, alpha:1.0).cgColor
-        
-        findAPlace.layer.shadowColor = UIColor(red:0.07, green:0.07, blue:0.07, alpha:1.0).cgColor
-        findAPlace.layer.shadowOffset = CGSize(width: -5, height: 8)
-        findAPlace.layer.shadowOpacity = 1.0
-        // On Click.
-        findAPlace.setTitleColor(UIColor(red:0.90, green:0.81, blue:0.54, alpha:1.0), for: .highlighted)
+    
+    func googleError(status: String, requestNumber: String) {
+        switch status {
+        case "ZERO_RESULTS":
+            print("Error: \(status) in \(requestNumber)")
+        case "OVER_QUERY_LIMIT":
+            print("Error: \(status) in \(requestNumber)")
+        default:
+            print("Error: \(status) in \(requestNumber)")
+        }
     }
 }
 
 // MARK: - Search for places. // Request #R1
 extension FirstViewController {
-    func getThePlaces(from query: String, completion: @escaping (_: [Place]?) -> Void) {
+    func getThePlaces(from query: String, completion: @escaping ([Place]?, Bool) -> Void) {
         var newPlaces = [Place]()
         
         //MARK: - Variables
@@ -164,49 +159,92 @@ extension FirstViewController {
         URLSession.shared.dataTask(with: url) { (data, respoonse, error) in
             if let error = error {
                 print("Error: \(error)")
-                self.displayMessage(message: "Error, Try Again, 🙁", err: true)
-                return
-            }
-             
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any?]
-                
-                let results = json["results"] as! [[String: Any?]]
-                let status = json["status"] as! String
-                
-                print(status)
-                if status == "OK" {
-                    if let nextToken = json["next_page_token"] as? String {
-                        self.nextTokenResult = "pagetoken=\(nextToken)&key=\(self.KEY)"
-                    }
-                    for place in results {
-                        // Initializing a new place.
-                        let geometry = place["geometry"] as! [String: Any?]
-                        // Instantiate a New Place.
-                        let newPlace = Place(place["name"] as! String, place["formatted_address"] as! String, place["place_id"] as! String, place["types"] as! [String], geometry["location"] as! [String: Double], geometry["viewport"] as! [String: [String: Double]])
-                        
-                        // Calculating Distance.
-//                        self.findDirectionsToThePlace(origin: location, destination: newPlace)
-                        // Adding an place to places list.
-                        self.getInfoFor(place: newPlace)
-                        newPlaces.append(newPlace)
-                    }
-                } else if status == "ZERO_RESULTS" {
-                    self.displayMessage(message: "Zero Results.", err: false, yellow: true)
-                    return
-                } else if status == "OVER_QUERY_LIMIT" {
-                    self.displayMessage(message: "Limit Reached for today 😭", err: true)
-                    return
-                } else {
-                    self.displayMessage(message: "Some error occured 🙁", err: true)
-                    return
+                DispatchQueue.main.async {
+                    self.displayMessage(message: "Error, Try Again, 🙁", err: true)
                 }
-            }catch let error {
-                print("Error while parsing json: \(error)")
-                self.displayMessage(message: "An Error occured 😡", err: true)
                 return
             }
-            completion(newPlaces)
+            
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any?]
+                    
+                    let results = json["results"] as! [[String: Any?]]
+                    let status = json["status"] as! String
+                    
+                    print(status)
+                    if status == "OK" {
+                        if let nextToken = json["next_page_token"] as? String {
+                            self.nextTokenResult = "pagetoken=\(nextToken)&key=\(self.KEY)"
+                        } else {
+                            self.nextTokenResult = nil
+                        }
+                        
+                        for place in results {
+                            // Initializing a new place.
+                            guard let geometry = place["geometry"] as? [String: Any?] else {
+                                print("1")
+                                return
+                            }
+                            guard let address = place["formatted_address"] as? String else {
+                                print("2")
+                                return
+                            }
+                            guard let name = place["name"] as? String else {
+                                print("3")
+                                return
+                            }
+                            guard let placeId = place["place_id"] as? String else {
+                                print("4")
+                                return
+                            }
+                            guard let types = place["types"] as? [String] else {
+                                print("5")
+                                return
+                            }
+                            guard let location = geometry["location"] as? [String: Double] else {
+                                print("6")
+                                return
+                            }
+                            guard let viewport = geometry["viewport"] as? [String: [String: Double]] else {
+                                print("7")
+                                return
+                            }
+                            // Instantiate a New Place.
+                            let newPlace = Place(name, address, placeId, types, location, viewport)
+                            
+                            //                        if let openNow = place["opening_hours"] as? [String: Any?], let on = openNow["open_now"] as? Bool {
+                            //                            newPlace.setFor(openNow: on)
+                            //                        }
+                            
+                            //                         Calculating Distance.
+                            //                         self.findDirectionsToThePlace(origin: location, destination: newPlace)
+                            
+                            //                         Adding an place to places list.
+                            self.getInfoFor(place: newPlace, completion: { (success) in
+//                                newPlaces.append(newPlace)
+                            })
+                            newPlaces.append(newPlace)
+                        }
+                        completion(newPlaces, true)
+                    } else if status == "ZERO_RESULTS" {
+                        DispatchQueue.main.async {
+                            self.displayMessage(message: "Zero Results.", err: false, yellow: true)
+                        }
+                        completion(newPlaces, false)
+                    } else if status == "OVER_QUERY_LIMIT" {
+                        self.displayMessageAsync("Limit Reached for today 😭", true)
+                        completion(newPlaces, false)
+                    } else {
+                        self.displayMessageAsync("An Error occured 😡", true)
+                        completion(newPlaces, false)
+                    }
+                }catch let error {
+                    self.displayMessageAsync("An Error occured 😡", true)
+                    print("Error while parsing json: \(error)")
+                    completion(newPlaces, false)
+                }
+            }
         }.resume()
     }
 }
@@ -229,6 +267,12 @@ extension FirstViewController {
 
 // Custom Pop UP UIView.
 extension FirstViewController {
+    func displayMessageAsync(_ msg: String, _ err: Bool) {
+        DispatchQueue.main.async {
+            self.displayMessage(message: msg, err: err)
+        }
+    }
+    
     func displayMessage(message: String, err: Bool, yellow: Bool? = false) {
         let popup = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         let label = UILabel()
@@ -288,6 +332,29 @@ extension FirstViewController {
         }
     }
 }
+
+// Main Button Design.
+extension FirstViewController {
+    func applyDesignForMainButton() {
+        findAPlace.layer.cornerRadius = 70
+        findAPlace.backgroundColor = UIColor(red:0.27, green:0.27, blue:0.27, alpha:1.0)
+        findAPlace.setTitleColor(UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0), for: .normal)
+        findAPlace.titleLabel?.textAlignment = .center
+        
+        findAPlace.titleLabel?.layer.shadowOffset = CGSize(width: -2, height: 2)
+        findAPlace.titleLabel?.layer.shouldRasterize = true
+        findAPlace.titleLabel?.layer.shadowRadius = 1
+        findAPlace.titleLabel?.layer.shadowOpacity = 1
+        findAPlace.titleLabel?.layer.shadowColor = UIColor(red:0.07, green:0.07, blue:0.07, alpha:1.0).cgColor
+        
+        findAPlace.layer.shadowColor = UIColor(red:0.07, green:0.07, blue:0.07, alpha:1.0).cgColor
+        findAPlace.layer.shadowOffset = CGSize(width: -5, height: 8)
+        findAPlace.layer.shadowOpacity = 1.0
+        // On Click.
+        findAPlace.setTitleColor(UIColor(red:0.90, green:0.81, blue:0.54, alpha:1.0), for: .highlighted)
+    }
+}
+
 
 // Request #R3
 extension FirstViewController {

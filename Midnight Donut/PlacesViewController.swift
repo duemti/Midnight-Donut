@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreLocation
+import CoreData
+import AVFoundation
 
 private let firstReuseIdentifier = "Cell"
 private let secondReuseIdentifier = "NoDataCell"
@@ -17,7 +19,7 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
     //MARK: Properties.
     let themeColor: [UIColor] = [UIColor(red:0.61, green:0.69, blue:0.49, alpha:1.0), UIColor(red:0.49, green:0.61, blue:0.69, alpha:1.0), UIColor(red:0.69, green:0.58, blue:0.49, alpha:1.0), UIColor(red:0.65, green:0.65, blue:0.00, alpha:1.0)]
     var allPlaces = [Place]()
-    var places = [Place]()
+    var places = [Place]() // is a variable that hold all places displayed in collection view in Comparing to allPlaces
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var mainTitleLabel: UILabel!
     @IBOutlet weak var topRatedButton: UIButton!
@@ -94,7 +96,11 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             cell.placeRating.text = String(format: "%.1f", place.rating)
             cell.rating = place.rating
             cell.placeStatus.text = place.openNowText
-            cell.placeHours.text = place.weekdays?[dayOfTheWeek]
+            if let day = place.weekdays {
+                cell.placeHours.text = day[dayOfTheWeek]
+            } else {
+                cell.placeHours.text = ""
+            }
             cell.distanceLabel.text = place.distanceText
             return cell
         } else {
@@ -114,9 +120,78 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             cell.alpha = 1.0
             cell.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         }
+        
+        if indexPath.row == places.count - 1 {
+            print("loadding more ..")
+            loadMorePlaces()
+        }
     }
     /****************************************************************************************************************************************************************/
     
+    // Load more Places.
+    func loadMorePlaces() {
+        // Network indicator.
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        // Accessing first tab VC.
+        let placesTab = self.tabBarController?.viewControllers?[0] as! FirstViewController
+        
+        if let next = placesTab.nextTokenResult {
+            placesTab.getThePlaces(from: next) { (morePlaces, success) in
+                if let morePlaces = morePlaces {
+                    self.allPlaces += morePlaces
+                    let startIndex = self.places.count
+                    
+                    // Filter result if user requested ONLY opened places.
+                    if self.openNowButton.titleLabel?.text == "OPENED" {
+                        var counter = 0
+                        for place in morePlaces {
+                            if place.openNowBool == true {
+                                self.places.append(place)
+                                counter += 1
+                            } else {
+                                print(place.openNowBool)
+                            }
+                        }
+                        print("-\(counter)")
+                        DispatchQueue.main.async {
+                            self.reloadItemsFrom(index: startIndex, totalOf: counter)
+                        }
+                    }
+                        // If user choose to be listed all places Even closed.
+                    else {
+                        self.places = self.allPlaces
+                        DispatchQueue.main.async {
+                            self.reloadItemsFrom(index: startIndex, totalOf: morePlaces.count)
+                        }
+                    }
+                } else {
+                    print("Returned Zero Results.")
+                }
+            }
+        } else {
+            print("No more Results.")
+        }
+        // Network indicator.
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+    
+    // Reload the item from collection view from specified position up.
+    func reloadItemsFrom(index: Int, totalOf: Int) {
+        var items = [IndexPath]()
+        var counter: Int = index
+        let until = index + totalOf
+        
+        while counter < until {
+            items.append(IndexPath(item: counter, section: 0))
+            counter += 1
+        }
+        
+        if totalOf > 0 {
+            self.collectionView.performBatchUpdates({
+                self.collectionView.insertItems(at: items)
+            })
+        }
+    }
 }
 
 // MARK: - Action: Provide Directions on the Map.
@@ -154,44 +229,62 @@ extension PlacesViewController: UICollectionViewDelegateFlowLayout {
 extension PlacesViewController {
     // Sorting the cells TOP RATED FIRST.
     @IBAction func sortTopRated(_ sender: UIButton) {
-        let count = places.count
         self.nearestButton.isEnabled = true
         self.topRatedButton.isEnabled = false
         
-        
-        if count != 0 {
-            var index = 1
-            
-            while index < count {
-                if self.places[index - 1].rating < self.places[index].rating {
-                    swap(&self.places[index - 1], &self.places[index])
-                    index = 0
-                }
-                index += 1
+        sortBy(top: true, nearest: false, the: self.places) { (finished) in
+            if let finished = finished {
+                self.places = finished
+                
+                // Refresh So that the user whould see cells swapping.
+                self.refreshCells()
             }
-            // Refresh So that the user whould see cells swapping.
-            refreshCells()
         }
     }
 
     // Sorting the cells TO NEAREST.
     @IBAction func sortNearest(_ sender: UIButton) {
-        let count = places.count
         self.nearestButton.isEnabled = false
         self.topRatedButton.isEnabled = true
         
+        sortBy(top: false, nearest: true, the: self.places) { (finished) in
+            if let finished = finished {
+                self.places = finished
+                
+                // Refresh So that the user whould see cells swapping.
+                self.refreshCells()
+            }
+        }
+    }
+    
+    // The sorting function.
+    func sortBy(top: Bool, nearest: Bool, the unsortedPlaces: [Place], completion: @escaping ([Place]?) -> ()) {
+        var sorted = unsortedPlaces
+        let count = sorted.count
+        
         if count != 0 {
             var index = 1
-            while index < count {
-                if places[index - 1].distanceValue > places[index].distanceValue {
-                    swap(&places[index - 1], &places[index])
-                    index = 0
+            
+            if nearest {
+                while index < count {
+                    if sorted[index - 1].distanceValue > sorted[index].distanceValue {
+                        swap(&sorted[index - 1], &sorted[index])
+                        index = 0
+                    }
+                    index += 1
                 }
-                index += 1
+            } else if top {
+                while index < count {
+                    if sorted[index - 1].rating < sorted[index].rating {
+                        swap(&sorted[index - 1], &sorted[index])
+                        index = 0
+                    }
+                    index += 1
+                }
             }
-            // Refresh So that the user whould see cells swapping.
-            refreshCells()
+            completion( sorted )
         }
+        completion( nil )
     }
     
     // Refresheshing So that the user whould see cells swapping.
@@ -223,74 +316,42 @@ extension PlacesViewController {
         }
     }
     
-    // Refresheshing So that the user whould see cells dissappearing/appearing.
-//    func refreshDeletedOrAddedCells() {
-//        for 
-//    }
-    
     @IBAction func openNowAction(_ sender: UIButton) {
-        if sender.titleLabel?.text == "ALL" {
+        if openNowButton.titleLabel?.text == "ALL" {
             places.removeAll()
             for place in allPlaces {
                 if place.openNowBool == true {
                     places.append(place)
                 }
             }
-            sender.setTitle("OPENED", for: .normal)
+            openNowButton.setTitle("OPENED", for: .normal)
             collectionView.reloadData()
         } else {
-            sender.setTitle("ALL", for: .normal)
-            places = allPlaces
+            openNowButton.setTitle("ALL", for: .normal)
+            self.places = self.allPlaces
             collectionView.reloadData()
         }
     }
     
     @IBAction func favoriteAction(_ sender: UIButton) {
-    }
-    
-    // Load more Places.
-    func loadMorePlaces() {
-        let placesTab = self.tabBarController?.viewControllers?[0] as! FirstViewController
-        if let next = placesTab.nextTokenResult {
-            placesTab.getThePlaces(from: next) { (morePlaces) in
-                if let morePlaces = morePlaces {
-                    DispatchQueue.main.async {
-                        self.allPlaces += morePlaces
-                        let startIndex = self.places.count
-                        
-                        // Filter result if user requested ONLY opened places.
-                        if self.openNowButton.titleLabel?.text == "OPENED" {
-                            var counter = 0
-                            for place in morePlaces {
-                                if place.openNowBool == true {
-                                    self.places.append(place)
-                                    counter += 1
-                                }
-                            }
-                            self.reloadItemsFrom(index: startIndex, totalOf: counter)
-                        }
-                            // If user choose to be listed all places Even closed.
-                        else {
-                            self.reloadItemsFrom(index: startIndex, totalOf: morePlaces.count)
-                        }
-                        placesTab.displayMessage(message: "You got More Places! 😎", err: false)
-                    }
-                }
-            }
-        }
-    }
-    
-    // Reload the item from collection view from specified position up.
-    func reloadItemsFrom(index: Int, totalOf: Int) {
-        var items = [IndexPath]()
-        var counter: Int = index
-        let until = index + totalOf
+        var audioPlayer = AVAudioPlayer()
+        let music = Bundle.main.path(forResource: "glass-breaking", ofType: "mp3")
         
-        while counter < until {
-            items.append(IndexPath(item: counter, section: 0))
-            counter += 1
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: music! ))
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
+            try AVAudioSession.sharedInstance().setActive(true)
         }
-        collectionView.insertItems(at: items)
+        catch{
+            print(error)
+        }
+        
+        audioPlayer.play()
+        UIView.animate(withDuration: 0.35) { 
+            self.favoriteButton.imageView?.image = #imageLiteral(resourceName: "brokenHeart")
+        }
+        // TODO: - Implement me.
+        print("Implement favoriteAction()")
     }
 }
 
@@ -299,8 +360,21 @@ extension PlacesViewController {
     func finishPassing(places: [Place]) {
         self.places = places
         self.allPlaces = places
-        collectionView?.reloadData()
-        print("Received the Places.")
+        
+        if self.collectionView != nil {
+            if openNowButton.titleLabel?.text == "ALL" {
+                self.places.removeAll()
+                for place in allPlaces {
+                    if place.openNowBool == true {
+                        self.places.append(place)
+                    }
+                }
+                collectionView.reloadData()
+            } else {
+                collectionView.reloadData()
+            }
+        }
+        print("Received the \(places.count) Places.")
     }
     
     // MARK: - Some cool animation when VC is presented.
