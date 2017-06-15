@@ -16,6 +16,16 @@ class MapViewController: UIViewController {
     var source = CLLocationCoordinate2D(latitude: 47.039902113355559, longitude: 28.824365403191109)
     var destinationPlace: Place? = nil
     
+    var distanceText: String?
+    var durationText: String?
+    
+    // MARK: - Outlets.
+    @IBOutlet weak var infoView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var clockImageView: UIImageView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +45,36 @@ class MapViewController: UIViewController {
         }
         
         view = mapView
+        let tap = UITapGestureRecognizer(target: self, action: #selector (self.goToPlacesTab(_:)))
+        infoView.addGestureRecognizer( tap )
+        infoView.isUserInteractionEnabled = true
+        
+        infoView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(infoView)
+        view.addConstraints( [NSLayoutConstraint(item: infoView, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0), NSLayoutConstraint(item: infoView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 50)] )
+    }
+    
+    // Container display.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        if destinationPlace == nil {
+            print("No place selected for directions.")
+            distanceLabel.text = "Select a Place"
+            timeLabel.isHidden = true
+            clockImageView.isHidden = true
+        } else {
+            timeLabel.isHidden = false
+            clockImageView.isHidden = false
+            self.distanceLabel.text = self.distanceText
+            self.timeLabel.text = self.durationText
+        }
+    }
+    
+    // Throw user to another tap.
+    func goToPlacesTab(_ sender: UITapGestureRecognizer) {
+        print("tap segue.")
+        self.tabBarController?.selectedIndex = 1
     }
     
     func seValue(for place: Place) {
@@ -61,10 +101,26 @@ extension MapViewController {
                 let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any?]
                 let status = json["status"] as! String
                 
+                print(status)
                 if status == "OK" {
                     let routes = json["routes"] as! [[String: Any?]]
+                    
                     let route = routes[0]["overview_polyline"] as! [String: String]
                     let polyline = route["points"]!
+                    
+                    let legs = routes[0]["legs"] as! [[String: Any?]]
+                    
+                    if let distance = legs[0]["distance"] as? [String: Any], let distanceText = distance["text"] as? String {
+                        self.distanceText = distanceText
+                    } else {
+                        self.distanceText = "n/a"
+                    }
+                    
+                    if let duration = legs[0]["duration"] as? [String: Any], let durationText = duration["text"] as? String {
+                        self.durationText = durationText
+                    } else {
+                        self.durationText = "n/a"
+                    }
                     
                     DispatchQueue.main.async {
                         self.drawRoute(with: polyline)

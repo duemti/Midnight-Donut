@@ -8,17 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		1D97EC7F05D89073C2D33C81 /* Pods_Midnight_DonutTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6150FEF547754BDAA085495 /* Pods_Midnight_DonutTests.framework */; };
+		6903959B1EF29CB30090756D /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903959A1EF29CB30090756D /* MoreViewController.swift */; };
 		69449DB51ED32A7000EAD81F /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69449DB41ED32A7000EAD81F /* PlacesViewController.swift */; };
 		69449DB71ED32A9000EAD81F /* PlacesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69449DB61ED32A9000EAD81F /* PlacesCollectionViewCell.swift */; };
 		69449DB91ED32F3A00EAD81F /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69449DB81ED32F3A00EAD81F /* EmptyCollectionViewCell.swift */; };
 		697CD10A1EEAF7C000138DF2 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CD1091EEAF7BC00138DF2 /* StartViewController.swift */; };
 		697CD10E1EEECF9200138DF2 /* style.json in Resources */ = {isa = PBXBuildFile; fileRef = 697CD10D1EEECF9200138DF2 /* style.json */; };
 		697CD1141EF0537D00138DF2 /* glass-breaking.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 697CD1131EF0537800138DF2 /* glass-breaking.mp3 */; };
-		697E8B7D1EE049EE00D72467 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E8B7C1EE049EE00D72467 /* MapViewController.swift */; };
+		697E8B7D1EE049EE00D72467 /* view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E8B7C1EE049EE00D72467 /* view.swift */; };
 		69945AAC1ED42B3D004586C2 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69945AAB1ED42B3D004586C2 /* Place.swift */; };
-		69945AAF1ED6AC09004586C2 /* TagsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69945AAE1ED6AC09004586C2 /* TagsCollectionViewCell.swift */; };
-		69945AB11ED6AC32004586C2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69945AB01ED6AC32004586C2 /* SettingsViewController.swift */; };
-		69945AB31ED6C5E7004586C2 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69945AB21ED6C5E7004586C2 /* HeaderCollectionReusableView.swift */; };
 		6995027E1EC5F5E200FE1866 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6995027D1EC5F5E200FE1866 /* AppDelegate.swift */; };
 		699502801EC5F5E200FE1866 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6995027F1EC5F5E200FE1866 /* FirstViewController.swift */; };
 		699502851EC5F5E200FE1866 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 699502831EC5F5E200FE1866 /* Main.storyboard */; };
@@ -26,6 +24,7 @@
 		6995028A1EC5F5E200FE1866 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 699502881EC5F5E200FE1866 /* LaunchScreen.storyboard */; };
 		699502951EC5F5E200FE1866 /* Midnight_DonutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699502941EC5F5E200FE1866 /* Midnight_DonutTests.swift */; };
 		69BCCA8C1EE1768B00FA8020 /* Sniglet-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69BCCA8B1EE1767E00FA8020 /* Sniglet-Regular.ttf */; };
+		69F7C8FD1EF2D206005F430F /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C8FC1EF2D206005F430F /* AboutViewController.swift */; };
 		FBB73185C9D4578DF5AADB3D /* Pods_Midnight_Donut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB677D6EE40B288F2262045F /* Pods_Midnight_Donut.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,17 +40,15 @@
 
 /* Begin PBXFileReference section */
 		63F083DE330F0D01A7ED5985 /* Pods-Midnight Donut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight Donut.release.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight Donut/Pods-Midnight Donut.release.xcconfig"; sourceTree = "<group>"; };
+		6903959A1EF29CB30090756D /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		69449DB41ED32A7000EAD81F /* PlacesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
 		69449DB61ED32A9000EAD81F /* PlacesCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesCollectionViewCell.swift; sourceTree = "<group>"; };
 		69449DB81ED32F3A00EAD81F /* EmptyCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCollectionViewCell.swift; sourceTree = "<group>"; };
 		697CD1091EEAF7BC00138DF2 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		697CD10D1EEECF9200138DF2 /* style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = style.json; sourceTree = "<group>"; };
 		697CD1131EF0537800138DF2 /* glass-breaking.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "glass-breaking.mp3"; sourceTree = "<group>"; };
-		697E8B7C1EE049EE00D72467 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		697E8B7C1EE049EE00D72467 /* view.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = view.swift; sourceTree = "<group>"; };
 		69945AAB1ED42B3D004586C2 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
-		69945AAE1ED6AC09004586C2 /* TagsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsCollectionViewCell.swift; sourceTree = "<group>"; };
-		69945AB01ED6AC32004586C2 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		69945AB21ED6C5E7004586C2 /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		6995027A1EC5F5E200FE1866 /* Midnight Donut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Midnight Donut.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6995027D1EC5F5E200FE1866 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6995027F1EC5F5E200FE1866 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +60,7 @@
 		699502941EC5F5E200FE1866 /* Midnight_DonutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Midnight_DonutTests.swift; sourceTree = "<group>"; };
 		699502961EC5F5E200FE1866 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69BCCA8B1EE1767E00FA8020 /* Sniglet-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sniglet-Regular.ttf"; sourceTree = "<group>"; };
+		69F7C8FC1EF2D206005F430F /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		8D216B2B953EA584EC0D4842 /* Pods-Midnight DonutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight DonutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight DonutTests/Pods-Midnight DonutTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB677D6EE40B288F2262045F /* Pods_Midnight_Donut.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Midnight_Donut.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D224D32440581C799D7390BF /* Pods-Midnight Donut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight Donut.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight Donut/Pods-Midnight Donut.debug.xcconfig"; sourceTree = "<group>"; };
@@ -114,7 +112,7 @@
 		697CD1071EE8226A00138DF2 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				697E8B7C1EE049EE00D72467 /* MapViewController.swift */,
+				697E8B7C1EE049EE00D72467 /* view.swift */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -138,9 +136,8 @@
 		69945AAD1ED6ABEC004586C2 /* More */ = {
 			isa = PBXGroup;
 			children = (
-				69945AB01ED6AC32004586C2 /* SettingsViewController.swift */,
-				69945AAE1ED6AC09004586C2 /* TagsCollectionViewCell.swift */,
-				69945AB21ED6C5E7004586C2 /* HeaderCollectionReusableView.swift */,
+				6903959A1EF29CB30090756D /* MoreViewController.swift */,
+				69F7C8FC1EF2D206005F430F /* AboutViewController.swift */,
 			);
 			name = More;
 			sourceTree = "<group>";
@@ -268,7 +265,7 @@
 				TargetAttributes = {
 					699502791EC5F5E200FE1866 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 4UQ3Z4MMAM;
+						DevelopmentTeam = XQHE2N7X73;
 						ProvisioningStyle = Automatic;
 					};
 					6995028F1EC5F5E200FE1866 = {
@@ -418,17 +415,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				697E8B7D1EE049EE00D72467 /* MapViewController.swift in Sources */,
+				6903959B1EF29CB30090756D /* MoreViewController.swift in Sources */,
+				697E8B7D1EE049EE00D72467 /* view.swift in Sources */,
 				6995027E1EC5F5E200FE1866 /* AppDelegate.swift in Sources */,
-				69945AB31ED6C5E7004586C2 /* HeaderCollectionReusableView.swift in Sources */,
 				69449DB51ED32A7000EAD81F /* PlacesViewController.swift in Sources */,
-				69945AAF1ED6AC09004586C2 /* TagsCollectionViewCell.swift in Sources */,
 				697CD10A1EEAF7C000138DF2 /* StartViewController.swift in Sources */,
 				69449DB71ED32A9000EAD81F /* PlacesCollectionViewCell.swift in Sources */,
 				69945AAC1ED42B3D004586C2 /* Place.swift in Sources */,
 				69449DB91ED32F3A00EAD81F /* EmptyCollectionViewCell.swift in Sources */,
+				69F7C8FD1EF2D206005F430F /* AboutViewController.swift in Sources */,
 				699502801EC5F5E200FE1866 /* FirstViewController.swift in Sources */,
-				69945AB11ED6AC32004586C2 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -566,11 +562,11 @@
 			baseConfigurationReference = D224D32440581C799D7390BF /* Pods-Midnight Donut.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 4UQ3Z4MMAM;
+				DEVELOPMENT_TEAM = XQHE2N7X73;
 				INFOPLIST_FILE = "Midnight Donut/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.fitnesslabs.Midnight-Donut";
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitnesslabs.MidnightDonut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -582,11 +578,11 @@
 			baseConfigurationReference = 63F083DE330F0D01A7ED5985 /* Pods-Midnight Donut.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 4UQ3Z4MMAM;
+				DEVELOPMENT_TEAM = XQHE2N7X73;
 				INFOPLIST_FILE = "Midnight Donut/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.fitnesslabs.Midnight-Donut";
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitnesslabs.MidnightDonut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;

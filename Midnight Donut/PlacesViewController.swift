@@ -19,6 +19,7 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
     //MARK: Properties.
     let themeColor: [UIColor] = [UIColor(red:0.61, green:0.69, blue:0.49, alpha:1.0), UIColor(red:0.49, green:0.61, blue:0.69, alpha:1.0), UIColor(red:0.69, green:0.58, blue:0.49, alpha:1.0), UIColor(red:0.65, green:0.65, blue:0.00, alpha:1.0)]
     var allPlaces = [Place]()
+    var favoritePlaces = [Place]()
     var places = [Place]() // is a variable that hold all places displayed in collection view in Comparing to allPlaces
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var mainTitleLabel: UILabel!
@@ -26,6 +27,8 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var nearestButton: UIButton!
     @IBOutlet weak var openNowButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
+    
+    var player: AVAudioPlayer? // Sound Variable
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -334,24 +337,51 @@ extension PlacesViewController {
     }
     
     @IBAction func favoriteAction(_ sender: UIButton) {
-        var audioPlayer = AVAudioPlayer()
-        let music = Bundle.main.path(forResource: "glass-breaking", ofType: "mp3")
+        // kidding
         
+        let path = Bundle.main.path(forResource: "glass-breaking.mp3", ofType: nil)!
+        let url = URL(fileURLWithPath: path)
         do {
-            audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: music! ))
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
-            try AVAudioSession.sharedInstance().setActive(true)
-        }
-        catch{
-            print(error)
+            player = try AVAudioPlayer(contentsOf: url)
+            print("play")
+            player?.prepareToPlay()
+            player?.play()
+        } catch {
+            print("couldn load")
         }
         
-        audioPlayer.play()
-        UIView.animate(withDuration: 0.35) { 
-            self.favoriteButton.imageView?.image = #imageLiteral(resourceName: "brokenHeart")
+        self.favoriteButton.setImage(#imageLiteral(resourceName: "brokenHeart"), for: .disabled)
+        self.favoriteButton.isEnabled = false
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5) {
+            self.favoriteButton.isEnabled = true
         }
+        
         // TODO: - Implement me.
         print("Implement favoriteAction()")
+        if places.count == 0 {
+            if let places = loadFavoritePlaces() {
+                self.favoritePlaces = places
+                self.collectionView.reloadData()
+            }
+        } else {
+            saveToFavorite()
+        }
+    }
+    
+    private func saveToFavorite() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject( favoritePlaces, toFile: Place.ArchiveURL.path )
+        
+        if isSuccessfulSave {
+            print("Saved with success")
+        } else {
+            print("Failed to save.")
+        }
+    }
+    
+    private func loadFavoritePlaces() -> [Place]? {
+        print("Load ffavorite places ...")
+        return NSKeyedUnarchiver.unarchiveObject(withFile: Place.ArchiveURL.path) as? [Place]
     }
 }
 
@@ -362,7 +392,7 @@ extension PlacesViewController {
         self.allPlaces = places
         
         if self.collectionView != nil {
-            if openNowButton.titleLabel?.text == "ALL" {
+            if openNowButton.titleLabel?.text == "OPENED" {
                 self.places.removeAll()
                 for place in allPlaces {
                     if place.openNowBool == true {

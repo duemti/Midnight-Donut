@@ -16,8 +16,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     //MARK: - Properties.
     
     let KEY = "AIzaSyABjELFCIbnytefGjThre9r_A0DhTk9AVg" // Google Places API Key.
-    var allTags: [String] = ["food", "cafe", "bakery", "bar", "convenience_store", "grocery_or_supermarket", "meal_delivery", "meal_takeaway", "store", "gas_station"]
-    var selectedTags: [String] = ["restaurant"]
+    var tags: [String] = ["restaurant"]
     var placesClient: GMSPlacesClient!
     let locationManager = CLLocationManager()
     var nextTokenResult: String? = nil
@@ -56,10 +55,10 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                 print("Location Access Granted.")
                 guard let location = locationManager.location?.coordinate else {
                     print("Err: location is nil.")
-                    self.displayMessageAsync("Try Again 😥", true)
+                    self.displayMessageAsync("Error: Try Again 😥", true)
                     return
                 }
-                getThePlaces(from: "location=\(location.latitude),\(location.longitude)&rankby=distance&types=\(selectedTags.joined(separator: "|"))&key=\(KEY)", completion: { (newPlaces, success) in
+                getThePlaces(from: "location=\(location.latitude),\(location.longitude)&rankby=distance&types=\(self.tags.joined(separator: "|"))&key=\(KEY)", completion: { (newPlaces, success) in
                     if let places = newPlaces, success {
                         print("Good \(success) -> \(places.count)")
                         DispatchQueue.main.async {
@@ -210,19 +209,23 @@ extension FirstViewController {
                                 print("7")
                                 return
                             }
-                            // Instantiate a New Place.
-                            let newPlace = Place(name, address, placeId, types, location, viewport)
                             
-                            //                        if let openNow = place["opening_hours"] as? [String: Any?], let on = openNow["open_now"] as? Bool {
-                            //                            newPlace.setFor(openNow: on)
-                            //                        }
+                            // Instantiate a New Place.
+                            let newPlace = Place(name, address, placeId, types, viewport)
+                            
+                            if let openNow = place["opening_hours"] as? [String: Any?], let on = openNow["open_now"] as? Bool {
+                                newPlace.setFor(openNow: on)
+                            }
+                            newPlace.setFor(location: CLLocationCoordinate2D(latitude: location["lat"]!, longitude: location["lng"]!))
                             
                             //                         Calculating Distance.
                             //                         self.findDirectionsToThePlace(origin: location, destination: newPlace)
                             
-                            //                         Adding an place to places list.
+                            // Adding an place to places list.
                             self.getInfoFor(place: newPlace, completion: { (success) in
-//                                newPlaces.append(newPlace)
+                                if success == false {
+                                    print("Error: in getInfoFor()")
+                                }
                             })
                             newPlaces.append(newPlace)
                         }
@@ -249,14 +252,11 @@ extension FirstViewController {
     }
 }
 
+// MARK: - Comunication with other Tab Bar Controller.
 extension FirstViewController {
-    func getCurrentTags() -> [Int: [String]] {
-        return [0: allTags, 1: selectedTags]
-    }
     
-    func update(tags: [Int: [String]]) {
-        allTags = tags[0]!
-        selectedTags = tags[1]!
+    func update(tags: [String]) {
+        self.tags = tags
     }
     
     func sendPlacesToPlacesVC(places: [Place]) {
@@ -339,8 +339,8 @@ extension FirstViewController {
         findAPlace.layer.cornerRadius = 70
         findAPlace.backgroundColor = UIColor(red:0.27, green:0.27, blue:0.27, alpha:1.0)
         findAPlace.setTitleColor(UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0), for: .normal)
-        findAPlace.titleLabel?.textAlignment = .center
         
+        findAPlace.titleLabel?.textAlignment = .center
         findAPlace.titleLabel?.layer.shadowOffset = CGSize(width: -2, height: 2)
         findAPlace.titleLabel?.layer.shouldRasterize = true
         findAPlace.titleLabel?.layer.shadowRadius = 1
@@ -350,8 +350,16 @@ extension FirstViewController {
         findAPlace.layer.shadowColor = UIColor(red:0.07, green:0.07, blue:0.07, alpha:1.0).cgColor
         findAPlace.layer.shadowOffset = CGSize(width: -5, height: 8)
         findAPlace.layer.shadowOpacity = 1.0
+        
         // On Click.
-        findAPlace.setTitleColor(UIColor(red:0.90, green:0.81, blue:0.54, alpha:1.0), for: .highlighted)
+//        findAPlace.setTitleColor(UIColor(red:0.90, green:0.81, blue:0.54, alpha:1.0), for: .selected)
+        findAPlace.setTitleColor(.blue, for: .selected)
+        findAPlace.setTitleColor(.white, for: .disabled)
+        
+        if #available(iOS 9.0, *) {
+            findAPlace.setTitleColor(.green, for: .focused)
+        }
+        
     }
 }
 
