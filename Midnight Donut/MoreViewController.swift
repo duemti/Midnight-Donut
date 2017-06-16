@@ -11,56 +11,131 @@ import UIKit
 class MoreViewController: UIViewController {
     
     // MARK: - Properties.
+    @IBOutlet weak var moreLabel: UILabel!
+    @IBOutlet weak var rightLineView: UIView!
+    @IBOutlet weak var leftLineView: UIView!
     @IBOutlet weak var tagsButton: menuButton!
     @IBOutlet weak var shopButton: menuButton!
     @IBOutlet weak var aboutButton: menuButton!
     
+    var animateController: Bool = true
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         designCells()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        if animateController {
+            animateAppear()
+        }
+        animateController = true
+    }
+}
 
+// MARK: - Actions.
+extension MoreViewController {
+    @IBAction func selectTagsAction(_ sender: menuButton) {
+        self.animateController = false
+    }
+    
+    @IBAction func shopAction(_ sender: menuButton) {
+        self.animateController = false
+    }
+    
+    @IBAction func aboutAction(_ sender: menuButton) {
+        self.animateController = false
+    }
 }
 
 // MARK: - Layout.
 extension MoreViewController {
     func designCells() {
+        // MARK: - Colors.
+        let shadowColor: UIColor = .black//UIColor(red:0.11, green:0.13, blue:0.14, alpha:1.0)
+        let highlightedBackgroundButtonColor: UIColor = UIColor(red:0.07, green:0.10, blue:0.11, alpha:1.0)
+        
         // Corner Radius for buttons
         self.tagsButton.layer.cornerRadius = 10
         self.shopButton.layer.cornerRadius = 10
         self.aboutButton.layer.cornerRadius = 10
         
         // Shadows of buttons.
-        self.tagsButton.layer.shadowColor = UIColor(red:0.09, green:0.11, blue:0.13, alpha:1.0).cgColor
+        self.tagsButton.layer.shadowColor = shadowColor.cgColor
         self.tagsButton.layer.shadowOffset = CGSize(width: 0, height: 8)
         self.tagsButton.layer.shadowOpacity = 1.0
-        self.tagsButton.layer.shadowRadius = 0
+        self.tagsButton.layer.shadowRadius = 0.2
         self.tagsButton.layer.masksToBounds = false
         
-        self.shopButton.layer.shadowColor = UIColor(red:0.09, green:0.11, blue:0.13, alpha:1.0).cgColor
+        self.shopButton.layer.shadowColor = shadowColor.cgColor
         self.shopButton.layer.shadowOffset = CGSize(width: 0, height: 8)
         self.shopButton.layer.shadowOpacity = 1.0
-        self.shopButton.layer.shadowRadius = 0
+        self.shopButton.layer.shadowRadius = 0.2
         self.shopButton.layer.masksToBounds = false
         
-        self.aboutButton.layer.shadowColor = UIColor(red:0.09, green:0.11, blue:0.13, alpha:1.0).cgColor
+        self.aboutButton.layer.shadowColor = shadowColor.cgColor
         self.aboutButton.layer.shadowOffset = CGSize(width: 0, height: 8)
         self.aboutButton.layer.shadowOpacity = 1.0
-        self.aboutButton.layer.shadowRadius = 0
+        self.aboutButton.layer.shadowRadius = 0.2
         self.aboutButton.layer.masksToBounds = false
+        
+        self.tagsButton.setTitleColor(highlightedBackgroundButtonColor, for: .highlighted)
+        self.shopButton.setTitleColor(highlightedBackgroundButtonColor, for: .highlighted)
+        self.aboutButton.setTitleColor(highlightedBackgroundButtonColor, for: .highlighted)
     }
 }
 
+// MARK: - Animate appearing of content of View Controller when presented.
+extension MoreViewController {
+    func animateAppear() {
+        let buttons = [tagsButton, shopButton, aboutButton]
+        
+        self.moreLabel.transform = CGAffineTransform(translationX: 0, y: -40)
+        self.moreLabel.alpha = 0.0
+        tagsButton.alpha = 0.0
+        shopButton.alpha = 0.0
+        aboutButton.alpha = 0.0
+        
+        self.rightLineView.transform = CGAffineTransform(translationX: -100, y: 0)
+        self.leftLineView.transform = CGAffineTransform(translationX: 100, y: 0)
+        
+        
+        UIView.animate(withDuration: 0.6, animations: {
+            self.moreLabel.transform = .identity
+            self.moreLabel.alpha = 1.0
+            
+            self.rightLineView.transform = .identity
+            self.leftLineView.transform = .identity
+            
+            var time = DispatchTime.now()
+            for button in buttons {
+                time = time + 0.05
+                
+                DispatchQueue.main.asyncAfter(deadline: time, execute: {
+                    UIView.animate(withDuration: 0.55, animations: {
+                        button?.alpha = 1.0
+                    })
+                })
+            }
+        })
+    }
+}
+
+// Custom button.
 class menuButton: UIButton {
     override var isHighlighted: Bool {
         didSet {
-            if isHighlighted {
-                backgroundColor = UIColor(red:0.14, green:0.17, blue:0.18, alpha:1.0)
-                layer.shadowOffset = CGSize(width: 0, height: 2)
-            } else {
-                backgroundColor = UIColor(red:0.18, green:0.22, blue:0.24, alpha:1.0)
-                layer.shadowOffset = CGSize(width: 0, height: 8)
+            UIView.animate(withDuration: 0.2) {
+                if self.isHighlighted {
+                    self.backgroundColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
+                    self.layer.shadowOffset = CGSize(width: 0, height: 3)
+                } else {
+                    self.backgroundColor = UIColor(red: 0.263643, green: 0.318744, blue: 0.336634, alpha:1.0)
+                    self.layer.shadowOffset = CGSize(width: 0, height: 8)
+                }
             }
         }
     }

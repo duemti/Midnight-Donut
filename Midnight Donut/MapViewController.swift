@@ -16,6 +16,9 @@ class MapViewController: UIViewController {
     var source = CLLocationCoordinate2D(latitude: 47.039902113355559, longitude: 28.824365403191109)
     var destinationPlace: Place? = nil
     
+    var directions = [(polyline: GMSPolyline, bounds: (northeast: CLLocationCoordinate2D, southwest: CLLocationCoordinate2D))]()
+    var markers = (start: GMSMarker(), end: GMSMarker())
+    
     var distanceText: String?
     var durationText: String?
     
@@ -32,6 +35,8 @@ class MapViewController: UIViewController {
         
         let camera = GMSCameraPosition.camera(withLatitude: 47.039867, longitude: 28.824547, zoom: 16)
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        // Setting minimum and maximum zoom scale.
+        mapView?.setMinZoom(0, maxZoom: 20)
         
         do {
             // Set the map style by passing the URL of the local file.
@@ -57,6 +62,16 @@ class MapViewController: UIViewController {
     // Container display.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
+        for route in directions {
+            route.polyline.map = nil
+        }
+        
+        if let route = directions.last {
+            self.drawRoute(polyline: route.polyline, completion: {
+                self.updateCamera(north: route.bounds.northeast, south: route.bounds.southwest)
+            })
+        }
         
         if destinationPlace == nil {
             print("No place selected for directions.")
@@ -122,9 +137,22 @@ extension MapViewController {
                         self.durationText = "n/a"
                     }
                     
-                    DispatchQueue.main.async {
-                        self.drawRoute(with: polyline)
-                    }
+                    // Getting coordinates to set mapView to see full path.
+                    let bounds = routes[0]["bounds"] as! [String: Any]
+                    let northBounds = bounds["northeast"] as! [String: CLLocationDegrees]
+                    let northeast = CLLocationCoordinate2D(latitude: northBounds["lat"]!, longitude: northBounds["lng"]!)
+                    let southBounds = bounds["southwest"] as! [String: CLLocationDegrees]
+                    let southwest = CLLocationCoordinate2D(latitude: southBounds["lat"]!, longitude: southBounds["lng"]!)
+                    
+                    
+                    // Draw route
+                    let path: GMSPath = GMSPath(fromEncodedPath: polyline)!
+                    let routePolyline = GMSPolyline(path: path)
+                    routePolyline.strokeWidth = 10
+                    routePolyline.strokeColor = UIColor(red:0.69, green:0.58, blue:0.49, alpha:1.0)
+                    
+                    // Adding polyline to array.
+                    self.directions.append( (polyline: routePolyline, (northeast: northeast, southwest: southwest)) )
                 } else {
                     print("Error: Direction API - Status: \(status)")
                 }
@@ -134,7 +162,11 @@ extension MapViewController {
         }.resume()
     }
     
-    func drawRoute(with polyline: String) {
+    func drawRoute(polyline: GMSPolyline, completion: @escaping () -> ()) {
+        // Clearing markers.
+        markers.start.map = nil
+        markers.end.map = nil
+        
         // add Markers
         let marker1 = GMSMarker()
         let marker2 = GMSMarker()
@@ -146,11 +178,22 @@ extension MapViewController {
         marker2.position = destinationPlace!.location
         marker2.title = "Finish"
         marker2.map = self.mapView
-        // Draw route
-        let path: GMSPath = GMSPath(fromEncodedPath: polyline)!
-        let routePolyline = GMSPolyline(path: path)
-        routePolyline.strokeWidth = 10
-        routePolyline.strokeColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
-        routePolyline.map = self.mapView
+
+        markers.start = marker1
+        markers.end = marker2
+        
+        // Drawing the route on the map.
+        polyline.map = self.mapView
+        
+        completion()
+    }
+}
+
+extension MapViewController {
+    // Update view on map.
+    func updateCamera(north: CLLocationCoordinate2D, south: CLLocationCoordinate2D) {
+        let bounds = GMSCoordinateBounds(coordinate: north, coordinate: south)
+        let cameraUpdate = GMSCameraUpdate.fit(bounds, withPadding: 60)
+        self.mapView?.animate(with: cameraUpdate)
     }
 }

@@ -23,7 +23,12 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
 
     // Labels to display info.
-    @IBOutlet weak var findAPlace: UIButton!
+    @IBOutlet weak var findAPlace: mainButton!
+    @IBOutlet weak var moonDonutImage: UIImageView!
+    @IBOutlet weak var nameOfAppImage: UIImageView!
+    @IBOutlet weak var leftHillImage: UIImageView!
+    @IBOutlet weak var rightHillImage: UIImageView!
+    @IBOutlet weak var centerHillImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,10 +37,14 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         applyDesignForMainButton()
         /* ========================================================================================= */
         
-        let shadowPath = UIBezierPath(ovalIn: findAPlace.bounds)
-        findAPlace.layer.shadowPath = shadowPath.cgPath
-
+        
         placesClient = GMSPlacesClient.shared()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        animateAppearing()
     }
     
     // Search for a place.
@@ -64,6 +73,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                         DispatchQueue.main.async {
                             self.sendPlacesToPlacesVC(places: places)
                             self.displayMessage(message: "You got Your Places! 😎", err: false)
+                            self.tabBarController?.selectedIndex = 1
                         }
                     }
                 })
@@ -218,9 +228,6 @@ extension FirstViewController {
                             }
                             newPlace.setFor(location: CLLocationCoordinate2D(latitude: location["lat"]!, longitude: location["lng"]!))
                             
-                            //                         Calculating Distance.
-                            //                         self.findDirectionsToThePlace(origin: location, destination: newPlace)
-                            
                             // Adding an place to places list.
                             self.getInfoFor(place: newPlace, completion: { (success) in
                                 if success == false {
@@ -344,7 +351,7 @@ extension FirstViewController {
         findAPlace.titleLabel?.layer.shadowOffset = CGSize(width: -2, height: 2)
         findAPlace.titleLabel?.layer.shouldRasterize = true
         findAPlace.titleLabel?.layer.shadowRadius = 1
-        findAPlace.titleLabel?.layer.shadowOpacity = 1
+        findAPlace.titleLabel?.layer.shadowOpacity = 2
         findAPlace.titleLabel?.layer.shadowColor = UIColor(red:0.07, green:0.07, blue:0.07, alpha:1.0).cgColor
         
         findAPlace.layer.shadowColor = UIColor(red:0.07, green:0.07, blue:0.07, alpha:1.0).cgColor
@@ -352,50 +359,56 @@ extension FirstViewController {
         findAPlace.layer.shadowOpacity = 1.0
         
         // On Click.
-//        findAPlace.setTitleColor(UIColor(red:0.90, green:0.81, blue:0.54, alpha:1.0), for: .selected)
-        findAPlace.setTitleColor(.blue, for: .selected)
-        findAPlace.setTitleColor(.white, for: .disabled)
-        
-        if #available(iOS 9.0, *) {
-            findAPlace.setTitleColor(.green, for: .focused)
-        }
-        
+        findAPlace.setTitleColor(UIColor(red:0.07, green:0.10, blue:0.11, alpha:1.0), for: .highlighted)
     }
 }
 
-
-// Request #R3
-extension FirstViewController {
-    func findDirectionsToThePlace(origin: CLLocationCoordinate2D, destination place: Place) {
-        let key = "AIzaSyCPBu09mUuPcNZSZg9qfT-PV3xjKVf4Fw4" // Google Directions API Key.
-        let stringURL = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin.latitude),\(origin.longitude)&destination=place_id:\(place.place_id!)&key=\(key)"
-        guard let url = URL(string: stringURL) else {
-            print("Error: Direction URL is nul.")
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print("Error: \(error)")
-                return
-            }
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any?]
-                
-                let status = json["status"] as! String
-                if status == "OK" {
-                    let routes = json["routes"] as! [[String: Any?]]
-                    let legs = routes[0]["legs"] as! [[String: Any?]]
-                    let distance = legs[0]["distance"] as! [String: Any]
-                    place.setFor(distanceText: distance["text"] as! String, distanceValue: distance["value"] as! Int)
+// Custom button.
+class mainButton: UIButton {
+    override var isHighlighted: Bool {
+        didSet {
+            UIView.animate(withDuration: 0.2) {
+                if self.isHighlighted {
+                    self.backgroundColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
+                    self.layer.shadowOffset = CGSize(width: 0, height: 3)
+                    self.titleLabel?.layer.shadowOffset = CGSize(width: 0, height: 0)
                 } else {
-                    print("Error #R3: \(status)")
+                    self.backgroundColor = UIColor(red: 0.263643, green: 0.318744, blue: 0.336634, alpha:1.0)
+                    self.layer.shadowOffset = CGSize(width: 0, height: 8)
+                    self.titleLabel?.layer.shadowOffset = CGSize(width: -2, height: 2)
                 }
-            } catch let error {
-                print("Error: Map - while parsing json - \(error).")
             }
-        }.resume()
+        }
+    }
+}
+
+extension FirstViewController {
+    func animateAppearing() {
+        self.leftHillImage.transform = CGAffineTransform(translationX: -100, y: 0)
+        self.rightHillImage.transform = CGAffineTransform(translationX: -100, y: 0)
+        self.centerHillImage.transform = CGAffineTransform(translationX: 0, y: -20)
+        
+        self.moonDonutImage.transform = CGAffineTransform(translationX: 200, y: 50)
+        self.nameOfAppImage.alpha = 0.0
+        
+        self.findAPlace.transform = CGAffineTransform(translationX: 0, y: -100)
+        
+        UIView.animate(withDuration: 0.7, animations: { 
+            self.leftHillImage.transform = .identity
+            self.rightHillImage.transform = .identity
+            self.centerHillImage.transform = .identity
+            self.moonDonutImage.transform = .identity
+            self.nameOfAppImage.alpha = 0.9
+        }) { (success) in
+            UIView.animate(withDuration: 1.5, animations: { 
+                self.findAPlace.transform = .identity
+            })
+            UIView.animate(withDuration: 3, delay: 1, options: .repeat, animations: {
+                self.findAPlace.alpha = 0.1
+            }) { (success) in
+                self.findAPlace.alpha = 1
+            }
+        }
     }
 }
 

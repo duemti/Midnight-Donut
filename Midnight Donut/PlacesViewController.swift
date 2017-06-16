@@ -208,9 +208,11 @@ extension PlacesViewController: CLLocationManagerDelegate {
                 maps.destinationPlace = self.places[indexPath.item]
                 maps.findDirectionsToThePlace()
                 
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: 0.5, animations: { 
                     cell.transform = .identity
-                }
+                }, completion: { (nil) in
+                    self.tabBarController?.selectedIndex = 2
+                })
             })
         }
         print("Tap")
