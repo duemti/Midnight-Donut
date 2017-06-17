@@ -21,6 +21,8 @@ class Place: NSObject, NSCoding {
     var distanceText: String = "n/a"
     var distanceValue: Int = 0
     
+    var isFavorite: Bool = false
+    
     // Optionals.
     var rating: Float = 0.0
     var openNowText: String = "n/a"
@@ -37,9 +39,11 @@ class Place: NSObject, NSCoding {
         static let name = "name"
         static let address = "address"
         static let placeId = "placeID"
-        static let location = "location"
+        static let lat = "lat"
+        static let lng = "lng"
         static let rating = "rating"
         static let workDays = "workDays"
+        static let isFavorite = "isFavorite"
     }
     
     init(_ name: String, _ address: String, _ place_id: String, _ tags: [String], _ viewport: [String: [String: Double]]) {
@@ -59,15 +63,17 @@ class Place: NSObject, NSCoding {
         aCoder.encode(name, forKey: PropertyKey.name)
         aCoder.encode(formattedAddress, forKey: PropertyKey.address)
         aCoder.encode(place_id, forKey: PropertyKey.placeId)
-//        aCoder.encode(location, forKey: PropertyKey.location)
+        aCoder.encode(location.latitude, forKey: PropertyKey.lat)
+        aCoder.encode(location.longitude, forKey: PropertyKey.lng)
         aCoder.encode(rating, forKey: PropertyKey.rating)
         aCoder.encode(weekdays, forKey: PropertyKey.workDays)
+        aCoder.encode(isFavorite, forKey: PropertyKey.isFavorite)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
         // The name is required. If we cannot decode a name string, the initializer should fail.
-        guard let name = aDecoder.decodeObject(forKey: PropertyKey.name) as? String, let address = aDecoder.decodeObject(forKey: PropertyKey.address) as? String, let placeId = aDecoder.decodeObject(forKey: PropertyKey.placeId) as? String/*, let location = aDecoder.decodeObject(forKey: "location") as? CLLocationCoordinate2D*/ else {
-            print("Unable to decode the name")
+        guard let name = aDecoder.decodeObject(forKey: PropertyKey.name) as? String, let address = aDecoder.decodeObject(forKey: PropertyKey.address) as? String, let placeId = aDecoder.decodeObject(forKey: PropertyKey.placeId) as? String, let isFavorite = aDecoder.decodeObject(forKey: PropertyKey.isFavorite) as? Bool, let lat = aDecoder.decodeObject(forKey: PropertyKey.lat) as? CLLocationDegrees, let lng = aDecoder.decodeObject(forKey: PropertyKey.lng) as? CLLocationDegrees else {
+            print("ERROR: Unable some elements")
             return nil
         }
         
@@ -80,7 +86,8 @@ class Place: NSObject, NSCoding {
         
         self.setFor(rating: rating)
         self.setFor(weekdays: workDays)
-//        self.setFor(location: location)
+        self.setFor(location: CLLocationCoordinate2D(latitude: lat, longitude: lng))
+        self.isFavorite = isFavorite
     }
 }
 

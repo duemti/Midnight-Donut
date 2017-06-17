@@ -11,6 +11,34 @@ import GooglePlaces
 import CoreLocation
 import GooglePlacePicker
 
+private var LIMIT_SEARCH: Int = 10 // Limited to search places per day.
+var LIMIT_SEARCH_RETURN: Int = 1 // Limited to get more result from 1 search.
+
+private let validSearchColor: UIColor = UIColor(red:0.52, green:0.55, blue:0.42, alpha:1.0)
+private let invalidSearchColor: UIColor = UIColor(red:0.61, green:0.29, blue:0.30, alpha:1.0)
+private let highlightSearchColor: UIColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
+
+// Custom button.
+class mainButton: UIButton {
+    override var isHighlighted: Bool {
+        didSet {
+            UIView.animate(withDuration: 0.2) {
+                if self.isHighlighted {
+                    self.backgroundColor = highlightSearchColor
+                    self.layer.shadowOffset = CGSize(width: 0, height: 3)
+                    self.titleLabel?.layer.shadowOffset = CGSize(width: 0, height: 0)
+                    self.titleLabel?.layer.shadowRadius = 0
+                } else {
+                    self.backgroundColor = LIMIT_SEARCH > 0 ? validSearchColor : invalidSearchColor
+                    self.layer.shadowOffset = CGSize(width: 0, height: 8)
+                    self.titleLabel?.layer.shadowOffset = CGSize(width: -1, height: 1)
+                    self.titleLabel?.layer.shadowRadius = 1
+                }
+            }
+        }
+    }
+}
+
 class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
     //MARK: - Properties.
@@ -20,6 +48,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var placesClient: GMSPlacesClient!
     let locationManager = CLLocationManager()
     var nextTokenResult: String? = nil
+    var READY_TO_SEND: Int = 0
     
 
     // Labels to display info.
@@ -67,16 +96,27 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                     self.displayMessageAsync("Error: Try Again 😥", true)
                     return
                 }
-                getThePlaces(from: "location=\(location.latitude),\(location.longitude)&rankby=distance&types=\(self.tags.joined(separator: "|"))&key=\(KEY)", completion: { (newPlaces, success) in
-                    if let places = newPlaces, success {
-                        print("Good \(success) -> \(places.count)")
-                        DispatchQueue.main.async {
-                            self.sendPlacesToPlacesVC(places: places)
-                            self.displayMessage(message: "You got Your Places! 😎", err: false)
-                            self.tabBarController?.selectedIndex = 1
+                if LIMIT_SEARCH > 0 {
+                    getThePlaces(from: "location=\(location.latitude),\(location.longitude)&rankby=distance&types=\(self.tags.joined(separator: "|"))&key=\(KEY)", completion: { (newPlaces, success) in
+                        if let places = newPlaces, success {
+                            print("Good \(success) -> \(places.count)")
+                            
+                            self.getInfoFor(places: places, completion: { () in
+                                DispatchQueue.main.async {
+                                    self.sendPlacesToPlacesVC(places: places)
+                                    self.displayMessage(message: "You got Your Places! 😎", err: false)
+                                    /****/
+                                    LIMIT_SEARCH -= 1
+                                    LIMIT_SEARCH_RETURN = 1
+                                    /****/
+                                    self.tabBarController?.selectedIndex = 1
+                                }
+                            })
                         }
-                    }
-                })
+                    })
+                } else {
+                    self.displayMessage(message: "You Reached Today's Limit 😐", err: false, yellow: true)
+                }
             case .denied:
                 showAlert = true
                 print("Location Access Denied.")
@@ -95,51 +135,54 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
 
 // MARK: - Search place for detailed info. // Request #->R2
 extension FirstViewController {
-    func getInfoFor(place: Place, completion: @escaping (Bool) -> ()) {
-        guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/details/json?placeid=\(place.place_id!)&key=\(KEY)") else {
-            print("url is nil #->R2")
-            return
-        }
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print("Error while retrieving place info: \(error)")
+    func getInfoFor(places: [Place], completion: @escaping () -> ()) {
+        for place in places {
+            guard let url = URL(string: "https://maps.googleapis.com/maps/api/place/details/json?placeid=\(place.place_id!)&key=\(KEY)") else {
+                print("url is nil #->R2")
                 return
             }
-            
-            if let data = data {
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any?]
-                    
-                    let status = json["status"] as! String
-                    if status == "OK" {
-                        let result = json["result"] as! [String: Any?]
-                        
-                        // Filling my place with VITAL DATA
-                        if let workTime = result["opening_hours"] as? [String: Any?] {
-                            if let openNow = workTime["open_now"] as? Bool {
-                                place.setFor(openNow: openNow)
-                            }
-                            if let periods = workTime["periods"] as? [[String: [String: Any]]] {
-                                place.setFor(periods: periods)
-                            }
-                            if let weekdayText = workTime["weekday_text"] as? [String] {
-                                place.setFor(weekdays: weekdayText)
-                            }
-                        }
-                        if let rating = result["rating"] as? Float {
-                            place.setFor(rating: rating)
-                        }
-                        completion(true)
-                    } else {
-                        self.googleError(status: status, requestNumber: "#->R2")
-                        completion(false)
-                    }
-                }catch let error {
-                    print("Error while parsing json: \(error)")
-                    completion(false)
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let error = error {
+                    print("Error while retrieving place info: \(error)")
+                    return
                 }
-            }
-        }.resume()
+                
+                if let data = data {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any?]
+                        
+                        let status = json["status"] as! String
+                        if status == "OK" {
+                            let result = json["result"] as! [String: Any?]
+                            
+                            // Filling my place with VITAL DATA
+                            if let workTime = result["opening_hours"] as? [String: Any?] {
+                                if let openNow = workTime["open_now"] as? Bool {
+                                    place.setFor(openNow: openNow)
+                                }
+                                if let periods = workTime["periods"] as? [[String: [String: Any]]] {
+                                    place.setFor(periods: periods)
+                                }
+                                if let weekdayText = workTime["weekday_text"] as? [String] {
+                                    place.setFor(weekdays: weekdayText)
+                                }
+                            }
+                            if let rating = result["rating"] as? Float {
+                                place.setFor(rating: rating)
+                            }
+                        } else {
+                            self.googleError(status: status, requestNumber: "#->R2")
+                        }
+                    }catch let error {
+                        print("Error while parsing json: \(error)")
+                    }
+                }
+                
+                if places.last?.place_id == place.place_id {
+                    completion()
+                }
+            }.resume()
+        }
     }
     
     func googleError(status: String, requestNumber: String) {
@@ -229,11 +272,6 @@ extension FirstViewController {
                             newPlace.setFor(location: CLLocationCoordinate2D(latitude: location["lat"]!, longitude: location["lng"]!))
                             
                             // Adding an place to places list.
-                            self.getInfoFor(place: newPlace, completion: { (success) in
-                                if success == false {
-                                    print("Error: in getInfoFor()")
-                                }
-                            })
                             newPlaces.append(newPlace)
                         }
                         completion(newPlaces, true)
@@ -344,11 +382,11 @@ extension FirstViewController {
 extension FirstViewController {
     func applyDesignForMainButton() {
         findAPlace.layer.cornerRadius = 70
-        findAPlace.backgroundColor = UIColor(red:0.27, green:0.27, blue:0.27, alpha:1.0)
+        findAPlace.backgroundColor = LIMIT_SEARCH > 0 ? validSearchColor : invalidSearchColor
         findAPlace.setTitleColor(UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0), for: .normal)
         
         findAPlace.titleLabel?.textAlignment = .center
-        findAPlace.titleLabel?.layer.shadowOffset = CGSize(width: -2, height: 2)
+        findAPlace.titleLabel?.layer.shadowOffset = CGSize(width: -1, height: 1)
         findAPlace.titleLabel?.layer.shouldRasterize = true
         findAPlace.titleLabel?.layer.shadowRadius = 1
         findAPlace.titleLabel?.layer.shadowOpacity = 2
@@ -363,51 +401,33 @@ extension FirstViewController {
     }
 }
 
-// Custom button.
-class mainButton: UIButton {
-    override var isHighlighted: Bool {
-        didSet {
-            UIView.animate(withDuration: 0.2) {
-                if self.isHighlighted {
-                    self.backgroundColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
-                    self.layer.shadowOffset = CGSize(width: 0, height: 3)
-                    self.titleLabel?.layer.shadowOffset = CGSize(width: 0, height: 0)
-                } else {
-                    self.backgroundColor = UIColor(red: 0.263643, green: 0.318744, blue: 0.336634, alpha:1.0)
-                    self.layer.shadowOffset = CGSize(width: 0, height: 8)
-                    self.titleLabel?.layer.shadowOffset = CGSize(width: -2, height: 2)
-                }
-            }
-        }
-    }
-}
-
 extension FirstViewController {
     func animateAppearing() {
-        self.leftHillImage.transform = CGAffineTransform(translationX: -100, y: 0)
-        self.rightHillImage.transform = CGAffineTransform(translationX: -100, y: 0)
-        self.centerHillImage.transform = CGAffineTransform(translationX: 0, y: -20)
+        self.leftHillImage.transform = CGAffineTransform(translationX: 0, y: 50)
+        self.rightHillImage.transform = CGAffineTransform(translationX: 0, y: 50)
+        self.centerHillImage.transform = CGAffineTransform(translationX: 0, y: 20)
         
-        self.moonDonutImage.transform = CGAffineTransform(translationX: 200, y: 50)
+        self.moonDonutImage.transform = CGAffineTransform(translationX: 90, y: -90).rotated(by: 90)
         self.nameOfAppImage.alpha = 0.0
         
-        self.findAPlace.transform = CGAffineTransform(translationX: 0, y: -100)
+        self.findAPlace.transform = CGAffineTransform(translationX: 0, y: 100).rotated(by: 90)
+        self.findAPlace.alpha = 0.0
         
-        UIView.animate(withDuration: 0.7, animations: { 
-            self.leftHillImage.transform = .identity
-            self.rightHillImage.transform = .identity
+        UIView.animate(withDuration: 0.7, animations: {
             self.centerHillImage.transform = .identity
-            self.moonDonutImage.transform = .identity
+            self.moonDonutImage.transform = CGAffineTransform(translationX: -15, y: 15).rotated(by: -45)
             self.nameOfAppImage.alpha = 0.9
         }) { (success) in
-            UIView.animate(withDuration: 1.5, animations: { 
-                self.findAPlace.transform = .identity
+            UIView.animate(withDuration: 2.5, animations: {
+                self.leftHillImage.transform = .identity
+                self.rightHillImage.transform = .identity
             })
-            UIView.animate(withDuration: 3, delay: 1, options: .repeat, animations: {
-                self.findAPlace.alpha = 0.1
-            }) { (success) in
-                self.findAPlace.alpha = 1
-            }
+            
+            UIView.animate(withDuration: 0.5, animations: {
+                self.findAPlace.transform = .identity
+                self.findAPlace.alpha = 1.0
+                self.moonDonutImage.transform = .identity
+            })
         }
     }
 }

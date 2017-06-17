@@ -14,7 +14,6 @@
 		69449DB91ED32F3A00EAD81F /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69449DB81ED32F3A00EAD81F /* EmptyCollectionViewCell.swift */; };
 		697CD10A1EEAF7C000138DF2 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CD1091EEAF7BC00138DF2 /* StartViewController.swift */; };
 		697CD10E1EEECF9200138DF2 /* style.json in Resources */ = {isa = PBXBuildFile; fileRef = 697CD10D1EEECF9200138DF2 /* style.json */; };
-		697CD1141EF0537D00138DF2 /* glass-breaking.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 697CD1131EF0537800138DF2 /* glass-breaking.mp3 */; };
 		697E8B7D1EE049EE00D72467 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E8B7C1EE049EE00D72467 /* MapViewController.swift */; };
 		69945AAC1ED42B3D004586C2 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69945AAB1ED42B3D004586C2 /* Place.swift */; };
 		6995027E1EC5F5E200FE1866 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6995027D1EC5F5E200FE1866 /* AppDelegate.swift */; };
@@ -26,6 +25,7 @@
 		69BCCA8C1EE1768B00FA8020 /* Sniglet-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69BCCA8B1EE1767E00FA8020 /* Sniglet-Regular.ttf */; };
 		69F7C8FD1EF2D206005F430F /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C8FC1EF2D206005F430F /* AboutViewController.swift */; };
 		69F7C8FF1EF3B1C2005F430F /* ShopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C8FE1EF3B1C2005F430F /* ShopViewController.swift */; };
+		69F7C9021EF5426F005F430F /* MyActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C9011EF5426F005F430F /* MyActivityIndicator.swift */; };
 		FBB73185C9D4578DF5AADB3D /* Pods_Midnight_Donut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB677D6EE40B288F2262045F /* Pods_Midnight_Donut.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,7 +47,6 @@
 		69449DB81ED32F3A00EAD81F /* EmptyCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCollectionViewCell.swift; sourceTree = "<group>"; };
 		697CD1091EEAF7BC00138DF2 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		697CD10D1EEECF9200138DF2 /* style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = style.json; sourceTree = "<group>"; };
-		697CD1131EF0537800138DF2 /* glass-breaking.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "glass-breaking.mp3"; sourceTree = "<group>"; };
 		697E8B7C1EE049EE00D72467 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		69945AAB1ED42B3D004586C2 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		6995027A1EC5F5E200FE1866 /* Midnight Donut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Midnight Donut.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +62,7 @@
 		69BCCA8B1EE1767E00FA8020 /* Sniglet-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sniglet-Regular.ttf"; sourceTree = "<group>"; };
 		69F7C8FC1EF2D206005F430F /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		69F7C8FE1EF3B1C2005F430F /* ShopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopViewController.swift; sourceTree = "<group>"; };
+		69F7C9011EF5426F005F430F /* MyActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyActivityIndicator.swift; sourceTree = "<group>"; };
 		8D216B2B953EA584EC0D4842 /* Pods-Midnight DonutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight DonutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight DonutTests/Pods-Midnight DonutTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB677D6EE40B288F2262045F /* Pods_Midnight_Donut.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Midnight_Donut.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D224D32440581C799D7390BF /* Pods-Midnight Donut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight Donut.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight Donut/Pods-Midnight Donut.debug.xcconfig"; sourceTree = "<group>"; };
@@ -102,7 +102,6 @@
 		697CD1021EE1A15700138DF2 /* places */ = {
 			isa = PBXGroup;
 			children = (
-				697CD1131EF0537800138DF2 /* glass-breaking.mp3 */,
 				69449DB41ED32A7000EAD81F /* PlacesViewController.swift */,
 				69449DB61ED32A9000EAD81F /* PlacesCollectionViewCell.swift */,
 				69449DB81ED32F3A00EAD81F /* EmptyCollectionViewCell.swift */,
@@ -170,6 +169,7 @@
 			children = (
 				6995027D1EC5F5E200FE1866 /* AppDelegate.swift */,
 				697CD1091EEAF7BC00138DF2 /* StartViewController.swift */,
+				69F7C9001EF54258005F430F /* MyActivityIndicator */,
 				69FC48AF1EE02D06005593C3 /* fonts */,
 				697CD10B1EEECF2200138DF2 /* styleMap */,
 				69945AAD1ED6ABEC004586C2 /* More */,
@@ -191,6 +191,14 @@
 				699502961EC5F5E200FE1866 /* Info.plist */,
 			);
 			path = "Midnight DonutTests";
+			sourceTree = "<group>";
+		};
+		69F7C9001EF54258005F430F /* MyActivityIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				69F7C9011EF5426F005F430F /* MyActivityIndicator.swift */,
+			);
+			name = MyActivityIndicator;
 			sourceTree = "<group>";
 		};
 		69FC48AF1EE02D06005593C3 /* fonts */ = {
@@ -306,7 +314,6 @@
 				6995028A1EC5F5E200FE1866 /* LaunchScreen.storyboard in Resources */,
 				699502871EC5F5E200FE1866 /* Assets.xcassets in Resources */,
 				697CD10E1EEECF9200138DF2 /* style.json in Resources */,
-				697CD1141EF0537D00138DF2 /* glass-breaking.mp3 in Resources */,
 				699502851EC5F5E200FE1866 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,6 +433,7 @@
 				697CD10A1EEAF7C000138DF2 /* StartViewController.swift in Sources */,
 				69449DB71ED32A9000EAD81F /* PlacesCollectionViewCell.swift in Sources */,
 				69945AAC1ED42B3D004586C2 /* Place.swift in Sources */,
+				69F7C9021EF5426F005F430F /* MyActivityIndicator.swift in Sources */,
 				69449DB91ED32F3A00EAD81F /* EmptyCollectionViewCell.swift in Sources */,
 				69F7C8FD1EF2D206005F430F /* AboutViewController.swift in Sources */,
 				699502801EC5F5E200FE1866 /* FirstViewController.swift in Sources */,

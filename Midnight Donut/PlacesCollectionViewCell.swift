@@ -17,7 +17,7 @@ class PlacesCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var placeStatus: UILabel!
     @IBOutlet weak var directionImage: UIImageView!
     @IBOutlet weak var placeHours: UILabel!
-    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var addToFavoriteButton: UIButton!
     
     //MARK: - Rating Control.
     @IBOutlet weak var star_1: UIImageView!
@@ -74,6 +74,18 @@ class PlacesCollectionViewCell: UICollectionViewCell {
                 full_Star.layer.mask = nil
                 full_Star.isHidden = true
             }
+        }
+    }
+    
+    
+    @IBAction func heartButton(_ sender: UIButton) {
+        if sender.imageView?.image == #imageLiteral(resourceName: "emptyHeart") {
+            print("add")
+            sender.setImage(#imageLiteral(resourceName: "fullHeart"), for: .normal)
+        }
+        else if sender.imageView?.image == #imageLiteral(resourceName: "fullHeart") {
+            print("remove")
+            sender.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
         }
     }
 }

@@ -21,6 +21,8 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
     var allPlaces = [Place]()
     var favoritePlaces = [Place]()
     var places = [Place]() // is a variable that hold all places displayed in collection view in Comparing to allPlaces
+    var nowShowingFavoritePlaces: Bool = false
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var mainTitleLabel: UILabel!
     @IBOutlet weak var topRatedButton: UIButton!
@@ -91,7 +93,6 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             cell.directionImage.backgroundColor = theme
             cell.placeRating.textColor = theme
             cell.placeHours.textColor = theme
-            cell.distanceLabel.textColor = theme
             /*                   THEME SETTED                   */
             
             cell.placeName.text = place.name
@@ -104,7 +105,14 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             } else {
                 cell.placeHours.text = ""
             }
-            cell.distanceLabel.text = place.distanceText
+            // Setting tag to know which button was pressed in order to add cell to favorite.
+            cell.addToFavoriteButton.tag = indexPath.item
+            if place.isFavorite {
+                cell.addToFavoriteButton.setImage(#imageLiteral(resourceName: "fullHeart"), for: .normal)
+            } else {
+                cell.addToFavoriteButton.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
+            }
+
             return cell
         } else {
             // Display Cell with "No Places" message if [places] is empty ...
@@ -125,8 +133,11 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
         
         if indexPath.row == places.count - 1 {
-            print("loadding more ..")
-            loadMorePlaces()
+            if LIMIT_SEARCH_RETURN > 0 && nowShowingFavoritePlaces == false {
+                print("loadding more ..")
+                loadMorePlaces()
+                LIMIT_SEARCH_RETURN -= 1
+            }
         }
     }
     /****************************************************************************************************************************************************************/
@@ -141,6 +152,9 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
         if let next = placesTab.nextTokenResult {
             placesTab.getThePlaces(from: next) { (morePlaces, success) in
                 if let morePlaces = morePlaces {
+                    // Check if it is favorite.
+                    self.checkFavorite(forPlaces: morePlaces)
+                    
                     self.allPlaces += morePlaces
                     let startIndex = self.places.count
                     
@@ -224,6 +238,7 @@ extension PlacesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // Size of collection View minus(-) 20 pixels because of MainScreen.
         let cellWidth = UIScreen.main.bounds.width - 32
+        print("\(UIScreen.main.bounds.width - collectionView.bounds.width)")
         let size = CGSize(width: cellWidth, height: 160)
         return size
     }
@@ -234,8 +249,11 @@ extension PlacesViewController: UICollectionViewDelegateFlowLayout {
 extension PlacesViewController {
     // Sorting the cells TOP RATED FIRST.
     @IBAction func sortTopRated(_ sender: UIButton) {
-        self.nearestButton.isEnabled = true
-        self.topRatedButton.isEnabled = false
+        // Beacause nearest sort is unavalable.
+        if nowShowingFavoritePlaces == false {
+            self.nearestButton.isEnabled = true
+            self.topRatedButton.isEnabled = false
+        }
         
         sortBy(top: true, nearest: false, the: self.places) { (finished) in
             if let finished = finished {
@@ -322,9 +340,12 @@ extension PlacesViewController {
     }
     
     @IBAction func openNowAction(_ sender: UIButton) {
+        // Choosing which array of places to display based on user selection (favorite or all)
+        let current = nowShowingFavoritePlaces ? favoritePlaces : allPlaces
+        
         if openNowButton.titleLabel?.text == "ALL" {
             places.removeAll()
-            for place in allPlaces {
+            for place in current {
                 if place.openNowBool == true {
                     places.append(place)
                 }
@@ -333,80 +354,49 @@ extension PlacesViewController {
             collectionView.reloadData()
         } else {
             openNowButton.setTitle("ALL", for: .normal)
-            self.places = self.allPlaces
+            self.places = current
             collectionView.reloadData()
         }
-    }
-    
-    @IBAction func favoriteAction(_ sender: UIButton) {
-        // kidding
-        
-        let path = Bundle.main.path(forResource: "glass-breaking.mp3", ofType: nil)!
-        let url = URL(fileURLWithPath: path)
-        do {
-            player = try AVAudioPlayer(contentsOf: url)
-            print("play")
-            player?.prepareToPlay()
-            player?.play()
-        } catch {
-            print("couldn load")
-        }
-        
-        self.favoriteButton.setImage(#imageLiteral(resourceName: "brokenHeart"), for: .disabled)
-        self.favoriteButton.isEnabled = false
-        
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5) {
-            self.favoriteButton.isEnabled = true
-        }
-        
-        // TODO: - Implement me.
-        print("Implement favoriteAction()")
-        if places.count == 0 {
-            if let places = loadFavoritePlaces() {
-                self.favoritePlaces = places
-                self.collectionView.reloadData()
-            }
-        } else {
-            saveToFavorite()
-        }
-    }
-    
-    private func saveToFavorite() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject( favoritePlaces, toFile: Place.ArchiveURL.path )
-        
-        if isSuccessfulSave {
-            print("Saved with success")
-        } else {
-            print("Failed to save.")
-        }
-    }
-    
-    private func loadFavoritePlaces() -> [Place]? {
-        print("Load ffavorite places ...")
-        return NSKeyedUnarchiver.unarchiveObject(withFile: Place.ArchiveURL.path) as? [Place]
     }
 }
 
 extension PlacesViewController {
     // MARK: - Receiving Requested places from firstviewcontroller
     func finishPassing(places: [Place]) {
-        self.places = places
+        // Check if it is favorite.
+        checkFavorite(forPlaces: places)
+        
         self.allPlaces = places
         
-        if self.collectionView != nil {
-            if openNowButton.titleLabel?.text == "OPENED" {
-                self.places.removeAll()
-                for place in allPlaces {
-                    if place.openNowBool == true {
-                        self.places.append(place)
+        if nowShowingFavoritePlaces == false {
+            self.places = places
+            
+            if self.collectionView != nil {
+                if openNowButton.titleLabel?.text == "OPENED" {
+                    self.places.removeAll()
+                    for place in allPlaces {
+                        if place.openNowBool == true {
+                            self.places.append(place)
+                        }
                     }
+                    collectionView.reloadData()
+                } else {
+                    collectionView.reloadData()
                 }
-                collectionView.reloadData()
-            } else {
-                collectionView.reloadData()
             }
         }
         print("Received the \(places.count) Places.")
+    }
+    
+    func checkFavorite(forPlaces: [Place]) {
+        // Check if it is favorite.
+        for place in forPlaces {
+            for fav in favoritePlaces {
+                if fav.place_id == place.place_id {
+                    place.isFavorite = true
+                }
+            }
+        }
     }
     
     // MARK: - Some cool animation when VC is presented.
@@ -448,5 +438,91 @@ extension PlacesViewController {
         default:
             return 0
         }
+    }
+}
+
+// MARK: - Favorite Implementation.
+extension PlacesViewController {
+    @IBAction func favoriteAction(_ sender: UIButton) { // up top button
+        if nowShowingFavoritePlaces == false {
+            // if user want to access favorite places.
+            if favoritePlaces.isEmpty {
+                self.favoritePlaces = loadFavoritePlaces() ?? [Place]()
+            }
+            self.places = favoritePlaces
+            self.nearestButton.isEnabled = false
+            self.favoriteButton.setImage(#imageLiteral(resourceName: "fullHeart"), for: .normal)
+            nowShowingFavoritePlaces = true
+        }
+        else {
+            // if user switched from favorite cell's.
+            nowShowingFavoritePlaces = false
+            self.favoriteButton.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
+            
+            finishPassing(places: allPlaces)
+        }
+        self.collectionView.reloadData()
+    }
+    
+    @IBAction func heartButton(_ sender: UIButton) { // cell button
+        let place = places[sender.tag]
+        
+        // Check for duplicates - if duplicate then remove
+        var index = 0
+        let count = favoritePlaces.count
+        
+        while index < count {
+            let favPlace = favoritePlaces[index]
+            
+            if favPlace.place_id == place.place_id {
+                self.favoritePlaces.remove(at: index)
+                places[sender.tag].isFavorite = false
+                
+                for place in allPlaces {
+                    if place.place_id == favPlace.place_id {
+                        place.isFavorite = false
+                        
+                        break
+                    }
+                }
+                saveToFavorite()
+                return
+            }
+            index += 1
+        }
+        
+        
+        place.isFavorite = true
+        self.favoritePlaces.append(place)
+        
+        saveToFavorite()
+    }
+    
+    private func saveToFavorite() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject( favoritePlaces, toFile: Place.ArchiveURL.path )
+        
+        if isSuccessfulSave {
+            
+            UIView.animate(withDuration: 0.25, animations: { 
+                self.favoriteButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            }, completion: { (nil) in
+                UIView.animate(withDuration: 0.25, animations: { 
+                    self.favoriteButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                }, completion: { (nil) in
+                    UIView.animate(withDuration: 0.25, animations: { 
+                        self.favoriteButton.transform = .identity
+                    })
+                })
+            })
+            
+            print("Saved with success")
+        } else {
+            print("Failed to save.")
+        }
+    }
+    
+    private func loadFavoritePlaces() -> [Place]? {
+        print("load places")
+        return NSKeyedUnarchiver.unarchiveObject(withFile: Place.ArchiveURL.path) as? [Place]
     }
 }
