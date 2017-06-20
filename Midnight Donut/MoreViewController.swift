@@ -55,7 +55,7 @@ extension MoreViewController {
 extension MoreViewController {
     func designCells() {
         // MARK: - Colors.
-        let shadowColor: UIColor = .black//UIColor(red:0.11, green:0.13, blue:0.14, alpha:1.0)
+        let shadowColor: UIColor = .black
         let highlightedBackgroundButtonColor: UIColor = UIColor(red:0.07, green:0.10, blue:0.11, alpha:1.0)
         
         // Corner Radius for buttons

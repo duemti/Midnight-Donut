@@ -11,12 +11,11 @@ import GooglePlaces
 import CoreLocation
 import GooglePlacePicker
 
-private var LIMIT_SEARCH: Int = 10 // Limited to search places per day.
-var LIMIT_SEARCH_RETURN: Int = 1 // Limited to get more result from 1 search.
-
 private let validSearchColor: UIColor = UIColor(red:0.52, green:0.55, blue:0.42, alpha:1.0)
 private let invalidSearchColor: UIColor = UIColor(red:0.61, green:0.29, blue:0.30, alpha:1.0)
 private let highlightSearchColor: UIColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
+
+var USER_LOCATION: CLLocationCoordinate2D?
 
 // Custom button.
 class mainButton: UIButton {
@@ -39,7 +38,7 @@ class mainButton: UIButton {
     }
 }
 
-class FirstViewController: UIViewController, CLLocationManagerDelegate {
+class FirstViewController: UIViewController {
     
     //MARK: - Properties.
     
@@ -66,6 +65,9 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         applyDesignForMainButton()
         /* ========================================================================================= */
         
+        // Request permission to locate.
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
         
         placesClient = GMSPlacesClient.shared()
     }
@@ -78,25 +80,17 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
     // Search for a place.
     @IBAction func getCurrentPlace(_ sender: UIButton) {
-        // Request permission to locate.
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
         var showAlert = false
         
         if CLLocationManager.locationServicesEnabled() {
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            
             switch CLLocationManager.authorizationStatus() {
             case .notDetermined, .restricted:
                 print("No Location Access.")
             case .authorizedWhenInUse, .authorizedAlways:
-                print("Location Access Granted.")
-                guard let location = locationManager.location?.coordinate else {
-                    print("Err: location is nil.")
-                    self.displayMessageAsync("Error: Try Again 😥", true)
-                    return
-                }
-                if LIMIT_SEARCH > 0 {
+                print("loacation access gran`ted.")
+                
+                // Making query to search places.
+                if LIMIT_SEARCH > 0, let location = USER_LOCATION {
                     getThePlaces(from: "location=\(location.latitude),\(location.longitude)&rankby=distance&types=\(self.tags.joined(separator: "|"))&key=\(KEY)", completion: { (newPlaces, success) in
                         if let places = newPlaces, success {
                             print("Good \(success) -> \(places.count)")
@@ -106,7 +100,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                                     self.sendPlacesToPlacesVC(places: places)
                                     self.displayMessage(message: "You got Your Places! 😎", err: false)
                                     /****/
-                                    LIMIT_SEARCH -= 1
+                                    LIMIT_SEARCH = LIMIT_SEARCH - 1
                                     LIMIT_SEARCH_RETURN = 1
                                     /****/
                                     self.tabBarController?.selectedIndex = 1
@@ -117,6 +111,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                 } else {
                     self.displayMessage(message: "You Reached Today's Limit 😐", err: false, yellow: true)
                 }
+                // END.
             case .denied:
                 showAlert = true
                 print("Location Access Denied.")
@@ -129,6 +124,23 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             let alert = UIAlertController(title: "Please enable location from Settings->Midnight Donut", message: "Used to detect places near you.", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
+        }
+    }
+}
+
+// MARK: - CLLocationManagerDelegate
+extension FirstViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            print("=> \(location)")
+            USER_LOCATION = location.coordinate
+            locationManager.stopUpdatingLocation()
         }
     }
 }
@@ -327,7 +339,9 @@ extension FirstViewController {
             popup.backgroundColor = err ? UIColor(red:0.33, green:0.00, blue:0.00, alpha:1.0) : UIColor(red:0.00, green:0.27, blue:0.00, alpha:1.0)
         }
         popup.layer.cornerRadius = 6
-        label.textColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
+        
+        label.textColor = yellow! ? UIColor(red:0.07, green:0.10, blue:0.11, alpha:1.0) : UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
+        
         label.text = message
         label.font = UIFont(name: "Sniglet-Regular", size: 16)
         label.textAlignment = .center

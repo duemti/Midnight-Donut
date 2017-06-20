@@ -218,6 +218,7 @@ extension PlacesViewController: CLLocationManagerDelegate {
             UIView.animate(withDuration: 0.25, animations: {
                 cell.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
             }, completion: { (finished) in
+                
                 let maps = self.tabBarController?.viewControllers?[2] as! MapViewController
                 maps.destinationPlace = self.places[indexPath.item]
                 maps.findDirectionsToThePlace()

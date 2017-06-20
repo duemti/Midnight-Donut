@@ -10,6 +10,10 @@ import UIKit
 import GooglePlaces
 import GoogleMaps
 
+var LIMIT_SEARCH: Int! // Limited to search places per day.
+var LIMIT_SEARCH_RETURN: Int = 1 // Limited to get more result from 1 search.
+var LIMIT_DIRECTION: Int! // Limited for using google directions.
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -27,6 +31,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().tintColor = UIColor(red:1.00, green:0.91, blue:0.64, alpha:1.0)
         UITabBar.appearance().barTintColor = UIColor(red:0.25, green:0.25, blue:0.25, alpha:1.0)
         UITabBarItem.appearance().setTitleTextAttributes( [NSFontAttributeName: UIFont(name: "Sniglet-Regular", size: 10)!] , for: .normal)
+        
+        
+        // Taking care of restoring or not the limit of search.
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd:MM"
+        
+        let todaysDate = formatter.string(from: Date()) // Current date.
+        let defaults = UserDefaults.standard
+        var storedDate = defaults.string(forKey: "date") // date retrieved from user defaults
+        let limitSearch = defaults.string(forKey: "limitSearch") // Current status of how many more searches can perform user.
+        let limitDirection = defaults.string(forKey: "limitDirection") // How many direction requests can perform user.
+        
+        if storedDate == nil {
+            defaults.set(todaysDate, forKey: "date")
+            storedDate = todaysDate
+        }
+        
+        if limitDirection == nil { // Only first time app is opened.
+            LIMIT_DIRECTION = 10
+            defaults.set(String(LIMIT_DIRECTION), forKey: "limitDirection")
+        } else {
+            LIMIT_DIRECTION = Int(limitDirection!) // setting returned remaining searches.
+        }
+        
+        if limitSearch == nil { // Only first time app is opened.
+            LIMIT_SEARCH = 10
+            defaults.set(String(LIMIT_SEARCH), forKey: "limitSearch")
+        } else {
+            LIMIT_SEARCH = Int(limitSearch!) // setting returned remaining searches.
+        }
+        
+        if todaysDate != storedDate { // Restoring everyday!
+            print("Reseting limit")
+            defaults.set(todaysDate, forKey: "date")
+            LIMIT_SEARCH = 10
+            LIMIT_DIRECTION = 10
+        }
+        // end.
+        
         
         return true
     }
@@ -50,7 +93,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        // Saving/Updating user remaining search limit.
+        UserDefaults.standard.set(String(LIMIT_SEARCH), forKey: "limitSearch")
+        UserDefaults.standard.set(String(LIMIT_DIRECTION), forKey: "limitDirection")
     }
 
 

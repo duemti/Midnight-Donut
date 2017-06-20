@@ -7,16 +7,15 @@
 //
 
 import UIKit
+import CoreLocation
 import GoogleMaps
 
 class MapViewController: UIViewController {
 
     // MARK: - Properties.
-    var mapView: GMSMapView?
-    var source = CLLocationCoordinate2D(latitude: 47.039902113355559, longitude: 28.824365403191109)
     var destinationPlace: Place? = nil
     
-    var directions = [(polyline: GMSPolyline, bounds: (northeast: CLLocationCoordinate2D, southwest: CLLocationCoordinate2D))]()
+    var Route = ( polyline: GMSPolyline(), bounds: ( northeast: CLLocationCoordinate2D(), southwest: CLLocationCoordinate2D() ) )
     var markers = (start: GMSMarker(), end: GMSMarker())
     
     var distanceText: String?
@@ -29,14 +28,23 @@ class MapViewController: UIViewController {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var clockImageView: UIImageView!
     
+    @IBOutlet weak var mapView: GMSMapView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let camera = GMSCameraPosition.camera(withLatitude: 47.039867, longitude: 28.824547, zoom: 16)
-        mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-        // Setting minimum and maximum zoom scale.
-        mapView?.setMinZoom(0, maxZoom: 20)
+        mapView.isMyLocationEnabled = true
+        
+        // Setting camera view.
+        if let origin = USER_LOCATION {
+            print("=>origin: \(origin)<=")
+            let camera = GMSCameraPosition.camera(withLatitude: origin.latitude, longitude: origin.longitude, zoom: 16)
+            mapView.camera = camera
+        } else {
+            mapView = GMSMapView(frame: self.view.bounds)
+        }
+        
         
         do {
             // Set the map style by passing the URL of the local file.
@@ -49,30 +57,19 @@ class MapViewController: UIViewController {
             print("One or more of the map styles failed to load. \(error)")
         }
         
-        view = mapView
-        let tap = UITapGestureRecognizer(target: self, action: #selector (self.goToPlacesTab(_:)))
-        infoView.addGestureRecognizer( tap )
-        infoView.isUserInteractionEnabled = true
-        
-        infoView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(infoView)
-        view.addConstraints( [NSLayoutConstraint(item: infoView, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0), NSLayoutConstraint(item: infoView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 50)] )
+        // first time opened tabBar.
+        if let origin = USER_LOCATION, destinationPlace != nil {
+            self.drawRoute(polyline: Route.polyline, userOrigin: origin, completion: {
+                self.updateCamera(north: self.Route.bounds.northeast, south: self.Route.bounds.southwest)
+            })
+        }
     }
     
     // Container display.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        for route in directions {
-            route.polyline.map = nil
-        }
-        
-        if let route = directions.last {
-            self.drawRoute(polyline: route.polyline, completion: {
-                self.updateCamera(north: route.bounds.northeast, south: route.bounds.southwest)
-            })
-        }
-        
+        // See if user actually choosed a place or not.
         if destinationPlace == nil {
             print("No place selected for directions.")
             distanceLabel.text = "Select a Place"
@@ -86,12 +83,6 @@ class MapViewController: UIViewController {
         }
     }
     
-    // Throw user to another tap.
-    func goToPlacesTab(_ sender: UITapGestureRecognizer) {
-        print("tap segue.")
-        self.tabBarController?.selectedIndex = 1
-    }
-    
     func seValue(for place: Place) {
         self.destinationPlace = place
     }
@@ -99,70 +90,83 @@ class MapViewController: UIViewController {
 
 extension MapViewController {
     func findDirectionsToThePlace() {
-        let origin: CLLocationCoordinate2D = source
-        let place_id: String = (destinationPlace?.place_id)!
-        let key = "AIzaSyCPBu09mUuPcNZSZg9qfT-PV3xjKVf4Fw4" // Google Directions API Key.
-        let stringURL = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin.latitude),\(origin.longitude)&destination=place_id:\(place_id)&key=\(key)"
-        guard let url = URL(string: stringURL) else {
-            print("Error: Direction URL is nul.")
-            return
-        }
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print("Error: \(error)")
+        if let origin = USER_LOCATION {
+            let place_id: String = (destinationPlace?.place_id)!
+            let key = "AIzaSyCPBu09mUuPcNZSZg9qfT-PV3xjKVf4Fw4" // Google Directions API Key.
+            let stringURL = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin.latitude),\(origin.longitude)&destination=place_id:\(place_id)&key=\(key)"
+            guard let url = URL(string: stringURL) else {
+                print("Error: Direction URL is nul.")
                 return
             }
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any?]
-                let status = json["status"] as! String
-                
-                print(status)
-                if status == "OK" {
-                    let routes = json["routes"] as! [[String: Any?]]
-                    
-                    let route = routes[0]["overview_polyline"] as! [String: String]
-                    let polyline = route["points"]!
-                    
-                    let legs = routes[0]["legs"] as! [[String: Any?]]
-                    
-                    if let distance = legs[0]["distance"] as? [String: Any], let distanceText = distance["text"] as? String {
-                        self.distanceText = distanceText
-                    } else {
-                        self.distanceText = "n/a"
-                    }
-                    
-                    if let duration = legs[0]["duration"] as? [String: Any], let durationText = duration["text"] as? String {
-                        self.durationText = durationText
-                    } else {
-                        self.durationText = "n/a"
-                    }
-                    
-                    // Getting coordinates to set mapView to see full path.
-                    let bounds = routes[0]["bounds"] as! [String: Any]
-                    let northBounds = bounds["northeast"] as! [String: CLLocationDegrees]
-                    let northeast = CLLocationCoordinate2D(latitude: northBounds["lat"]!, longitude: northBounds["lng"]!)
-                    let southBounds = bounds["southwest"] as! [String: CLLocationDegrees]
-                    let southwest = CLLocationCoordinate2D(latitude: southBounds["lat"]!, longitude: southBounds["lng"]!)
-                    
-                    
-                    // Draw route
-                    let path: GMSPath = GMSPath(fromEncodedPath: polyline)!
-                    let routePolyline = GMSPolyline(path: path)
-                    routePolyline.strokeWidth = 10
-                    routePolyline.strokeColor = UIColor(red:0.69, green:0.58, blue:0.49, alpha:1.0)
-                    
-                    // Adding polyline to array.
-                    self.directions.append( (polyline: routePolyline, (northeast: northeast, southwest: southwest)) )
-                } else {
-                    print("Error: Direction API - Status: \(status)")
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let error = error {
+                    print("Error: \(error)")
+                    return
                 }
-            } catch let error {
-                print("Error: Map - while parsing json - \(error).")
-            }
-        }.resume()
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any?]
+                    let status = json["status"] as! String
+                    
+                    print(status)
+                    if status == "OK" {
+                        let routes = json["routes"] as! [[String: Any?]]
+                        
+                        let route = routes[0]["overview_polyline"] as! [String: String]
+                        let polyline = route["points"]!
+                        
+                        let legs = routes[0]["legs"] as! [[String: Any?]]
+                        
+                        if let distance = legs[0]["distance"] as? [String: Any], let distanceText = distance["text"] as? String {
+                            self.distanceText = distanceText
+                        } else {
+                            self.distanceText = "n/a"
+                        }
+                        
+                        if let duration = legs[0]["duration"] as? [String: Any], let durationText = duration["text"] as? String {
+                            self.durationText = durationText
+                        } else {
+                            self.durationText = "n/a"
+                        }
+                        
+                        // Getting coordinates to set mapView to see full path.
+                        let bounds = routes[0]["bounds"] as! [String: Any]
+                        let northBounds = bounds["northeast"] as! [String: CLLocationDegrees]
+                        let northeast = CLLocationCoordinate2D(latitude: northBounds["lat"]!, longitude: northBounds["lng"]!)
+                        let southBounds = bounds["southwest"] as! [String: CLLocationDegrees]
+                        let southwest = CLLocationCoordinate2D(latitude: southBounds["lat"]!, longitude: southBounds["lng"]!)
+                        
+                        
+                        // Draw route
+                        let path: GMSPath = GMSPath(fromEncodedPath: polyline)!
+                        let routePolyline = GMSPolyline(path: path)
+                        routePolyline.strokeWidth = 10
+                        routePolyline.strokeColor = UIColor(red:0.69, green:0.58, blue:0.49, alpha:1.0)
+                        
+                        // Adding polyline to array.
+                        self.Route.polyline.map = nil
+                        self.Route.polyline = routePolyline
+                        self.Route.bounds.northeast = northeast
+                        self.Route.bounds.southwest = southwest
+                        
+                        DispatchQueue.main.async {
+                            self.drawRoute(polyline: routePolyline, userOrigin: origin, completion: {
+                                self.updateCamera(north: northeast, south: southwest)
+                            })
+                        }
+                    } else {
+                        print("Error: Direction API - Status: \(status)")
+                    }
+                } catch let error {
+                    print("Error: Map - while parsing json - \(error).")
+                }
+            }.resume()
+        } else {
+            addMarkerToPlace()
+        }
     }
     
-    func drawRoute(polyline: GMSPolyline, completion: @escaping () -> ()) {
+    func drawRoute(polyline: GMSPolyline, userOrigin: CLLocationCoordinate2D, completion: @escaping () -> ()) {
+        
         // Clearing markers.
         markers.start.map = nil
         markers.end.map = nil
@@ -171,12 +175,14 @@ extension MapViewController {
         let marker1 = GMSMarker()
         let marker2 = GMSMarker()
         
-        marker1.position = source
+        marker1.position = userOrigin
         marker1.title = "Start"
+        marker1.icon = #imageLiteral(resourceName: "startPin")
         marker1.map = self.mapView
         
         marker2.position = destinationPlace!.location
         marker2.title = "Finish"
+        marker2.icon = #imageLiteral(resourceName: "destinationPin")
         marker2.map = self.mapView
 
         markers.start = marker1
@@ -186,6 +192,16 @@ extension MapViewController {
         polyline.map = self.mapView
         
         completion()
+    }
+    
+    func addMarkerToPlace() {
+        let marker = GMSMarker()
+        
+        marker.title = "destination"
+        marker.icon = #imageLiteral(resourceName: "destinationPin")
+        marker.map = self.mapView
+        
+        markers.end = marker
     }
 }
 

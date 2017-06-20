@@ -26,6 +26,8 @@
 		69F7C8FD1EF2D206005F430F /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C8FC1EF2D206005F430F /* AboutViewController.swift */; };
 		69F7C8FF1EF3B1C2005F430F /* ShopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C8FE1EF3B1C2005F430F /* ShopViewController.swift */; };
 		69F7C9021EF5426F005F430F /* MyActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C9011EF5426F005F430F /* MyActivityIndicator.swift */; };
+		69F7C9041EF91C8C005F430F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F7C9031EF91C8B005F430F /* CoreLocation.framework */; };
+		69F7C9061EF98C0C005F430F /* TypesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C9051EF98C0C005F430F /* TypesTableViewController.swift */; };
 		FBB73185C9D4578DF5AADB3D /* Pods_Midnight_Donut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB677D6EE40B288F2262045F /* Pods_Midnight_Donut.framework */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +65,8 @@
 		69F7C8FC1EF2D206005F430F /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		69F7C8FE1EF3B1C2005F430F /* ShopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopViewController.swift; sourceTree = "<group>"; };
 		69F7C9011EF5426F005F430F /* MyActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyActivityIndicator.swift; sourceTree = "<group>"; };
+		69F7C9031EF91C8B005F430F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		69F7C9051EF98C0C005F430F /* TypesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypesTableViewController.swift; sourceTree = "<group>"; };
 		8D216B2B953EA584EC0D4842 /* Pods-Midnight DonutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight DonutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight DonutTests/Pods-Midnight DonutTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB677D6EE40B288F2262045F /* Pods_Midnight_Donut.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Midnight_Donut.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D224D32440581C799D7390BF /* Pods-Midnight Donut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight Donut.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight Donut/Pods-Midnight Donut.debug.xcconfig"; sourceTree = "<group>"; };
@@ -75,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69F7C9041EF91C8C005F430F /* CoreLocation.framework in Frameworks */,
 				FBB73185C9D4578DF5AADB3D /* Pods_Midnight_Donut.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,6 +98,7 @@
 		112441D27F25156CF5AF7660 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				69F7C9031EF91C8B005F430F /* CoreLocation.framework */,
 				CB677D6EE40B288F2262045F /* Pods_Midnight_Donut.framework */,
 				D6150FEF547754BDAA085495 /* Pods_Midnight_DonutTests.framework */,
 			);
@@ -140,6 +146,7 @@
 				6903959A1EF29CB30090756D /* MoreViewController.swift */,
 				69F7C8FC1EF2D206005F430F /* AboutViewController.swift */,
 				69F7C8FE1EF3B1C2005F430F /* ShopViewController.swift */,
+				69F7C9051EF98C0C005F430F /* TypesTableViewController.swift */,
 			);
 			name = More;
 			sourceTree = "<group>";
@@ -434,6 +441,7 @@
 				69449DB71ED32A9000EAD81F /* PlacesCollectionViewCell.swift in Sources */,
 				69945AAC1ED42B3D004586C2 /* Place.swift in Sources */,
 				69F7C9021EF5426F005F430F /* MyActivityIndicator.swift in Sources */,
+				69F7C9061EF98C0C005F430F /* TypesTableViewController.swift in Sources */,
 				69449DB91ED32F3A00EAD81F /* EmptyCollectionViewCell.swift in Sources */,
 				69F7C8FD1EF2D206005F430F /* AboutViewController.swift in Sources */,
 				699502801EC5F5E200FE1866 /* FirstViewController.swift in Sources */,

@@ -150,17 +150,17 @@
                                 <rect key="frame" x="16" y="97" width="343" height="513"/>
                                 <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="oWh-1a-OVE">
-                                    <size key="itemSize" width="270" height="160"/>
+                                    <size key="itemSize" width="300" height="160"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="7UF-vw-IyI" customClass="PlacesCollectionViewCell" customModule="Midnight_Donut" customModuleProvider="target">
-                                        <rect key="frame" x="36.5" y="0.0" width="270" height="160"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="22" y="0.0" width="300" height="160"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="270" height="160"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="160"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yea-Nw-xYJ">
@@ -248,7 +248,7 @@
                                                     </constraints>
                                                 </view>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="directions" translatesAutoresizingMaskIntoConstraints="NO" id="GyN-KY-71u">
-                                                    <rect key="frame" x="205" y="95" width="65" height="65"/>
+                                                    <rect key="frame" x="235" y="95" width="65" height="65"/>
                                                     <color key="backgroundColor" red="0.74901960784313726" green="0.68235294117647061" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="65" id="1tU-kv-5fa"/>
@@ -256,7 +256,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="place name" lineBreakMode="clip" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="kMT-br-hSd">
-                                                    <rect key="frame" x="4" y="10" width="264" height="33"/>
+                                                    <rect key="frame" x="4" y="10" width="294" height="33"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="33" id="FXy-0c-puS"/>
                                                     </constraints>
@@ -265,7 +265,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="place address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="144-N3-fTQ">
-                                                    <rect key="frame" x="4" y="39" width="264" height="20"/>
+                                                    <rect key="frame" x="4" y="39" width="294" height="20"/>
                                                     <fontDescription key="fontDescription" name="AvenirNextCondensed-Italic" family="Avenir Next Condensed" pointSize="14"/>
                                                     <color key="textColor" red="0.64705882349999999" green="0.64705882349999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -287,13 +287,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="ija-O5-WFh">
-                                                    <rect key="frame" x="8" y="132" width="189" height="20"/>
+                                                    <rect key="frame" x="8" y="132" width="219" height="20"/>
                                                     <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="16"/>
                                                     <color key="textColor" red="0.58431372549019611" green="0.59215686274509804" blue="0.015686274509803921" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NUA-Sb-bSV">
-                                                    <rect key="frame" x="162" y="95" width="35" height="35"/>
+                                                    <rect key="frame" x="192" y="95" width="35" height="35"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="35" id="5ea-HS-dZN"/>
                                                         <constraint firstAttribute="width" constant="35" id="SjU-HH-XiO"/>
@@ -328,6 +328,7 @@
                                             <constraint firstItem="144-N3-fTQ" firstAttribute="top" secondItem="kMT-br-hSd" secondAttribute="bottom" constant="-4" id="olS-TI-K9A"/>
                                             <constraint firstItem="ija-O5-WFh" firstAttribute="top" secondItem="7Eu-at-Pfw" secondAttribute="bottom" constant="3" id="sGq-sL-ZN1"/>
                                         </constraints>
+                                        <size key="customSize" width="300" height="160"/>
                                         <connections>
                                             <outlet property="addToFavoriteButton" destination="NUA-Sb-bSV" id="Ro3-6H-GfO"/>
                                             <outlet property="directionImage" destination="GyN-KY-71u" id="7MC-aN-LaD"/>
@@ -349,20 +350,20 @@
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NoDataCell" id="FOv-AG-Uu5" customClass="EmptyCollectionViewCell" customModule="Midnight_Donut" customModuleProvider="target">
-                                        <rect key="frame" x="36.5" y="170" width="270" height="160"/>
+                                        <rect key="frame" x="22" y="170" width="300" height="160"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="270" height="160"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="160"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Empty !" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w3z-7d-XzP">
-                                                    <rect key="frame" x="8" y="61" width="254" height="38"/>
+                                                    <rect key="frame" x="8" y="61" width="284" height="38"/>
                                                     <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="30"/>
                                                     <color key="textColor" red="0.13725490196078433" green="0.16862745098039217" blue="0.1803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="none_image" translatesAutoresizingMaskIntoConstraints="NO" id="BAb-BK-Fcj">
-                                                    <rect key="frame" x="50" y="99" width="170" height="128"/>
+                                                    <rect key="frame" x="50" y="99" width="200" height="128"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="128" id="d3P-yQ-5Sz"/>
                                                     </constraints>
@@ -549,6 +550,9 @@
                                 </state>
                                 <connections>
                                     <action selector="selectTagsAction:" destination="Loq-MC-373" eventType="touchUpInside" id="WUP-8x-2bG"/>
+                                    <segue destination="jFA-Zh-8fy" kind="popoverPresentation" popoverAnchorView="Xty-ak-G4j" id="mRR-PE-qRK">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
                                 </connections>
                             </button>
                         </subviews>
@@ -587,21 +591,30 @@
             </objects>
             <point key="canvasLocation" x="1525.5999999999999" y="392.65367316341832"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Select Types-->
         <scene sceneID="r02-4d-1VC">
             <objects>
-                <tableViewController id="he9-2O-GlW" sceneMemberID="viewController">
+                <tableViewController id="he9-2O-GlW" customClass="TypesTableViewController" customModule="Midnight_Donut" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="PiN-5X-pIQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="VHI-MJ-reu">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TypeCell" textLabel="BpY-8b-61D" style="IBUITableViewCellStyleDefault" id="VHI-MJ-reu">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VHI-MJ-reu" id="zI0-ul-uzM">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BpY-8b-61D">
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -610,10 +623,17 @@
                             <outlet property="delegate" destination="he9-2O-GlW" id="pOR-sM-DAU"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Select Types" id="4S0-Ib-9y7">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="dMS-oP-Piv">
+                            <connections>
+                                <action selector="doneAction:" destination="he9-2O-GlW" id="LaB-4f-IXU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ays-3Q-TQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2398" y="1"/>
+            <point key="canvasLocation" x="3336.8000000000002" y="0.44977511244377816"/>
         </scene>
         <!--Shop View Controller-->
         <scene sceneID="fjq-Ry-Y3v">
@@ -684,7 +704,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EWs-2d-V2q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3087" y="393"/>
+            <point key="canvasLocation" x="4024.8000000000002" y="392.65367316341832"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="rFN-zz-FXM">
@@ -698,17 +718,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Midnight Donut is an application that display information and directions about nearby places." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uOu-aS-Y3Q">
-                                <rect key="frame" x="56" y="120" width="263" height="100"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Midnight Donut is an application that find and display information about nearby places." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uOu-aS-Y3Q">
+                                <rect key="frame" x="36" y="95" width="303" height="84"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="RJa-80-Swx"/>
+                                    <constraint firstAttribute="height" constant="84" id="RJa-80-Swx"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.90588235294117647" blue="0.63529411764705879" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mainDonut_2" translatesAutoresizingMaskIntoConstraints="NO" id="kSh-aS-mFF">
-                                <rect key="frame" x="56" y="228" width="263" height="165"/>
+                                <rect key="frame" x="56" y="179" width="263" height="165"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="165" id="1g3-dV-Pg0"/>
                                 </constraints>
@@ -724,23 +744,56 @@
                                     <action selector="goBack:" destination="3l8-8f-lrp" eventType="touchUpInside" id="oVC-74-XJD"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="If you are experiencing a bug or a persistent error please report to us.  Thanks For Using Our App." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ybe-VE-aDi">
+                                <rect key="frame" x="8" y="352" width="359" height="85"/>
+                                <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.90588235294117647" blue="0.63529411764705879" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hek-Fi-Clq" customClass="menuButton" customModule="Midnight_Donut" customModuleProvider="target">
+                                <rect key="frame" x="127" y="451" width="120" height="44"/>
+                                <color key="backgroundColor" red="0.20392156862745098" green="0.25098039215686274" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="8dK-ag-4gR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="25"/>
+                                <state key="normal" title="Rate Us">
+                                    <color key="titleColor" red="1" green="0.90588235289999997" blue="0.63529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="rateMeAction:" destination="3l8-8f-lrp" eventType="touchUpInside" id="Y27-D6-Lpq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="uOu-aS-Y3Q" firstAttribute="leading" secondItem="Gdm-20-O8i" secondAttribute="leadingMargin" constant="40" id="1gY-bU-neT"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="uOu-aS-Y3Q" secondAttribute="trailing" constant="40" id="4UA-h5-tan"/>
+                            <constraint firstItem="uOu-aS-Y3Q" firstAttribute="leading" secondItem="Gdm-20-O8i" secondAttribute="leadingMargin" constant="20" id="1gY-bU-neT"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="uOu-aS-Y3Q" secondAttribute="trailing" constant="20" id="4UA-h5-tan"/>
                             <constraint firstAttribute="trailingMargin" secondItem="kSh-aS-mFF" secondAttribute="trailing" constant="40" id="DD0-og-A8D"/>
                             <constraint firstItem="kSh-aS-mFF" firstAttribute="leading" secondItem="Gdm-20-O8i" secondAttribute="leadingMargin" constant="40" id="N6l-04-iye"/>
+                            <constraint firstItem="hek-Fi-Clq" firstAttribute="top" secondItem="ybe-VE-aDi" secondAttribute="bottom" constant="14" id="Sv1-uH-dLX"/>
                             <constraint firstItem="kJ8-6E-dBk" firstAttribute="top" secondItem="TDb-NS-Q1w" secondAttribute="bottom" constant="8" id="Wbe-ll-sly"/>
-                            <constraint firstItem="kSh-aS-mFF" firstAttribute="top" secondItem="uOu-aS-Y3Q" secondAttribute="bottom" constant="8" id="hOR-we-KWV"/>
-                            <constraint firstItem="uOu-aS-Y3Q" firstAttribute="top" secondItem="TDb-NS-Q1w" secondAttribute="bottom" constant="100" id="tfT-mD-R12"/>
+                            <constraint firstItem="kSh-aS-mFF" firstAttribute="top" secondItem="uOu-aS-Y3Q" secondAttribute="bottom" id="hOR-we-KWV"/>
+                            <constraint firstAttribute="trailing" secondItem="ybe-VE-aDi" secondAttribute="trailing" constant="8" id="ijn-Ch-UQm"/>
+                            <constraint firstItem="ybe-VE-aDi" firstAttribute="leading" secondItem="Gdm-20-O8i" secondAttribute="leading" constant="8" id="kqQ-eQ-1cu"/>
+                            <constraint firstItem="ybe-VE-aDi" firstAttribute="top" secondItem="kSh-aS-mFF" secondAttribute="bottom" constant="8" id="l1A-Qp-rVC"/>
+                            <constraint firstItem="hek-Fi-Clq" firstAttribute="centerX" secondItem="Gdm-20-O8i" secondAttribute="centerX" id="mD9-Pf-qQH"/>
+                            <constraint firstItem="ybe-VE-aDi" firstAttribute="centerX" secondItem="Gdm-20-O8i" secondAttribute="centerX" id="msk-s4-6KS"/>
+                            <constraint firstItem="uOu-aS-Y3Q" firstAttribute="top" secondItem="TDb-NS-Q1w" secondAttribute="bottom" constant="75" id="tfT-mD-R12"/>
                             <constraint firstItem="kJ8-6E-dBk" firstAttribute="trailing" secondItem="Gdm-20-O8i" secondAttribute="trailingMargin" constant="-8" id="vgK-nl-stT"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="exitButton" destination="kJ8-6E-dBk" id="GRy-j7-CDo"/>
+                        <outlet property="infoLabel" destination="uOu-aS-Y3Q" id="LRh-67-XaN"/>
+                        <outlet property="logoImageView" destination="kSh-aS-mFF" id="uTc-lg-u0q"/>
+                        <outlet property="rateMeButton" destination="hek-Fi-Clq" id="EGA-ma-fHc"/>
+                        <outlet property="subInfoLabel" destination="ybe-VE-aDi" id="WfA-wU-Ybs"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1wR-1w-Xkg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2398" y="730"/>
+            <point key="canvasLocation" x="2397.5999999999999" y="729.98500749625191"/>
         </scene>
         <!--Map-->
         <scene sceneID="ib9-W1-gMF">
@@ -754,6 +807,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lNu-c1-AI1" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VIr-t9-sbO">
                                 <rect key="frame" x="68" y="46" width="240" height="100"/>
                                 <subviews>
@@ -823,8 +880,12 @@
                         </subviews>
                         <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="cew-RV-igo" firstAttribute="top" secondItem="lNu-c1-AI1" secondAttribute="bottom" id="6tG-5B-vEq"/>
+                            <constraint firstAttribute="trailing" secondItem="lNu-c1-AI1" secondAttribute="trailing" id="7EP-fm-WEB"/>
                             <constraint firstItem="VIr-t9-sbO" firstAttribute="centerX" secondItem="ib1-p6-wIq" secondAttribute="centerX" id="OBm-CG-mbZ"/>
                             <constraint firstItem="VIr-t9-sbO" firstAttribute="top" secondItem="gSL-OW-KRb" secondAttribute="bottom" constant="46" id="WAq-ak-9pt"/>
+                            <constraint firstItem="lNu-c1-AI1" firstAttribute="top" secondItem="gSL-OW-KRb" secondAttribute="bottom" id="jm8-vl-LkC"/>
+                            <constraint firstItem="lNu-c1-AI1" firstAttribute="leading" secondItem="ib1-p6-wIq" secondAttribute="leading" id="sY3-gX-aHI"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="maps" id="586-b5-P78"/>
@@ -832,6 +893,7 @@
                         <outlet property="clockImageView" destination="xPH-Bm-fSA" id="th7-EX-rOD"/>
                         <outlet property="distanceLabel" destination="1nq-8x-0EE" id="xId-KM-bBk"/>
                         <outlet property="infoView" destination="VIr-t9-sbO" id="a59-tf-5zr"/>
+                        <outlet property="mapView" destination="lNu-c1-AI1" id="hBP-Ci-eDf"/>
                         <outlet property="timeLabel" destination="KV5-hR-Qm1" id="uz0-lK-j5Z"/>
                         <outlet property="titleLabel" destination="Bji-Ti-a0z" id="HTR-xZ-NlR"/>
                     </connections>
@@ -900,6 +962,24 @@
                 </collectionViewFlowLayout>
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="gTq-7s-ggk">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jFA-Zh-8fy" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="UBE-TD-ZiJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="he9-2O-GlW" kind="relationship" relationship="rootViewController" id="h47-Iw-WCj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wqa-Ok-Ubl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2397.5999999999999" y="0.44977511244377816"/>
         </scene>
     </scenes>
     <resources>
