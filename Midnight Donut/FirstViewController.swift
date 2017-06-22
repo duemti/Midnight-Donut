@@ -43,12 +43,10 @@ class FirstViewController: UIViewController {
     //MARK: - Properties.
     
     let KEY = "AIzaSyABjELFCIbnytefGjThre9r_A0DhTk9AVg" // Google Places API Key.
-    var tags: [String] = ["restaurant"]
     var placesClient: GMSPlacesClient!
     let locationManager = CLLocationManager()
     var nextTokenResult: String? = nil
     var READY_TO_SEND: Int = 0
-    
 
     // Labels to display info.
     @IBOutlet weak var findAPlace: mainButton!
@@ -57,6 +55,7 @@ class FirstViewController: UIViewController {
     @IBOutlet weak var leftHillImage: UIImageView!
     @IBOutlet weak var rightHillImage: UIImageView!
     @IBOutlet weak var centerHillImage: UIImageView!
+    @IBOutlet weak var remainSearchesLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,6 +75,9 @@ class FirstViewController: UIViewController {
         super.viewWillAppear(true)
         
         animateAppearing()
+        // debug
+        print(TAGS)
+        remainSearchesLabel.text = "Remain searches: \(LIMIT_SEARCH!)"
     }
     
     // Search for a place.
@@ -91,7 +93,7 @@ class FirstViewController: UIViewController {
                 
                 // Making query to search places.
                 if LIMIT_SEARCH > 0, let location = USER_LOCATION {
-                    getThePlaces(from: "location=\(location.latitude),\(location.longitude)&rankby=distance&types=\(self.tags.joined(separator: "|"))&key=\(KEY)", completion: { (newPlaces, success) in
+                    getThePlaces(from: "location=\(location.latitude),\(location.longitude)&radius=1000&types=\(TAGS.joined(separator: "|"))&key=\(KEY)", completion: { (newPlaces, success) in
                         if let places = newPlaces, success {
                             print("Good \(success) -> \(places.count)")
                             
@@ -102,6 +104,7 @@ class FirstViewController: UIViewController {
                                     /****/
                                     LIMIT_SEARCH = LIMIT_SEARCH - 1
                                     LIMIT_SEARCH_RETURN = 1
+                                    self.remainSearchesLabel.text = "Remain searches: \(LIMIT_SEARCH!)"
                                     /****/
                                     self.tabBarController?.selectedIndex = 1
                                 }
@@ -125,6 +128,14 @@ class FirstViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
+    }
+}
+
+// MARK: - Update tags.
+extension FirstViewController: TypesTableViewControllerDelegate {
+    func updateTags(_ types: [String]) {
+        TAGS = types
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -311,11 +322,6 @@ extension FirstViewController {
 
 // MARK: - Comunication with other Tab Bar Controller.
 extension FirstViewController {
-    
-    func update(tags: [String]) {
-        self.tags = tags
-    }
-    
     func sendPlacesToPlacesVC(places: [Place]) {
         let placesTab = self.tabBarController?.viewControllers?[1] as! PlacesViewController
         placesTab.finishPassing(places: places)
@@ -427,14 +433,17 @@ extension FirstViewController {
         self.findAPlace.transform = CGAffineTransform(translationX: 0, y: 100).rotated(by: 90)
         self.findAPlace.alpha = 0.0
         
+        remainSearchesLabel.transform = CGAffineTransform(translationX: 0, y: 50)
+        
         UIView.animate(withDuration: 0.7, animations: {
             self.centerHillImage.transform = .identity
             self.moonDonutImage.transform = CGAffineTransform(translationX: -15, y: 15).rotated(by: -45)
             self.nameOfAppImage.alpha = 0.9
         }) { (success) in
-            UIView.animate(withDuration: 2.5, animations: {
+            UIView.animate(withDuration: 2.0, animations: {
                 self.leftHillImage.transform = .identity
                 self.rightHillImage.transform = .identity
+                self.remainSearchesLabel.transform = .identity
             })
             
             UIView.animate(withDuration: 0.5, animations: {

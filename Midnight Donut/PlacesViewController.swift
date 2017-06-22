@@ -26,7 +26,6 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var mainTitleLabel: UILabel!
     @IBOutlet weak var topRatedButton: UIButton!
-    @IBOutlet weak var nearestButton: UIButton!
     @IBOutlet weak var openNowButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     
@@ -39,18 +38,17 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
         collectionView.dataSource = self
         
         topRatedButton.setTitleColor(UIColor(red:0.18, green:0.22, blue:0.24, alpha:1.0), for: .disabled)
-        topRatedButton.setTitleColor(UIColor(red:0.18, green:0.22, blue:0.24, alpha:1.0), for: .selected)
-        nearestButton.setTitleColor(UIColor(red:0.18, green:0.22, blue:0.24, alpha:1.0), for: .disabled)
-        nearestButton.setTitleColor(UIColor(red:0.18, green:0.22, blue:0.24, alpha:1.0), for: .selected)
+        topRatedButton.setTitleColor(UIColor(red:0.18, green:0.22, blue:0.24, alpha:1.0), for: .highlighted)
+        
+        // Load favorites places.
+        favoritePlaces = self.loadFavoritePlaces() ?? [Place]()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         if places.count > 0 {
             topRatedButton.isEnabled = true
-            nearestButton.isEnabled = true
         } else {
             topRatedButton.isEnabled = false
-            nearestButton.isEnabled = false
         }
         
         animateTextAppearence()
@@ -73,10 +71,9 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: firstReuseIdentifier, for: indexPath) as! PlacesCollectionViewCell
             
             // Configure the cell...
-            
+            let dayOfTheWeek = findDayOfTheWeek(Calendar.current.component(.weekday, from: Date()))
             let place = places[indexPath.row]
             let address = place.formattedAddress.components(separatedBy: ",")
-            let dayOfTheWeek = findDayOfTheWeek(Calendar.current.component(.weekday, from: Date()))
             
             /*                  Setting theme Color             */
             let theme = themeColor[0]
@@ -99,7 +96,7 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             cell.placeAddress.text = address[0]
             cell.placeRating.text = String(format: "%.1f", place.rating)
             cell.rating = place.rating
-            cell.placeStatus.text = place.openNowText
+            cell.placeStatus.text = nowShowingFavoritePlaces ? isOpenNow(place.periods) :  place.openNowText
             if let day = place.weekdays {
                 cell.placeHours.text = day[dayOfTheWeek]
             } else {
@@ -140,7 +137,6 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
             }
         }
     }
-    /****************************************************************************************************************************************************************/
     
     // Load more Places.
     func loadMorePlaces() {
@@ -169,7 +165,6 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
                                 print(place.openNowBool)
                             }
                         }
-                        print("-\(counter)")
                         DispatchQueue.main.async {
                             self.reloadItemsFrom(index: startIndex, totalOf: counter)
                         }
@@ -250,28 +245,8 @@ extension PlacesViewController: UICollectionViewDelegateFlowLayout {
 extension PlacesViewController {
     // Sorting the cells TOP RATED FIRST.
     @IBAction func sortTopRated(_ sender: UIButton) {
-        // Beacause nearest sort is unavalable.
-        if nowShowingFavoritePlaces == false {
-            self.nearestButton.isEnabled = true
-            self.topRatedButton.isEnabled = false
-        }
         
         sortBy(top: true, nearest: false, the: self.places) { (finished) in
-            if let finished = finished {
-                self.places = finished
-                
-                // Refresh So that the user whould see cells swapping.
-                self.refreshCells()
-            }
-        }
-    }
-
-    // Sorting the cells TO NEAREST.
-    @IBAction func sortNearest(_ sender: UIButton) {
-        self.nearestButton.isEnabled = false
-        self.topRatedButton.isEnabled = true
-        
-        sortBy(top: false, nearest: true, the: self.places) { (finished) in
             if let finished = finished {
                 self.places = finished
                 
@@ -403,7 +378,6 @@ extension PlacesViewController {
     // MARK: - Some cool animation when VC is presented.
     func animateTextAppearence() {
         topRatedButton.transform = CGAffineTransform(translationX: -90, y: 0)
-        nearestButton.transform = CGAffineTransform(translationX: 90, y: 0)
         mainTitleLabel.transform = CGAffineTransform(translationX: 0, y: -60)
         openNowButton.transform = CGAffineTransform(translationX: 0, y: -40)
         openNowButton.alpha = 0.0
@@ -411,7 +385,6 @@ extension PlacesViewController {
         
         UIView.animate(withDuration: 0.5) {
             self.topRatedButton.transform = .identity
-            self.nearestButton.transform = .identity
             self.mainTitleLabel.transform = .identity
             self.openNowButton.transform = .identity
             self.openNowButton.alpha = 1.0
@@ -447,11 +420,7 @@ extension PlacesViewController {
     @IBAction func favoriteAction(_ sender: UIButton) { // up top button
         if nowShowingFavoritePlaces == false {
             // if user want to access favorite places.
-            if favoritePlaces.isEmpty {
-                self.favoritePlaces = loadFavoritePlaces() ?? [Place]()
-            }
             self.places = favoritePlaces
-            self.nearestButton.isEnabled = false
             self.favoriteButton.setImage(#imageLiteral(resourceName: "fullHeart"), for: .normal)
             nowShowingFavoritePlaces = true
         }
@@ -522,8 +491,66 @@ extension PlacesViewController {
         }
     }
     
-    private func loadFavoritePlaces() -> [Place]? {
+    func loadFavoritePlaces() -> [Place]? {
         print("load places")
         return NSKeyedUnarchiver.unarchiveObject(withFile: Place.ArchiveURL.path) as? [Place]
+    }
+}
+
+// MARK: - Open Now Mechanism.
+extension PlacesViewController {
+    func isOpenNow(_ periods: [[String: [String: Any]]]?) -> String {
+        guard let periods = periods else {
+            return "n/a"
+        }
+        let dayOfTheWeek = Calendar.current.component(.weekday, from: Date())
+        print(dayOfTheWeek - 1)
+        if dayOfTheWeek - 1 < 0 || periods.count < dayOfTheWeek { // Checking if the index is negative.
+            print("Error isOpenNow().")
+            return ""
+        }
+        let day = periods[dayOfTheWeek - 1]
+        
+        guard let open = day["open"], let close = day["close"] else {
+            print("err 1")
+            return ""
+        }
+        
+        var openHour = open["time"] as! String
+        openHour.insert(":", at: openHour.index(openHour.startIndex, offsetBy: +2))
+        
+        var closeHour = close["time"] as! String
+        closeHour.insert(":", at: closeHour.index(closeHour.startIndex, offsetBy: +2))
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm"
+        let nowTime = formatter.string(from: Date())
+        
+        // spliting into array hours and minutes.
+        let op = openHour.components(separatedBy: ":")
+        let cl = closeHour.components(separatedBy: ":")
+        let now = nowTime.components(separatedBy: ":")
+        
+        // Converting the arrays to int in order to be able to compare.
+        let openTimeInt = (hour: Int(op[0])!, min: Int(op[1])! )
+        var closeTimeInt = (hour: Int(cl[0])!, min: Int(cl[1])! )
+        let nowTimeInt = (hour: Int(now[0])!, min: Int(now[1])! )
+        
+        print("\(openHour) <=> \(nowTime) <=> \(closeHour)")
+        // Calculating time.
+        if openTimeInt.hour > closeTimeInt.hour {
+            closeTimeInt.hour += 24
+        }
+        if openTimeInt.hour <= nowTimeInt.hour && nowTimeInt.hour <= closeTimeInt.hour { // Inside working hours.
+            if openTimeInt.hour == nowTimeInt.hour && openTimeInt.min > nowTimeInt.min { // calculate oppening time.
+                return "Opens in \(openTimeInt.min - nowTimeInt.min)"
+            } else {
+                return "OPEN Now"
+            }
+        }
+        else if openTimeInt.hour > nowTimeInt.hour || nowTimeInt.hour > closeTimeInt.hour { // Outside of working hours.
+            return "Closed Now"
+        }
+        return ""
     }
 }

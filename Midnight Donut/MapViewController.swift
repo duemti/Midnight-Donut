@@ -21,6 +21,9 @@ class MapViewController: UIViewController {
     var distanceText: String?
     var durationText: String?
     
+    let travelModes = ["bicycling", "driving", "walking"]
+    let travelMode = "walking"
+    
     // MARK: - Outlets.
     @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -93,7 +96,7 @@ extension MapViewController {
         if let origin = USER_LOCATION {
             let place_id: String = (destinationPlace?.place_id)!
             let key = "AIzaSyCPBu09mUuPcNZSZg9qfT-PV3xjKVf4Fw4" // Google Directions API Key.
-            let stringURL = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin.latitude),\(origin.longitude)&destination=place_id:\(place_id)&key=\(key)"
+            let stringURL = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin.latitude),\(origin.longitude)&mode=\(travelMode)&destination=place_id:\(place_id)&key=\(key)"
             guard let url = URL(string: stringURL) else {
                 print("Error: Direction URL is nul.")
                 return

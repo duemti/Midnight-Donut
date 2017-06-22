@@ -43,7 +43,7 @@ class Place: NSObject, NSCoding {
         static let lng = "lng"
         static let rating = "rating"
         static let workDays = "workDays"
-        static let isFavorite = "isFavorite"
+        static let periods = "periods"
     }
     
     init(_ name: String, _ address: String, _ place_id: String, _ tags: [String], _ viewport: [String: [String: Double]]) {
@@ -67,19 +67,22 @@ class Place: NSObject, NSCoding {
         aCoder.encode(location.longitude, forKey: PropertyKey.lng)
         aCoder.encode(rating, forKey: PropertyKey.rating)
         aCoder.encode(weekdays, forKey: PropertyKey.workDays)
-        aCoder.encode(isFavorite, forKey: PropertyKey.isFavorite)
+        aCoder.encode(periods, forKey: PropertyKey.periods)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
         // The name is required. If we cannot decode a name string, the initializer should fail.
-        guard let name = aDecoder.decodeObject(forKey: PropertyKey.name) as? String, let address = aDecoder.decodeObject(forKey: PropertyKey.address) as? String, let placeId = aDecoder.decodeObject(forKey: PropertyKey.placeId) as? String, let isFavorite = aDecoder.decodeObject(forKey: PropertyKey.isFavorite) as? Bool, let lat = aDecoder.decodeObject(forKey: PropertyKey.lat) as? CLLocationDegrees, let lng = aDecoder.decodeObject(forKey: PropertyKey.lng) as? CLLocationDegrees else {
+        guard let name = aDecoder.decodeObject(forKey: PropertyKey.name) as? String, let address = aDecoder.decodeObject(forKey: PropertyKey.address) as? String, let placeId = aDecoder.decodeObject(forKey: PropertyKey.placeId) as? String else {
             print("ERROR: Unable some elements")
             return nil
         }
+        let lat = aDecoder.decodeDouble(forKey: PropertyKey.lat)
+        let lng = aDecoder.decodeDouble(forKey: PropertyKey.lng)
+        let rating = aDecoder.decodeFloat(forKey: PropertyKey.rating)
         
-        // Because other are optional property of Place, just use conditional cast.
-        let workDays = aDecoder.decodeObject(forKey: PropertyKey.address) as? [String]
-        let rating = aDecoder.decodeObject(forKey: "rating") as? Float ?? 0.0
+        // Conditional cast.
+        let workDays = aDecoder.decodeObject(forKey: PropertyKey.workDays) as? [String]
+        let periods = aDecoder.decodeObject(forKey: PropertyKey.periods) as? [[String: [String: Any]]]
         
         // Must call designated initializer.
         self.init(name, address, placeId, ["cafe"], ["text":["text":0.0]])
@@ -87,7 +90,10 @@ class Place: NSObject, NSCoding {
         self.setFor(rating: rating)
         self.setFor(weekdays: workDays)
         self.setFor(location: CLLocationCoordinate2D(latitude: lat, longitude: lng))
-        self.isFavorite = isFavorite
+        if let periods = periods {
+            self.setFor(periods: periods)
+        }
+        self.isFavorite = true
     }
 }
 

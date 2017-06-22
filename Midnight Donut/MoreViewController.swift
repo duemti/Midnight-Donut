@@ -93,14 +93,14 @@ extension MoreViewController {
     func animateAppear() {
         let buttons = [tagsButton, shopButton, aboutButton]
         
-        self.moreLabel.transform = CGAffineTransform(translationX: 0, y: -40)
-        self.moreLabel.alpha = 0.0
+        moreLabel.transform = CGAffineTransform(translationX: 0, y: -40)
+        moreLabel.alpha = 0.0
         tagsButton.alpha = 0.0
         shopButton.alpha = 0.0
         aboutButton.alpha = 0.0
         
-        self.rightLineView.transform = CGAffineTransform(translationX: -100, y: 0)
-        self.leftLineView.transform = CGAffineTransform(translationX: 100, y: 0)
+        rightLineView.transform = CGAffineTransform(translationX: -100, y: 0)
+        leftLineView.transform = CGAffineTransform(translationX: 100, y: 0)
         
         
         UIView.animate(withDuration: 0.6, animations: {
@@ -121,6 +121,20 @@ extension MoreViewController {
                 })
             }
         })
+    }
+}
+
+// MARK: - Segue handler.
+extension MoreViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "Types Segue" {
+            let navigationController = segue.destination as! UINavigationController
+            let controller = navigationController.topViewController as! TypesTableViewController
+            let tab = tabBarController?.viewControllers?[0] as! FirstViewController
+            
+            controller.selectedTypes = TAGS
+            controller.delegate = tab
+        }
     }
 }
 
