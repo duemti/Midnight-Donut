@@ -103,6 +103,7 @@ class FirstViewController: UIViewController {
                                     self.displayMessage(message: "You got Your Places! 😎", err: false)
                                     /****/
                                     LIMIT_SEARCH = LIMIT_SEARCH - 1
+                                    UserDefaults.standard.set(String(LIMIT_SEARCH), forKey: "limitSearch") // updation limit on user defaults.
                                     LIMIT_SEARCH_RETURN = 1
                                     self.remainSearchesLabel.text = "Remain searches: \(LIMIT_SEARCH!)"
                                     /****/
@@ -135,6 +136,7 @@ class FirstViewController: UIViewController {
 extension FirstViewController: TypesTableViewControllerDelegate {
     func updateTags(_ types: [String]) {
         TAGS = types
+        UserDefaults.standard.set(TAGS, forKey: "types")
         dismiss(animated: true, completion: nil)
     }
 }

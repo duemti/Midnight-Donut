@@ -29,6 +29,14 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var openNowButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     
+    @IBOutlet weak var currentTravelModeButton: UIButton!
+    
+    // My popup outlets.
+    var isPopupOpened: Bool = false
+    @IBOutlet weak var popupBackgroundView1: UIView!
+    @IBOutlet weak var popupBackgroundView2: UIView!
+    @IBOutlet weak var popupBackgroundView3: UIView!
+    
     var player: AVAudioPlayer? // Sound Variable
     
     override func viewDidLoad() {
@@ -206,6 +214,101 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
 }
 
+// MARK: - Popup.
+extension PlacesViewController {
+    
+    @IBAction func selectTravelMode(_ sender: UIButton) {
+        if nonConsumablePurchaseMade {
+            openPopup()
+        } else {
+            
+        }
+    }
+    
+    @IBAction func walkingButton(_ sender: UIButton) {
+        let tab = tabBarController?.viewControllers?[2] as! MapViewController
+        tab.travelMode = "walking"
+        
+        // update button image
+        currentTravelModeButton.imageView?.image = #imageLiteral(resourceName: "walkingImage")
+        closePopup()
+    }
+    
+    @IBAction func cyclingButton(_ sender: UIButton) {
+        let tab = tabBarController?.viewControllers?[2] as! MapViewController
+        tab.travelMode = "bicycling"
+        
+        // update button image
+        currentTravelModeButton.imageView?.image = #imageLiteral(resourceName: "cyclingImage")
+        closePopup()
+    }
+    
+    @IBAction func drivingButton(_ sender: UIButton) {
+        let tab = tabBarController?.viewControllers?[2] as! MapViewController
+        tab.travelMode = "driving"
+        
+        // update button image
+        currentTravelModeButton.imageView?.image = #imageLiteral(resourceName: "drivingImage")
+        closePopup()
+    }
+    
+    func openPopup() {
+        isPopupOpened = true
+        
+        popupBackgroundView1.layer.cornerRadius = 22
+        popupBackgroundView2.layer.cornerRadius = 22
+        popupBackgroundView3.layer.cornerRadius = 22
+        
+        popupBackgroundView1.alpha = 0.0
+        popupBackgroundView2.alpha = 0.0
+        popupBackgroundView3.alpha = 0.0
+        
+        popupBackgroundView1.isHidden = false
+        popupBackgroundView2.isHidden = false
+        popupBackgroundView3.isHidden = false
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            self.popupBackgroundView1.alpha = 1.0
+            self.popupBackgroundView2.alpha = 1.0
+            self.popupBackgroundView3.alpha = 1.0
+            
+            self.popupBackgroundView1.transform = CGAffineTransform(translationX: 60, y: 0).rotated(by: CGFloat.pi * 2)
+            self.popupBackgroundView2.transform = CGAffineTransform(translationX: 50, y: 50).rotated(by: CGFloat.pi * 2)
+            self.popupBackgroundView3.transform = CGAffineTransform(translationX: 0, y: 60).rotated(by: CGFloat.pi * 2)
+            
+            self.currentTravelModeButton.alpha = 0.0
+        }) { (nil) in
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2, execute: {
+                if self.isPopupOpened {
+                    self.closePopup()
+                }
+            })
+        }
+    }
+    
+    func closePopup() {
+        isPopupOpened = false
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            self.popupBackgroundView1.transform = .identity
+            self.popupBackgroundView2.transform = .identity
+            self.popupBackgroundView3.transform = .identity
+            
+            self.popupBackgroundView1.alpha = 0.0
+            self.popupBackgroundView2.alpha = 0.0
+            self.popupBackgroundView3.alpha = 0.0
+            
+            self.currentTravelModeButton.alpha = 1.0
+            
+        }) { (nil) in
+            self.popupBackgroundView1.isHidden = true
+            self.popupBackgroundView2.isHidden = true
+            self.popupBackgroundView3.isHidden = true
+            print("popup closed")
+        }
+    }
+}
+
 // MARK: - Action: Provide Directions on the Map.
 extension PlacesViewController: CLLocationManagerDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -334,6 +437,8 @@ extension PlacesViewController {
             collectionView.reloadData()
         }
     }
+    
+    
 }
 
 extension PlacesViewController {
@@ -382,6 +487,7 @@ extension PlacesViewController {
         openNowButton.transform = CGAffineTransform(translationX: 0, y: -40)
         openNowButton.alpha = 0.0
         favoriteButton.alpha = 0.0
+        currentTravelModeButton.alpha = 0.0
         
         UIView.animate(withDuration: 0.5) {
             self.topRatedButton.transform = .identity
@@ -389,6 +495,7 @@ extension PlacesViewController {
             self.openNowButton.transform = .identity
             self.openNowButton.alpha = 1.0
             self.favoriteButton.alpha = 1.0
+            self.currentTravelModeButton.alpha = 1.0
         }
     }
     

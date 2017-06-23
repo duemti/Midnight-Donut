@@ -14,6 +14,7 @@ var LIMIT_SEARCH: Int! // Limited to search places per day.
 var LIMIT_SEARCH_RETURN: Int = 1 // Limited to get more result from 1 search.
 var LIMIT_DIRECTION: Int! // Limited for using google directions.
 var TAGS: [String] = ["restaurant"]
+var nonConsumablePurchaseMade = UserDefaults.standard.bool(forKey: "nonConsumablePurchaseMade") // TravelMode state, if unlockked.
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -57,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if limitDirection == nil { // Only first time app is opened.
-            LIMIT_DIRECTION = 5
+            LIMIT_DIRECTION = 10
             defaults.set(String(LIMIT_DIRECTION), forKey: "limitDirection")
         } else {
             LIMIT_DIRECTION = Int(limitDirection!) // setting returned remaining searches.
@@ -73,8 +74,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if todaysDate != storedDate { // Restoring everyday!
             print("Reseting limit")
             defaults.set(todaysDate, forKey: "date")
-            LIMIT_SEARCH = 5
-            LIMIT_DIRECTION = 10
+            
+            // updating value ony if neccesary.
+            LIMIT_SEARCH = LIMIT_SEARCH < 5 ? 5 : LIMIT_SEARCH
+            LIMIT_DIRECTION = LIMIT_DIRECTION < 10 ? 10 : LIMIT_DIRECTION
         }
         // end.
         
@@ -101,10 +104,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Saving/Updating user remaining search limit.
-        UserDefaults.standard.set(String(LIMIT_SEARCH), forKey: "limitSearch")
-        UserDefaults.standard.set(String(LIMIT_DIRECTION), forKey: "limitDirection")
-        UserDefaults.standard.set(TAGS, forKey: "types")
     }
 
 

@@ -21,8 +21,7 @@ class MapViewController: UIViewController {
     var distanceText: String?
     var durationText: String?
     
-    let travelModes = ["bicycling", "driving", "walking"]
-    let travelMode = "walking"
+    var travelMode = "walking"
     
     // MARK: - Outlets.
     @IBOutlet weak var infoView: UIView!
@@ -37,11 +36,17 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapView.isMyLocationEnabled = true
+        if CLLocationManager.locationServicesEnabled() {
+            switch CLLocationManager.authorizationStatus() {
+            case .authorizedWhenInUse:
+                mapView.isMyLocationEnabled = true
+            default:
+                break
+            }
+        }
         
         // Setting camera view.
         if let origin = USER_LOCATION {
-            print("=>origin: \(origin)<=")
             let camera = GMSCameraPosition.camera(withLatitude: origin.latitude, longitude: origin.longitude, zoom: 16)
             mapView.camera = camera
         } else {
@@ -52,7 +57,7 @@ class MapViewController: UIViewController {
         do {
             // Set the map style by passing the URL of the local file.
             if let styleURL = Bundle.main.url(forResource: "style", withExtension: "json") {
-                mapView!.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+                mapView?.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
             } else {
                 print("Unable to find style.json")
             }
@@ -152,6 +157,10 @@ extension MapViewController {
                         self.Route.bounds.southwest = southwest
                         
                         DispatchQueue.main.async {
+                            // updating limit.
+                            LIMIT_DIRECTION = LIMIT_DIRECTION - 1
+                            UserDefaults.standard.set(String(LIMIT_DIRECTION), forKey: "limitDirection")
+                            
                             self.drawRoute(polyline: routePolyline, userOrigin: origin, completion: {
                                 self.updateCamera(north: northeast, south: southwest)
                             })
