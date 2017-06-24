@@ -92,7 +92,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remain searhces: 23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NXa-v9-fNh">
                                 <rect key="frame" x="110" y="588" width="155" height="22"/>
                                 <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="17"/>
-                                <color key="textColor" red="1" green="0.90588235294117647" blue="0.63529411764705879" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -449,6 +449,38 @@
                                     <action selector="selectTravelMode:" destination="4v1-3Y-uoh" eventType="touchUpInside" id="uYg-HT-rjn"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kin-Ax-gJV">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                                <subviews>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Azq-zl-8xI">
+                                        <rect key="frame" x="87.5" y="234" width="200" height="150"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You need to buy travel modes." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hRg-5p-UQ9">
+                                                <rect key="frame" x="10" y="0.0" width="180" height="150"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="150" id="mtJ-9G-qHX"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="29"/>
+                                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="3of-L8-NUX"/>
+                                            <constraint firstItem="hRg-5p-UQ9" firstAttribute="top" secondItem="Azq-zl-8xI" secondAttribute="top" id="Cpy-6O-pix"/>
+                                            <constraint firstAttribute="bottom" secondItem="hRg-5p-UQ9" secondAttribute="bottom" id="RuA-ba-cZu"/>
+                                            <constraint firstItem="hRg-5p-UQ9" firstAttribute="leading" secondItem="Azq-zl-8xI" secondAttribute="leading" constant="10" id="teF-yw-zDA"/>
+                                            <constraint firstAttribute="trailing" secondItem="hRg-5p-UQ9" secondAttribute="trailing" constant="10" id="xi8-Z6-sHJ"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="0.040997023809523803" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Azq-zl-8xI" firstAttribute="centerX" secondItem="Kin-Ax-gJV" secondAttribute="centerX" id="7EJ-wt-xCn"/>
+                                    <constraint firstItem="Azq-zl-8xI" firstAttribute="centerY" secondItem="Kin-Ax-gJV" secondAttribute="centerY" id="Q1O-3a-XBB"/>
+                                </constraints>
+                            </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CUa-QK-VCH">
                                 <rect key="frame" x="22" y="4" width="45" height="45"/>
                                 <subviews>
@@ -534,8 +566,12 @@
                             <constraint firstItem="CUa-QK-VCH" firstAttribute="centerY" secondItem="gFw-Yi-yVQ" secondAttribute="centerY" id="Mel-Zs-9Xf"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BnS-0Q-fth" secondAttribute="trailing" id="RC9-wa-XBs"/>
                             <constraint firstItem="dg3-eQ-Sax" firstAttribute="centerX" secondItem="n6g-3R-FuC" secondAttribute="centerX" id="RGJ-Ed-skR"/>
+                            <constraint firstAttribute="trailing" secondItem="Kin-Ax-gJV" secondAttribute="trailing" id="Wyh-bm-F3v"/>
+                            <constraint firstItem="t2j-ES-st5" firstAttribute="top" secondItem="Kin-Ax-gJV" secondAttribute="bottom" id="Yz0-hV-q6a"/>
                             <constraint firstItem="vTr-HP-Dke" firstAttribute="top" secondItem="6Cl-Sl-M5j" secondAttribute="bottom" constant="8" id="ZDF-lq-5wH"/>
                             <constraint firstAttribute="leadingMargin" secondItem="6Cl-Sl-M5j" secondAttribute="leading" id="mtl-DH-Uww"/>
+                            <constraint firstItem="Kin-Ax-gJV" firstAttribute="top" secondItem="rvh-hp-4Gq" secondAttribute="bottom" id="nYz-tT-w7k"/>
+                            <constraint firstItem="Kin-Ax-gJV" firstAttribute="leading" secondItem="n6g-3R-FuC" secondAttribute="leading" id="o7n-ff-NDl"/>
                             <constraint firstItem="t2j-ES-st5" firstAttribute="top" secondItem="vTr-HP-Dke" secondAttribute="bottom" constant="8" id="pRG-f8-wau"/>
                             <constraint firstItem="yNe-LP-zVG" firstAttribute="centerX" secondItem="Y3K-Os-gCH" secondAttribute="centerX" id="qan-sH-D11"/>
                             <constraint firstItem="skF-JV-sbF" firstAttribute="centerY" secondItem="gFw-Yi-yVQ" secondAttribute="centerY" id="rvE-ul-n1o"/>
@@ -545,15 +581,20 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Places" image="places_list" id="uEM-vR-Kjk"/>
                     <connections>
+                        <outlet property="caseDidNotBuyLabel" destination="hRg-5p-UQ9" id="Hua-qb-FKG"/>
                         <outlet property="collectionView" destination="vTr-HP-Dke" id="Pye-HO-h85"/>
                         <outlet property="currentTravelModeButton" destination="Y3K-Os-gCH" id="5iz-y4-BU3"/>
+                        <outlet property="cyclingButtonOutlet" destination="LwZ-Ws-Jep" id="K2m-BN-cSj"/>
                         <outlet property="favoriteButton" destination="J8A-aH-i1y" id="jde-IA-GVz"/>
                         <outlet property="mainTitleLabel" destination="dg3-eQ-Sax" id="Jc0-MI-KcA"/>
                         <outlet property="openNowButton" destination="BnS-0Q-fth" id="RNX-oe-vMO"/>
                         <outlet property="popupBackgroundView1" destination="CUa-QK-VCH" id="DJs-WA-3fZ"/>
                         <outlet property="popupBackgroundView2" destination="yNe-LP-zVG" id="OXr-ZQ-jju"/>
                         <outlet property="popupBackgroundView3" destination="skF-JV-sbF" id="Euo-3V-eN7"/>
+                        <outlet property="subviewOfTransparentView" destination="hRg-5p-UQ9" id="oNW-rM-ODY"/>
                         <outlet property="topRatedButton" destination="6Cl-Sl-M5j" id="Ymc-b6-szL"/>
+                        <outlet property="transparentSubiew" destination="Kin-Ax-gJV" id="BxF-cW-SSm"/>
+                        <outlet property="walkingButtonOutlet" destination="gFw-Yi-yVQ" id="ToI-gq-7my"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="syf-Ax-Lz1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1209,7 +1250,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jFA-Zh-8fy" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="UBE-TD-ZiJ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="UBE-TD-ZiJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

@@ -29,13 +29,19 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var openNowButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     
-    @IBOutlet weak var currentTravelModeButton: UIButton!
-    
     // My popup outlets.
+    @IBOutlet weak var currentTravelModeButton: UIButton!
+    @IBOutlet weak var cyclingButtonOutlet: UIButton!
+    @IBOutlet weak var walkingButtonOutlet: UIButton!
+    
+    
     var isPopupOpened: Bool = false
     @IBOutlet weak var popupBackgroundView1: UIView!
     @IBOutlet weak var popupBackgroundView2: UIView!
     @IBOutlet weak var popupBackgroundView3: UIView!
+    @IBOutlet weak var transparentSubiew: UIView!
+    @IBOutlet weak var subviewOfTransparentView: UILabel!
+    @IBOutlet weak var caseDidNotBuyLabel: UILabel!
     
     var player: AVAudioPlayer? // Sound Variable
     
@@ -50,6 +56,9 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
         
         // Load favorites places.
         favoritePlaces = self.loadFavoritePlaces() ?? [Place]()
+        
+        transparentSubiew.addGestureRecognizer( UITapGestureRecognizer(target: self, action: #selector( closePopup )))
+        subviewOfTransparentView.layer.cornerRadius = 12
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,6 +69,14 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
         
         animateTextAppearence()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        if isPopupOpened {
+            closePopup()
+        }
     }
     
     // MARK: UICollectionViewDataSource
@@ -218,11 +235,7 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
 extension PlacesViewController {
     
     @IBAction func selectTravelMode(_ sender: UIButton) {
-        if nonConsumablePurchaseMade {
-            openPopup()
-        } else {
-            
-        }
+        openPopup()
     }
     
     @IBAction func walkingButton(_ sender: UIButton) {
@@ -255,6 +268,16 @@ extension PlacesViewController {
     func openPopup() {
         isPopupOpened = true
         
+        let greenColor = UIColor(red:0.00, green:0.80, blue:0.26, alpha:1.0)
+        let redColor = UIColor(red:0.79, green:0.00, blue:0.02, alpha:1.0)
+        
+        popupBackgroundView1.backgroundColor = greenColor
+        popupBackgroundView2.backgroundColor = greenColor
+        popupBackgroundView3.backgroundColor = greenColor
+        
+        cyclingButtonOutlet.isEnabled = true
+        walkingButtonOutlet.isEnabled = true
+        
         popupBackgroundView1.layer.cornerRadius = 22
         popupBackgroundView2.layer.cornerRadius = 22
         popupBackgroundView3.layer.cornerRadius = 22
@@ -262,10 +285,28 @@ extension PlacesViewController {
         popupBackgroundView1.alpha = 0.0
         popupBackgroundView2.alpha = 0.0
         popupBackgroundView3.alpha = 0.0
+        transparentSubiew.alpha = 0.0
+        caseDidNotBuyLabel.alpha = 0.0
         
         popupBackgroundView1.isHidden = false
         popupBackgroundView2.isHidden = false
         popupBackgroundView3.isHidden = false
+        transparentSubiew.isHidden = false
+        
+        if nonConsumablePurchaseMade {
+            caseDidNotBuyLabel.isHidden = true
+            
+        // case DID NOT buy travel modes.
+        } else {
+            caseDidNotBuyLabel.isHidden = false
+            caseDidNotBuyLabel.text = "You need to buy travel modes."
+            
+            cyclingButtonOutlet.isEnabled = false
+            walkingButtonOutlet.isEnabled = false
+            
+            popupBackgroundView2.backgroundColor = redColor
+            popupBackgroundView3.backgroundColor = redColor
+        }
         
         UIView.animate(withDuration: 0.5, animations: {
             self.popupBackgroundView1.alpha = 1.0
@@ -276,35 +317,49 @@ extension PlacesViewController {
             self.popupBackgroundView2.transform = CGAffineTransform(translationX: 50, y: 50).rotated(by: CGFloat.pi * 2)
             self.popupBackgroundView3.transform = CGAffineTransform(translationX: 0, y: 60).rotated(by: CGFloat.pi * 2)
             
+            self.transparentSubiew.alpha = 1.0
+            
             self.currentTravelModeButton.alpha = 0.0
-        }) { (nil) in
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2, execute: {
-                if self.isPopupOpened {
-                    self.closePopup()
-                }
-            })
-        }
+            self.caseDidNotBuyLabel.alpha = 1.0
+        })
     }
     
     func closePopup() {
-        isPopupOpened = false
-        
-        UIView.animate(withDuration: 0.5, animations: {
-            self.popupBackgroundView1.transform = .identity
-            self.popupBackgroundView2.transform = .identity
-            self.popupBackgroundView3.transform = .identity
+        if isPopupOpened {
+            isPopupOpened = false
             
-            self.popupBackgroundView1.alpha = 0.0
-            self.popupBackgroundView2.alpha = 0.0
-            self.popupBackgroundView3.alpha = 0.0
-            
-            self.currentTravelModeButton.alpha = 1.0
-            
-        }) { (nil) in
-            self.popupBackgroundView1.isHidden = true
-            self.popupBackgroundView2.isHidden = true
-            self.popupBackgroundView3.isHidden = true
-            print("popup closed")
+            UIView.animate(withDuration: 0.5, animations: {
+                self.popupBackgroundView1.transform = .identity
+                self.popupBackgroundView2.transform = .identity
+                self.popupBackgroundView3.transform = .identity
+                
+                self.popupBackgroundView1.alpha = 0.0
+                self.popupBackgroundView2.alpha = 0.0
+                self.popupBackgroundView3.alpha = 0.0
+                
+                self.transparentSubiew.alpha = 0.0
+                self.caseDidNotBuyLabel.alpha = 0.0
+                
+                self.currentTravelModeButton.alpha = 1.0
+                
+            }) { (nil) in
+                self.popupBackgroundView1.isHidden = true
+                self.popupBackgroundView2.isHidden = true
+                self.popupBackgroundView3.isHidden = true
+                self.transparentSubiew.isHidden = true
+                self.caseDidNotBuyLabel.isEnabled = true
+                print("popup closed")
+            }
+        } else {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.transparentSubiew.alpha = 0.0
+                
+                self.caseDidNotBuyLabel.text = ""
+                self.caseDidNotBuyLabel.alpha = 0.0
+            }, completion: { (nil) in
+                self.transparentSubiew.isHidden = true
+                self.caseDidNotBuyLabel.isEnabled = true
+            })
         }
     }
 }
@@ -317,14 +372,28 @@ extension PlacesViewController: CLLocationManagerDelegate {
                 cell.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
             }, completion: { (finished) in
                 
-                let maps = self.tabBarController?.viewControllers?[2] as! MapViewController
-                maps.destinationPlace = self.places[indexPath.item]
-                maps.findDirectionsToThePlace()
-                
                 UIView.animate(withDuration: 0.5, animations: { 
                     cell.transform = .identity
                 }, completion: { (nil) in
-                    self.tabBarController?.selectedIndex = 2
+                    
+                    if LIMIT_DIRECTION > 0 {
+                        let maps = self.tabBarController?.viewControllers?[2] as! MapViewController
+                        maps.destinationPlace = self.places[indexPath.item]
+                        maps.findDirectionsToThePlace()
+                        
+                        self.tabBarController?.selectedIndex = 2
+                        
+                    // limit for directions reached.
+                    } else {
+                        self.transparentSubiew.isHidden = false
+                        self.caseDidNotBuyLabel.isEnabled = false
+                        UIView.animate(withDuration: 0.5, animations: { 
+                            self.transparentSubiew.alpha = 1.0
+                            
+                            self.caseDidNotBuyLabel.text = "Directions Limit reached."
+                            self.caseDidNotBuyLabel.alpha = 1.0
+                        })
+                    }
                 })
             })
         }

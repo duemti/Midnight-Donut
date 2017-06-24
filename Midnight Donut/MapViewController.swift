@@ -21,7 +21,7 @@ class MapViewController: UIViewController {
     var distanceText: String?
     var durationText: String?
     
-    var travelMode = "walking"
+    var travelMode = "driving"
     
     // MARK: - Outlets.
     @IBOutlet weak var infoView: UIView!

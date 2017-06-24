@@ -91,6 +91,7 @@ class FirstViewController: UIViewController {
             case .authorizedWhenInUse, .authorizedAlways:
                 print("loacation access gran`ted.")
                 
+                UIApplication.shared.isNetworkActivityIndicatorVisible = true
                 // Making query to search places.
                 if LIMIT_SEARCH > 0, let location = USER_LOCATION {
                     getThePlaces(from: "location=\(location.latitude),\(location.longitude)&radius=1000&types=\(TAGS.joined(separator: "|"))&key=\(KEY)", completion: { (newPlaces, success) in
@@ -99,6 +100,7 @@ class FirstViewController: UIViewController {
                             
                             self.getInfoFor(places: places, completion: { () in
                                 DispatchQueue.main.async {
+                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                     self.sendPlacesToPlacesVC(places: places)
                                     self.displayMessage(message: "You got Your Places! 😎", err: false)
                                     /****/
@@ -115,6 +117,7 @@ class FirstViewController: UIViewController {
                 } else {
                     self.displayMessage(message: "You Reached Today's Limit 😐", err: false, yellow: true)
                 }
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 // END.
             case .denied:
                 showAlert = true

@@ -25,7 +25,6 @@
 		69BCCA8C1EE1768B00FA8020 /* Sniglet-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69BCCA8B1EE1767E00FA8020 /* Sniglet-Regular.ttf */; };
 		69F7C8FD1EF2D206005F430F /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C8FC1EF2D206005F430F /* AboutViewController.swift */; };
 		69F7C8FF1EF3B1C2005F430F /* ShopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C8FE1EF3B1C2005F430F /* ShopViewController.swift */; };
-		69F7C9021EF5426F005F430F /* MyActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C9011EF5426F005F430F /* MyActivityIndicator.swift */; };
 		69F7C9041EF91C8C005F430F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F7C9031EF91C8B005F430F /* CoreLocation.framework */; };
 		69F7C9061EF98C0C005F430F /* TypesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C9051EF98C0C005F430F /* TypesTableViewController.swift */; };
 		FBB73185C9D4578DF5AADB3D /* Pods_Midnight_Donut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB677D6EE40B288F2262045F /* Pods_Midnight_Donut.framework */; };
@@ -64,7 +63,6 @@
 		69BCCA8B1EE1767E00FA8020 /* Sniglet-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sniglet-Regular.ttf"; sourceTree = "<group>"; };
 		69F7C8FC1EF2D206005F430F /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		69F7C8FE1EF3B1C2005F430F /* ShopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopViewController.swift; sourceTree = "<group>"; };
-		69F7C9011EF5426F005F430F /* MyActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyActivityIndicator.swift; sourceTree = "<group>"; };
 		69F7C9031EF91C8B005F430F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		69F7C9051EF98C0C005F430F /* TypesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypesTableViewController.swift; sourceTree = "<group>"; };
 		8D216B2B953EA584EC0D4842 /* Pods-Midnight DonutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Midnight DonutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Midnight DonutTests/Pods-Midnight DonutTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -176,7 +174,6 @@
 			children = (
 				6995027D1EC5F5E200FE1866 /* AppDelegate.swift */,
 				697CD1091EEAF7BC00138DF2 /* StartViewController.swift */,
-				69F7C9001EF54258005F430F /* MyActivityIndicator */,
 				69FC48AF1EE02D06005593C3 /* fonts */,
 				697CD10B1EEECF2200138DF2 /* styleMap */,
 				69945AAD1ED6ABEC004586C2 /* More */,
@@ -198,14 +195,6 @@
 				699502961EC5F5E200FE1866 /* Info.plist */,
 			);
 			path = "Midnight DonutTests";
-			sourceTree = "<group>";
-		};
-		69F7C9001EF54258005F430F /* MyActivityIndicator */ = {
-			isa = PBXGroup;
-			children = (
-				69F7C9011EF5426F005F430F /* MyActivityIndicator.swift */,
-			);
-			name = MyActivityIndicator;
 			sourceTree = "<group>";
 		};
 		69FC48AF1EE02D06005593C3 /* fonts */ = {
@@ -283,7 +272,7 @@
 				TargetAttributes = {
 					699502791EC5F5E200FE1866 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = XQHE2N7X73;
+						DevelopmentTeam = 4UQ3Z4MMAM;
 						ProvisioningStyle = Automatic;
 					};
 					6995028F1EC5F5E200FE1866 = {
@@ -440,7 +429,6 @@
 				697CD10A1EEAF7C000138DF2 /* StartViewController.swift in Sources */,
 				69449DB71ED32A9000EAD81F /* PlacesCollectionViewCell.swift in Sources */,
 				69945AAC1ED42B3D004586C2 /* Place.swift in Sources */,
-				69F7C9021EF5426F005F430F /* MyActivityIndicator.swift in Sources */,
 				69F7C9061EF98C0C005F430F /* TypesTableViewController.swift in Sources */,
 				69449DB91ED32F3A00EAD81F /* EmptyCollectionViewCell.swift in Sources */,
 				69F7C8FD1EF2D206005F430F /* AboutViewController.swift in Sources */,
@@ -582,11 +570,11 @@
 			baseConfigurationReference = D224D32440581C799D7390BF /* Pods-Midnight Donut.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = XQHE2N7X73;
+				DEVELOPMENT_TEAM = 4UQ3Z4MMAM;
 				INFOPLIST_FILE = "Midnight Donut/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fitnesslabs.MidnightDonut;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitnesslabs.MidnightDonut2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -598,11 +586,11 @@
 			baseConfigurationReference = 63F083DE330F0D01A7ED5985 /* Pods-Midnight Donut.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = XQHE2N7X73;
+				DEVELOPMENT_TEAM = 4UQ3Z4MMAM;
 				INFOPLIST_FILE = "Midnight Donut/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fitnesslabs.MidnightDonut;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitnesslabs.MidnightDonut2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
