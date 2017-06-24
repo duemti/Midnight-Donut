@@ -259,10 +259,12 @@ class ShopViewController: UIViewController, SKProductsRequestDelegate, SKPayment
                 case .restored:
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
                     
-                    self.buyTravelModesButton.isEnabled = false
-                    self.buyTravelModesLabel.text = "Travel Modes Unlocked! 👍"
-                    self.bonusLabel.isHidden = true
-                    self.buyTravelModesButton.isHidden = true
+                    UIView.animate(withDuration: 0.5, animations: { 
+                        self.buyTravelModesButton.isEnabled = false
+                        self.buyTravelModesLabel.text = "Travel Modes Unlocked! 👍"
+                        self.bonusLabel.isHidden = true
+                        self.buyTravelModesButton.isHidden = true
+                    })
                     
                     break
                     

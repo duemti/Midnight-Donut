@@ -17,6 +17,7 @@ class MoreViewController: UIViewController {
     @IBOutlet weak var tagsButton: menuButton!
     @IBOutlet weak var shopButton: menuButton!
     @IBOutlet weak var aboutButton: menuButton!
+    @IBOutlet weak var selectRadiusOutlet: UISlider!
     
     var animateController: Bool = true
 
@@ -33,6 +34,12 @@ class MoreViewController: UIViewController {
             animateAppear()
         }
         animateController = true
+    }
+    
+    @IBAction func selectRadius(_ sender: UISlider) {
+        let tab = tabBarController?.viewControllers![0] as! FirstViewController
+        
+        tab.RADIUS = Int(sender.value)
     }
 }
 
@@ -98,6 +105,7 @@ extension MoreViewController {
         tagsButton.alpha = 0.0
         shopButton.alpha = 0.0
         aboutButton.alpha = 0.0
+        selectRadiusOutlet.alpha = 0.0
         
         rightLineView.transform = CGAffineTransform(translationX: -100, y: 0)
         leftLineView.transform = CGAffineTransform(translationX: 100, y: 0)
@@ -117,6 +125,7 @@ extension MoreViewController {
                 DispatchQueue.main.asyncAfter(deadline: time, execute: {
                     UIView.animate(withDuration: 0.55, animations: {
                         button?.alpha = 1.0
+                        self.selectRadiusOutlet.alpha = 1.0
                     })
                 })
             }

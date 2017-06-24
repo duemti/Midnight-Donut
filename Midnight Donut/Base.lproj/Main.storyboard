@@ -95,6 +95,9 @@
                                 <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="fcK-FH-28n">
+                                <rect key="frame" x="170" y="454" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -102,6 +105,7 @@
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="NXa-v9-fNh" secondAttribute="bottom" constant="8" id="2Kg-TH-qKn"/>
                             <constraint firstAttribute="trailing" secondItem="X3f-0A-7PQ" secondAttribute="trailing" id="94H-8X-mZ6"/>
                             <constraint firstItem="JB9-d7-Tax" firstAttribute="top" secondItem="87B-RV-7ML" secondAttribute="bottom" priority="250" constant="12" id="9OD-2c-uSP"/>
+                            <constraint firstItem="fcK-FH-28n" firstAttribute="centerX" secondItem="bHx-M6-m4H" secondAttribute="centerX" id="Kpv-ib-Uym"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="eRt-sf-WLE" secondAttribute="bottom" id="LCh-uB-yMn"/>
                             <constraint firstItem="gKY-so-h4v" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="M43-5b-BEX"/>
                             <constraint firstItem="X3f-0A-7PQ" firstAttribute="top" secondItem="JB9-d7-Tax" secondAttribute="bottom" priority="750" constant="50" id="N3P-LW-vxN"/>
@@ -115,6 +119,7 @@
                             <constraint firstItem="87B-RV-7ML" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="21" id="d7X-W7-Wsw"/>
                             <constraint firstAttribute="trailing" secondItem="eRt-sf-WLE" secondAttribute="trailing" id="dbr-jE-f2I"/>
                             <constraint firstItem="bHx-M6-m4H" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="eea-lr-dUu"/>
+                            <constraint firstItem="fcK-FH-28n" firstAttribute="centerY" secondItem="bHx-M6-m4H" secondAttribute="centerY" id="iJD-Wj-nzL"/>
                             <constraint firstItem="ZjG-sK-6RZ" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" constant="-40" id="qIv-Nd-iVd"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="bHx-M6-m4H" secondAttribute="bottom" constant="76" id="r1D-Q4-Yev"/>
                             <constraint firstItem="X3f-0A-7PQ" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="x4H-2w-jgp"/>
@@ -130,6 +135,7 @@
                     <tabBarItem key="tabBarItem" title="Home" image="home" id="acW-dT-cKf"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="fcK-FH-28n" id="0dY-0f-omk"/>
                         <outlet property="centerHillImage" destination="X3f-0A-7PQ" id="vL1-j6-g9l"/>
                         <outlet property="findAPlace" destination="bHx-M6-m4H" id="tY8-Bw-Zjb"/>
                         <outlet property="leftHillImage" destination="ZjG-sK-6RZ" id="7k0-dE-hml"/>
@@ -453,7 +459,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Azq-zl-8xI">
-                                        <rect key="frame" x="87.5" y="234" width="200" height="150"/>
+                                        <rect key="frame" x="88" y="234" width="200" height="150"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You need to buy travel modes." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hRg-5p-UQ9">
                                                 <rect key="frame" x="10" y="0.0" width="180" height="150"/>
@@ -591,7 +597,7 @@
                         <outlet property="popupBackgroundView1" destination="CUa-QK-VCH" id="DJs-WA-3fZ"/>
                         <outlet property="popupBackgroundView2" destination="yNe-LP-zVG" id="OXr-ZQ-jju"/>
                         <outlet property="popupBackgroundView3" destination="skF-JV-sbF" id="Euo-3V-eN7"/>
-                        <outlet property="subviewOfTransparentView" destination="hRg-5p-UQ9" id="oNW-rM-ODY"/>
+                        <outlet property="subviewOfTransparentView" destination="Azq-zl-8xI" id="EBm-5h-DQ6"/>
                         <outlet property="topRatedButton" destination="6Cl-Sl-M5j" id="Ymc-b6-szL"/>
                         <outlet property="transparentSubiew" destination="Kin-Ax-gJV" id="BxF-cW-SSm"/>
                         <outlet property="walkingButtonOutlet" destination="gFw-Yi-yVQ" id="ToI-gq-7my"/>
@@ -684,10 +690,17 @@
                                     </segue>
                                 </connections>
                             </button>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1000" minValue="100" maxValue="5000" translatesAutoresizingMaskIntoConstraints="NO" id="lOZ-sb-Qff">
+                                <rect key="frame" x="14" y="369" width="347" height="31"/>
+                                <connections>
+                                    <action selector="selectRadius:" destination="Loq-MC-373" eventType="valueChanged" id="Y45-oa-0er"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="XH4-gf-iYh" firstAttribute="centerY" secondItem="wiU-hB-LGS" secondAttribute="centerY" id="09P-et-NjK"/>
+                            <constraint firstItem="lOZ-sb-Qff" firstAttribute="top" secondItem="J6J-Vr-Xdm" secondAttribute="bottom" constant="26" id="4Ha-Ga-WIb"/>
                             <constraint firstItem="jPh-qI-Kln" firstAttribute="trailing" secondItem="KDw-Rm-dwu" secondAttribute="trailingMargin" id="CCU-Y9-tfa"/>
                             <constraint firstItem="Xty-ak-G4j" firstAttribute="top" secondItem="wiU-hB-LGS" secondAttribute="bottom" constant="50" id="HxX-qw-xhJ"/>
                             <constraint firstItem="I8F-yy-0ol" firstAttribute="leading" secondItem="wiU-hB-LGS" secondAttribute="trailing" constant="5" id="ILb-B4-pXN"/>
@@ -700,8 +713,10 @@
                             <constraint firstItem="wiU-hB-LGS" firstAttribute="centerX" secondItem="KDw-Rm-dwu" secondAttribute="centerX" id="m4Q-9q-ic3"/>
                             <constraint firstItem="Xty-ak-G4j" firstAttribute="leading" secondItem="KDw-Rm-dwu" secondAttribute="leadingMargin" id="qhm-oj-cLB"/>
                             <constraint firstItem="wiU-hB-LGS" firstAttribute="top" secondItem="IHe-nF-juy" secondAttribute="bottom" constant="30" id="rm4-LZ-UoP"/>
+                            <constraint firstItem="lOZ-sb-Qff" firstAttribute="leading" secondItem="KDw-Rm-dwu" secondAttribute="leadingMargin" id="spD-Jl-LlB"/>
                             <constraint firstItem="Xty-ak-G4j" firstAttribute="trailing" secondItem="KDw-Rm-dwu" secondAttribute="trailingMargin" id="tTQ-0K-6Om"/>
                             <constraint firstItem="J6J-Vr-Xdm" firstAttribute="leading" secondItem="KDw-Rm-dwu" secondAttribute="leadingMargin" id="v5k-Sk-d2h"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="lOZ-sb-Qff" secondAttribute="trailing" id="yXG-Zw-P8h"/>
                             <constraint firstItem="J6J-Vr-Xdm" firstAttribute="top" secondItem="jPh-qI-Kln" secondAttribute="bottom" constant="40" id="yrL-U2-tE4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="J6J-Vr-Xdm" secondAttribute="trailing" id="z3p-dh-ulJ"/>
                         </constraints>
@@ -712,6 +727,7 @@
                         <outlet property="leftLineView" destination="I8F-yy-0ol" id="tlh-q4-3o6"/>
                         <outlet property="moreLabel" destination="wiU-hB-LGS" id="XfD-kc-Obc"/>
                         <outlet property="rightLineView" destination="XH4-gf-iYh" id="SKm-Hq-cBv"/>
+                        <outlet property="selectRadiusOutlet" destination="lOZ-sb-Qff" id="wn2-RM-OpA"/>
                         <outlet property="shopButton" destination="jPh-qI-Kln" id="XGj-fq-hc1"/>
                         <outlet property="tagsButton" destination="Xty-ak-G4j" id="e1G-Mt-fvI"/>
                     </connections>

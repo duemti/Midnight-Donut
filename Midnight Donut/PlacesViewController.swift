@@ -40,7 +40,7 @@ class PlacesViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var popupBackgroundView2: UIView!
     @IBOutlet weak var popupBackgroundView3: UIView!
     @IBOutlet weak var transparentSubiew: UIView!
-    @IBOutlet weak var subviewOfTransparentView: UILabel!
+    @IBOutlet weak var subviewOfTransparentView: UIView!
     @IBOutlet weak var caseDidNotBuyLabel: UILabel!
     
     var player: AVAudioPlayer? // Sound Variable
@@ -287,6 +287,7 @@ extension PlacesViewController {
         popupBackgroundView3.alpha = 0.0
         transparentSubiew.alpha = 0.0
         caseDidNotBuyLabel.alpha = 0.0
+        subviewOfTransparentView.alpha = 0.0
         
         popupBackgroundView1.isHidden = false
         popupBackgroundView2.isHidden = false
@@ -295,9 +296,11 @@ extension PlacesViewController {
         
         if nonConsumablePurchaseMade {
             caseDidNotBuyLabel.isHidden = true
+            subviewOfTransparentView.isHidden = true
             
         // case DID NOT buy travel modes.
         } else {
+            subviewOfTransparentView.isHidden = false
             caseDidNotBuyLabel.isHidden = false
             caseDidNotBuyLabel.text = "You need to buy travel modes."
             
@@ -318,6 +321,7 @@ extension PlacesViewController {
             self.popupBackgroundView3.transform = CGAffineTransform(translationX: 0, y: 60).rotated(by: CGFloat.pi * 2)
             
             self.transparentSubiew.alpha = 1.0
+            self.subviewOfTransparentView.alpha = 1.0
             
             self.currentTravelModeButton.alpha = 0.0
             self.caseDidNotBuyLabel.alpha = 1.0
@@ -338,6 +342,7 @@ extension PlacesViewController {
                 self.popupBackgroundView3.alpha = 0.0
                 
                 self.transparentSubiew.alpha = 0.0
+                self.subviewOfTransparentView.alpha = 0.0
                 self.caseDidNotBuyLabel.alpha = 0.0
                 
                 self.currentTravelModeButton.alpha = 1.0
@@ -347,18 +352,21 @@ extension PlacesViewController {
                 self.popupBackgroundView2.isHidden = true
                 self.popupBackgroundView3.isHidden = true
                 self.transparentSubiew.isHidden = true
+                self.subviewOfTransparentView.isHidden = true
                 self.caseDidNotBuyLabel.isEnabled = true
                 print("popup closed")
             }
         } else {
             UIView.animate(withDuration: 0.25, animations: {
                 self.transparentSubiew.alpha = 0.0
+                self.subviewOfTransparentView.alpha = 0.0
                 
                 self.caseDidNotBuyLabel.text = ""
                 self.caseDidNotBuyLabel.alpha = 0.0
             }, completion: { (nil) in
                 self.transparentSubiew.isHidden = true
-                self.caseDidNotBuyLabel.isEnabled = true
+                self.caseDidNotBuyLabel.isHidden = true
+                self.subviewOfTransparentView.isHidden = true
             })
         }
     }

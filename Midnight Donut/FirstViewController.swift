@@ -47,6 +47,7 @@ class FirstViewController: UIViewController {
     let locationManager = CLLocationManager()
     var nextTokenResult: String? = nil
     var READY_TO_SEND: Int = 0
+    var RADIUS: Int = 1000
 
     // Labels to display info.
     @IBOutlet weak var findAPlace: mainButton!
@@ -56,6 +57,8 @@ class FirstViewController: UIViewController {
     @IBOutlet weak var rightHillImage: UIImageView!
     @IBOutlet weak var centerHillImage: UIImageView!
     @IBOutlet weak var remainSearchesLabel: UILabel!
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,48 +87,62 @@ class FirstViewController: UIViewController {
     @IBAction func getCurrentPlace(_ sender: UIButton) {
         var showAlert = false
         
-        if CLLocationManager.locationServicesEnabled() {
-            switch CLLocationManager.authorizationStatus() {
-            case .notDetermined, .restricted:
-                print("No Location Access.")
-            case .authorizedWhenInUse, .authorizedAlways:
-                print("loacation access gran`ted.")
-                
-                UIApplication.shared.isNetworkActivityIndicatorVisible = true
-                // Making query to search places.
-                if LIMIT_SEARCH > 0, let location = USER_LOCATION {
-                    getThePlaces(from: "location=\(location.latitude),\(location.longitude)&radius=1000&types=\(TAGS.joined(separator: "|"))&key=\(KEY)", completion: { (newPlaces, success) in
-                        if let places = newPlaces, success {
-                            print("Good \(success) -> \(places.count)")
-                            
-                            self.getInfoFor(places: places, completion: { () in
-                                DispatchQueue.main.async {
-                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                                    self.sendPlacesToPlacesVC(places: places)
-                                    self.displayMessage(message: "You got Your Places! 😎", err: false)
-                                    /****/
-                                    LIMIT_SEARCH = LIMIT_SEARCH - 1
-                                    UserDefaults.standard.set(String(LIMIT_SEARCH), forKey: "limitSearch") // updation limit on user defaults.
-                                    LIMIT_SEARCH_RETURN = 1
-                                    self.remainSearchesLabel.text = "Remain searches: \(LIMIT_SEARCH!)"
-                                    /****/
-                                    self.tabBarController?.selectedIndex = 1
+        // Animate when user clicked the button !!!
+        hideButtonShowActivityIndicator {
+            
+            if CLLocationManager.locationServicesEnabled() {
+                switch CLLocationManager.authorizationStatus() {
+                case .notDetermined, .restricted:
+                    print("No Location Access.")
+                case .authorizedWhenInUse, .authorizedAlways:
+                    print("loacation access gran`ted.")
+                    
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                    // Making query to search places.
+                    if LIMIT_SEARCH > 0 {
+                        if let location = USER_LOCATION {
+                            self.getThePlaces(from: "location=\(location.latitude),\(location.longitude)&radius=\(self.RADIUS)&types=\(TAGS.joined(separator: "|"))&key=\(self.KEY)", completion: { (newPlaces, success) in
+                                if let places = newPlaces, success {
+                                    print("Good \(success) -> \(places.count)")
+                                    
+                                    self.getInfoFor(places: places, completion: { () in
+                                        DispatchQueue.main.async {
+                                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                            self.showButtonHideActivityIndicator() // showing back button.
+                                            
+                                            self.sendPlacesToPlacesVC(places: places)
+                                            self.displayMessage(message: "You got Your Places! 😎", err: false)
+                                            
+                                            /****/
+                                            LIMIT_SEARCH = LIMIT_SEARCH - 1
+                                            UserDefaults.standard.set(String(LIMIT_SEARCH), forKey: "limitSearch") // updation limit on user defaults.
+                                            LIMIT_SEARCH_RETURN = 1
+                                            self.remainSearchesLabel.text = "Remain searches: \(LIMIT_SEARCH!)"
+                                            /****/
+                                            
+                                            self.tabBarController?.selectedIndex = 1
+                                        }
+                                    })
                                 }
                             })
+                        } else {
+                            self.displayMessage(message: "Error Locating you", err: true)
                         }
-                    })
-                } else {
-                    self.displayMessage(message: "You Reached Today's Limit 😐", err: false, yellow: true)
-                }
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    } else {
+                        self.displayMessage(message: "You Reached Today's Limit 😐", err: false, yellow: true)
+                    }
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 // END.
-            case .denied:
-                showAlert = true
-                print("Location Access Denied.")
+                case .denied:
+                    showAlert = true
+                    print("Location Access Denied.")
+                }
+            } else {
+                print("Location services are not enabled")
             }
-        } else {
-            print("Location services are not enabled")
         }
+        
+        showButtonHideActivityIndicator() // showing back button.
         
         if showAlert {
             let alert = UIAlertController(title: "Please enable location from Settings->Midnight Donut", message: "Used to detect places near you.", preferredStyle: UIAlertControllerStyle.alert)
@@ -134,6 +151,44 @@ class FirstViewController: UIViewController {
         }
     }
 }
+
+// MARK: - Button animation functions.
+extension FirstViewController {
+    func hideButtonShowActivityIndicator(complete: @escaping () -> ()) {
+        
+        // setting up acticity indicator.
+        activityIndicator.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        
+        UIView.animate(withDuration: 0.3, animations: { 
+            self.findAPlace.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+        }) { (nil) in
+            
+            UIView.animate(withDuration: 0.3, animations: { 
+                self.activityIndicator.transform = .identity
+            }, completion: { (nil) in
+                complete()
+            })
+        }
+    }
+    
+    func showButtonHideActivityIndicator() {
+        
+        UIView.animate(withDuration: 0.3, animations: { 
+            self.activityIndicator.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+        }) { (nil) in
+            
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.isHidden = true
+            
+            UIView.animate(withDuration: 0.3, animations: { 
+                self.findAPlace.transform = .identity
+            })
+        }
+    }
+}
+
 
 // MARK: - Update tags.
 extension FirstViewController: TypesTableViewControllerDelegate {
@@ -459,20 +514,3 @@ extension FirstViewController {
         }
     }
 }
-
-
-/*
- 
- TODO:
- 
- 18. Midnight Donut.
- Sometimes you just have to have donuts – or whatever food you crave – in the
-	middle of the night.
- Your app would tell a user what restaurants were still open around them at any time of the night.
- 
- Is there any way to use Places API to suggest two people in one city place to meeting optimal for both of them with approximately the same ride duration from their locations?﻿
-
- API key for google Places: 
-    AIzaSyBH9l0IodrxU3HS-l7tQlx8RR26H84ItwY
- 
- */
