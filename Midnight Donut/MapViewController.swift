@@ -156,10 +156,11 @@ extension MapViewController {
                         self.Route.bounds.northeast = northeast
                         self.Route.bounds.southwest = southwest
                         
+                        // updating limit.
+                        LIMIT_DIRECTION = LIMIT_DIRECTION - 1
+                        UserDefaults.standard.set(String(LIMIT_DIRECTION), forKey: "limitDirection")
+                        
                         DispatchQueue.main.async {
-                            // updating limit.
-                            LIMIT_DIRECTION = LIMIT_DIRECTION - 1
-                            UserDefaults.standard.set(String(LIMIT_DIRECTION), forKey: "limitDirection")
                             
                             self.drawRoute(polyline: routePolyline, userOrigin: origin, completion: {
                                 self.updateCamera(north: northeast, south: southwest)

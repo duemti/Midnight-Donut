@@ -696,11 +696,18 @@
                                     <action selector="selectRadius:" destination="Loq-MC-373" eventType="valueChanged" id="Y45-oa-0er"/>
                                 </connections>
                             </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search Radius: 1 km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OmB-bE-VHa">
+                                <rect key="frame" x="114" y="399" width="146.5" height="21.5"/>
+                                <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.90588235294117647" blue="0.63529411764705879" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="XH4-gf-iYh" firstAttribute="centerY" secondItem="wiU-hB-LGS" secondAttribute="centerY" id="09P-et-NjK"/>
                             <constraint firstItem="lOZ-sb-Qff" firstAttribute="top" secondItem="J6J-Vr-Xdm" secondAttribute="bottom" constant="26" id="4Ha-Ga-WIb"/>
+                            <constraint firstItem="OmB-bE-VHa" firstAttribute="centerX" secondItem="KDw-Rm-dwu" secondAttribute="centerX" id="8MB-Mq-6co"/>
                             <constraint firstItem="jPh-qI-Kln" firstAttribute="trailing" secondItem="KDw-Rm-dwu" secondAttribute="trailingMargin" id="CCU-Y9-tfa"/>
                             <constraint firstItem="Xty-ak-G4j" firstAttribute="top" secondItem="wiU-hB-LGS" secondAttribute="bottom" constant="50" id="HxX-qw-xhJ"/>
                             <constraint firstItem="I8F-yy-0ol" firstAttribute="leading" secondItem="wiU-hB-LGS" secondAttribute="trailing" constant="5" id="ILb-B4-pXN"/>
@@ -710,6 +717,7 @@
                             <constraint firstItem="jPh-qI-Kln" firstAttribute="top" secondItem="Xty-ak-G4j" secondAttribute="bottom" constant="40" id="axp-lf-NRt"/>
                             <constraint firstItem="XH4-gf-iYh" firstAttribute="leading" secondItem="KDw-Rm-dwu" secondAttribute="leading" constant="8" id="bQG-KJ-aT5"/>
                             <constraint firstItem="I8F-yy-0ol" firstAttribute="centerY" secondItem="wiU-hB-LGS" secondAttribute="centerY" id="dTf-a1-k0X"/>
+                            <constraint firstItem="OmB-bE-VHa" firstAttribute="top" secondItem="lOZ-sb-Qff" secondAttribute="bottom" id="hHM-Js-MhJ"/>
                             <constraint firstItem="wiU-hB-LGS" firstAttribute="centerX" secondItem="KDw-Rm-dwu" secondAttribute="centerX" id="m4Q-9q-ic3"/>
                             <constraint firstItem="Xty-ak-G4j" firstAttribute="leading" secondItem="KDw-Rm-dwu" secondAttribute="leadingMargin" id="qhm-oj-cLB"/>
                             <constraint firstItem="wiU-hB-LGS" firstAttribute="top" secondItem="IHe-nF-juy" secondAttribute="bottom" constant="30" id="rm4-LZ-UoP"/>
@@ -726,6 +734,7 @@
                         <outlet property="aboutButton" destination="J6J-Vr-Xdm" id="JiM-p1-xYb"/>
                         <outlet property="leftLineView" destination="I8F-yy-0ol" id="tlh-q4-3o6"/>
                         <outlet property="moreLabel" destination="wiU-hB-LGS" id="XfD-kc-Obc"/>
+                        <outlet property="radiusLabel" destination="OmB-bE-VHa" id="iIL-aK-STU"/>
                         <outlet property="rightLineView" destination="XH4-gf-iYh" id="SKm-Hq-cBv"/>
                         <outlet property="selectRadiusOutlet" destination="lOZ-sb-Qff" id="wn2-RM-OpA"/>
                         <outlet property="shopButton" destination="jPh-qI-Kln" id="XGj-fq-hc1"/>

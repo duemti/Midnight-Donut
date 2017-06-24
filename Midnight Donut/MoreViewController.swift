@@ -18,6 +18,7 @@ class MoreViewController: UIViewController {
     @IBOutlet weak var shopButton: menuButton!
     @IBOutlet weak var aboutButton: menuButton!
     @IBOutlet weak var selectRadiusOutlet: UISlider!
+    @IBOutlet weak var radiusLabel: UILabel!
     
     var animateController: Bool = true
 
@@ -39,7 +40,11 @@ class MoreViewController: UIViewController {
     @IBAction func selectRadius(_ sender: UISlider) {
         let tab = tabBarController?.viewControllers![0] as! FirstViewController
         
-        tab.RADIUS = Int(sender.value)
+        let radius = sender.value
+        let radiusTxt = String(format: "%.1f", radius / 1000)
+
+        radiusLabel.text = "Search Radius: \(radiusTxt) km"
+        tab.RADIUS = Int(radius)
     }
 }
 
@@ -106,6 +111,7 @@ extension MoreViewController {
         shopButton.alpha = 0.0
         aboutButton.alpha = 0.0
         selectRadiusOutlet.alpha = 0.0
+        radiusLabel.alpha = 0.0
         
         rightLineView.transform = CGAffineTransform(translationX: -100, y: 0)
         leftLineView.transform = CGAffineTransform(translationX: 100, y: 0)
@@ -126,6 +132,7 @@ extension MoreViewController {
                     UIView.animate(withDuration: 0.55, animations: {
                         button?.alpha = 1.0
                         self.selectRadiusOutlet.alpha = 1.0
+                        self.radiusLabel.alpha = 1.0
                     })
                 })
             }
