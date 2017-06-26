@@ -58,8 +58,6 @@ class FirstViewController: UIViewController {
     @IBOutlet weak var centerHillImage: UIImageView!
     @IBOutlet weak var remainSearchesLabel: UILabel!
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,8 +68,6 @@ class FirstViewController: UIViewController {
         // Request permission to locate.
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        
-        activityIndicator.isHidden = true
         
         placesClient = GMSPlacesClient.shared()
     }
@@ -89,97 +85,93 @@ class FirstViewController: UIViewController {
         var showAlert = false
         
         // Animate when user clicked the button !!!
-        // setting up acticity indicator.
-//        activityIndicator.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-        activityIndicator.alpha = 0.0
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            self.findAPlace.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
-        }) { (nil) in
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.activityIndicator.alpha = 1.0
-            }, completion: { (nil) in
-                
-                if CLLocationManager.locationServicesEnabled() {
-                    switch CLLocationManager.authorizationStatus() {
-                    case .notDetermined, .restricted:
-                        print("No Location Access.")
-                    case .authorizedWhenInUse, .authorizedAlways:
-                        print("loacation access gran`ted.")
-                        
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-                        // Making query to search places.
-                        if LIMIT_SEARCH > 0 {
-                            if let location = USER_LOCATION {
-                                self.getThePlaces(from: "location=\(location.latitude),\(location.longitude)&radius=\(self.RADIUS)&types=\(TAGS.joined(separator: "|"))&key=\(self.KEY)", completion: { (newPlaces, success) in
-                                    if let places = newPlaces, success {
-                                        print("Good \(success) -> \(places.count)")
-                                        
-                                        self.getInfoFor(places: places, completion: { () in
-                                            DispatchQueue.main.async {
-                                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                                                self.showButtonHideActivityIndicator() // showing back button.
-                                                
-                                                self.sendPlacesToPlacesVC(places: places)
-                                                self.displayMessage(message: "You got Your Places! 😎", err: false)
-                                                
-                                                /****/
-                                                LIMIT_SEARCH = LIMIT_SEARCH - 1
-                                                UserDefaults.standard.set(String(LIMIT_SEARCH), forKey: "limitSearch") // updation limit on user defaults.
-                                                LIMIT_SEARCH_RETURN = 1
-                                                self.remainSearchesLabel.text = "Remain searches: \(LIMIT_SEARCH!)"
-                                                /****/
-                                                
-                                                self.tabBarController?.selectedIndex = 1
-                                            }
-                                        })
-                                    }
-                                })
-                            } else {
-                                self.displayMessage(message: "Error Locating you", err: true)
-                            }
+        startAnimate { (finish) in
+            if CLLocationManager.locationServicesEnabled() {
+                switch CLLocationManager.authorizationStatus() {
+                case .notDetermined, .restricted:
+                    print("No Location Access.")
+                case .authorizedWhenInUse, .authorizedAlways:
+                    print("loacation access granted.")
+                    
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                    // Making query to search places.
+                    if LIMIT_SEARCH > 0 {
+                        if let location = USER_LOCATION {
+                            self.getThePlaces(from: "location=\(location.latitude),\(location.longitude)&radius=\(self.RADIUS)&types=\(TAGS.joined(separator: "|"))&key=\(self.KEY)", completion: { (newPlaces, success) in
+                                if let places = newPlaces, success {
+                                    print("Good \(success) -> \(places.count)")
+                                    
+                                    self.getInfoFor(places: places, completion: { () in
+                                        DispatchQueue.main.async {
+                                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                            self.stopAnimate()
+                                            
+                                            self.sendPlacesToPlacesVC(places: places)
+                                            self.displayMessage(message: "You got Your Places! 😎", err: false)
+                                            
+                                            /****/
+                                            LIMIT_SEARCH = LIMIT_SEARCH - 1
+                                            UserDefaults.standard.set(String(LIMIT_SEARCH), forKey: "limitSearch") // updation limit on user defaults.
+                                            LIMIT_SEARCH_RETURN = 1
+                                            self.remainSearchesLabel.text = "Remain searches: \(LIMIT_SEARCH!)"
+                                            /****/
+                                            
+                                            self.tabBarController?.selectedIndex = 1
+                                        }
+                                    })
+                                }
+                            })
                         } else {
-                            self.displayMessage(message: "You Reached Today's Limit 😐", err: false, yellow: true)
+                            self.displayMessage(message: "Error Locating you", err: true)
                         }
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                    // END.
-                    case .denied:
-                        showAlert = true
-                        print("Location Access Denied.")
+                    } else {
+                        self.displayMessage(message: "You Reached Today's Limit 😐", err: false, yellow: true)
                     }
-                } else {
-                    print("Location services are not enabled")
-            }})
-        }
-        
-        showButtonHideActivityIndicator() // showing back button.
-        
-        if showAlert {
-            let alert = UIAlertController(title: "Please enable location from Settings->Midnight Donut", message: "Used to detect places near you.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                // END.
+                case .denied:
+                    showAlert = true
+                    print("Location Access Denied.")
+                }
+            } else {
+                print("Location services are not enabled")
+            }
+            self.stopAnimate() // showing back button.
+            
+            if showAlert {
+                let alert = UIAlertController(title: "Please enable location from Settings->Midnight Donut", message: "Used to detect places near you.", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
 }
 
 // MARK: - Button animation functions.
 extension FirstViewController {
-    func showButtonHideActivityIndicator() {
+    func startAnimate(complete: @escaping (Bool) -> ()) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        UIView.animate(withDuration: 0.3, animations: { 
-            self.activityIndicator.alpha = 0.0
+        UIView.animate(withDuration: 0.25, animations: { 
+            self.findAPlace.transform = CGAffineTransform(rotationAngle: 3 * CGFloat.pi / 2)
         }) { (nil) in
-            
-            self.activityIndicator.stopAnimating()
-            self.activityIndicator.isHidden = true
-            
-            UIView.animate(withDuration: 0.3, animations: { 
-                self.findAPlace.transform = .identity
+
+            UIView.animate(withDuration: 1.0, delay: 0, options: [.repeat, .autoreverse], animations: {
+                
+                self.findAPlace.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
             })
+            complete(true)
         }
+    }
+    
+    func stopAnimate() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        
+        
+        UIView.animate(withDuration: 1.0, animations: {
+            self.findAPlace.transform = .identity
+            self.findAPlace.layer.removeAnimation(forKey: "transform")
+        })
     }
 }
 
@@ -203,7 +195,6 @@ extension FirstViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
-            print("=> \(location)")
             USER_LOCATION = location.coordinate
             locationManager.stopUpdatingLocation()
         }

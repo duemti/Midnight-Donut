@@ -90,14 +90,11 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remain searhces: 23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NXa-v9-fNh">
-                                <rect key="frame" x="110" y="588" width="155" height="22"/>
+                                <rect key="frame" x="110.5" y="588.5" width="154.5" height="21.5"/>
                                 <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="17"/>
                                 <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="fcK-FH-28n">
-                                <rect key="frame" x="170" y="454" width="37" height="37"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -105,7 +102,6 @@
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="NXa-v9-fNh" secondAttribute="bottom" constant="8" id="2Kg-TH-qKn"/>
                             <constraint firstAttribute="trailing" secondItem="X3f-0A-7PQ" secondAttribute="trailing" id="94H-8X-mZ6"/>
                             <constraint firstItem="JB9-d7-Tax" firstAttribute="top" secondItem="87B-RV-7ML" secondAttribute="bottom" priority="250" constant="12" id="9OD-2c-uSP"/>
-                            <constraint firstItem="fcK-FH-28n" firstAttribute="centerX" secondItem="bHx-M6-m4H" secondAttribute="centerX" id="Kpv-ib-Uym"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="eRt-sf-WLE" secondAttribute="bottom" id="LCh-uB-yMn"/>
                             <constraint firstItem="gKY-so-h4v" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="M43-5b-BEX"/>
                             <constraint firstItem="X3f-0A-7PQ" firstAttribute="top" secondItem="JB9-d7-Tax" secondAttribute="bottom" priority="750" constant="50" id="N3P-LW-vxN"/>
@@ -119,7 +115,6 @@
                             <constraint firstItem="87B-RV-7ML" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="21" id="d7X-W7-Wsw"/>
                             <constraint firstAttribute="trailing" secondItem="eRt-sf-WLE" secondAttribute="trailing" id="dbr-jE-f2I"/>
                             <constraint firstItem="bHx-M6-m4H" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="eea-lr-dUu"/>
-                            <constraint firstItem="fcK-FH-28n" firstAttribute="centerY" secondItem="bHx-M6-m4H" secondAttribute="centerY" id="iJD-Wj-nzL"/>
                             <constraint firstItem="ZjG-sK-6RZ" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" constant="-40" id="qIv-Nd-iVd"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="bHx-M6-m4H" secondAttribute="bottom" constant="76" id="r1D-Q4-Yev"/>
                             <constraint firstItem="X3f-0A-7PQ" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="x4H-2w-jgp"/>
@@ -135,7 +130,6 @@
                     <tabBarItem key="tabBarItem" title="Home" image="home" id="acW-dT-cKf"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="fcK-FH-28n" id="0dY-0f-omk"/>
                         <outlet property="centerHillImage" destination="X3f-0A-7PQ" id="vL1-j6-g9l"/>
                         <outlet property="findAPlace" destination="bHx-M6-m4H" id="tY8-Bw-Zjb"/>
                         <outlet property="leftHillImage" destination="ZjG-sK-6RZ" id="7k0-dE-hml"/>
@@ -296,7 +290,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Eu-at-Pfw">
-                                                    <rect key="frame" x="8" y="107" width="49" height="22"/>
+                                                    <rect key="frame" x="8" y="107.5" width="48.5" height="21.5"/>
                                                     <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="17"/>
                                                     <color key="textColor" red="0.64705882349999999" green="0.64705882349999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -372,7 +366,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Empty !" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w3z-7d-XzP">
-                                                    <rect key="frame" x="8" y="61" width="284" height="38"/>
+                                                    <rect key="frame" x="8" y="61.5" width="284" height="37.5"/>
                                                     <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="30"/>
                                                     <color key="textColor" red="0.13725490196078433" green="0.16862745098039217" blue="0.1803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -634,13 +628,13 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="More" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wiU-hB-LGS">
-                                <rect key="frame" x="132" y="30" width="111" height="63"/>
+                                <rect key="frame" x="132" y="30" width="111" height="62.5"/>
                                 <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="50"/>
                                 <color key="textColor" red="1" green="0.90588235294117647" blue="0.63529411764705879" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J6J-Vr-Xdm" customClass="menuButton" customModule="Midnight_Donut" customModuleProvider="target">
-                                <rect key="frame" x="16" y="303" width="343" height="40"/>
+                                <rect key="frame" x="16" y="302.5" width="343" height="40"/>
                                 <color key="backgroundColor" red="0.20392156862745098" green="0.25098039215686274" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="aka-Wm-HI8"/>
@@ -657,7 +651,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jPh-qI-Kln" customClass="menuButton" customModule="Midnight_Donut" customModuleProvider="target">
-                                <rect key="frame" x="16" y="223" width="343" height="40"/>
+                                <rect key="frame" x="16" y="222.5" width="343" height="40"/>
                                 <color key="backgroundColor" red="0.20392156862745098" green="0.25098039215686274" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="lYQ-CY-53S"/>
@@ -674,7 +668,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xty-ak-G4j" customClass="menuButton" customModule="Midnight_Donut" customModuleProvider="target">
-                                <rect key="frame" x="16" y="143" width="343" height="40"/>
+                                <rect key="frame" x="16" y="142.5" width="343" height="40"/>
                                 <color key="backgroundColor" red="0.20392156862745098" green="0.25098039215686274" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="cdR-nz-733"/>
@@ -691,13 +685,13 @@
                                 </connections>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1000" minValue="100" maxValue="5000" translatesAutoresizingMaskIntoConstraints="NO" id="lOZ-sb-Qff">
-                                <rect key="frame" x="14" y="369" width="347" height="31"/>
+                                <rect key="frame" x="14" y="368.5" width="347" height="31"/>
                                 <connections>
                                     <action selector="selectRadius:" destination="Loq-MC-373" eventType="valueChanged" id="Y45-oa-0er"/>
                                 </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search Radius: 1 km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OmB-bE-VHa">
-                                <rect key="frame" x="114" y="399" width="146.5" height="21.5"/>
+                                <rect key="frame" x="114" y="398.5" width="146.5" height="21.5"/>
                                 <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.90588235294117647" blue="0.63529411764705879" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -828,13 +822,13 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cs3-sb-CTl">
-                                <rect key="frame" x="130" y="45" width="115" height="63"/>
+                                <rect key="frame" x="130" y="45" width="115" height="62.5"/>
                                 <fontDescription key="fontDescription" name="Sniglet-Regular" family="Sniglet" pointSize="50"/>
                                 <color key="textColor" red="1" green="0.90588235289999997" blue="0.63529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100 more Searches" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="xvH-nC-tPu">
-                                <rect key="frame" x="88" y="223" width="200" height="25"/>
+                                <rect key="frame" x="88" y="222.5" width="200" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="zlT-Nf-FCR"/>
                                 </constraints>
@@ -843,7 +837,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily you are limited to a number of searches, but here you can buy extra searches!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBL-KG-MuW">
-                                <rect key="frame" x="16" y="108" width="343" height="75"/>
+                                <rect key="frame" x="16" y="107.5" width="343" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="1eN-9f-IDm"/>
                                 </constraints>
@@ -852,7 +846,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0wa-y0-LJF" customClass="buyButton" customModule="Midnight_Donut" customModuleProvider="target">
-                                <rect key="frame" x="123" y="256" width="130" height="40"/>
+                                <rect key="frame" x="123" y="255.5" width="130" height="40"/>
                                 <color key="backgroundColor" red="0.20392156859999999" green="0.25098039220000001" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="130" id="IFE-0G-xb6"/>
@@ -868,7 +862,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100 Direction to place" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="aoC-ZB-dpq">
-                                <rect key="frame" x="83" y="331" width="210" height="24"/>
+                                <rect key="frame" x="83" y="330.5" width="210" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="210" id="oCY-TF-Px9"/>
                                 </constraints>
@@ -877,7 +871,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bx1-Tx-547" customClass="buyButton" customModule="Midnight_Donut" customModuleProvider="target">
-                                <rect key="frame" x="122" y="363" width="130" height="40"/>
+                                <rect key="frame" x="122" y="362.5" width="130" height="40"/>
                                 <color key="backgroundColor" red="0.20392156859999999" green="0.25098039220000001" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="130" id="0Gu-Vl-1RP"/>
@@ -893,7 +887,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unock Travel Modes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="n8B-CU-0wU">
-                                <rect key="frame" x="83" y="438" width="210" height="24"/>
+                                <rect key="frame" x="83" y="437.5" width="210" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="210" id="1f7-We-v3V"/>
                                 </constraints>
@@ -902,7 +896,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r8z-p5-a7G" customClass="buyButton" customModule="Midnight_Donut" customModuleProvider="target">
-                                <rect key="frame" x="123" y="470" width="130" height="40"/>
+                                <rect key="frame" x="123" y="469.5" width="130" height="40"/>
                                 <color key="backgroundColor" red="0.20392156859999999" green="0.25098039220000001" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="130" id="96l-2R-gzB"/>
@@ -918,7 +912,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+25 Searches +25 Directions" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4jN-MR-Usd">
-                                <rect key="frame" x="135" y="515" width="105" height="32"/>
+                                <rect key="frame" x="135" y="514.5" width="105" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="105" id="UNN-dw-h24"/>
                                 </constraints>
@@ -937,19 +931,19 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current: 23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k28-VS-I39">
-                                <rect key="frame" x="154" y="304" width="67" height="18"/>
+                                <rect key="frame" x="154" y="303.5" width="67" height="18"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Italic" family="Avenir Next" pointSize="13"/>
                                 <color key="textColor" red="1" green="0.90588235289999997" blue="0.63529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current: 23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="INy-hg-keP">
-                                <rect key="frame" x="151" y="411" width="72" height="20"/>
+                                <rect key="frame" x="151" y="410.5" width="72" height="20"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Italic" family="Avenir Next" pointSize="14"/>
                                 <color key="textColor" red="1" green="0.90588235289999997" blue="0.63529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="2bq-Fx-dCG">
-                                <rect key="frame" x="169" y="178" width="37" height="37"/>
+                                <rect key="frame" x="169" y="177.5" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.074509803921568626" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>

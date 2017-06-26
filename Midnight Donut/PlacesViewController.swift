@@ -393,12 +393,19 @@ extension PlacesViewController: CLLocationManagerDelegate {
                         
                     // limit for directions reached.
                     } else {
+                        // making sure alpha is set to zero
+                        self.transparentSubiew.alpha = 0.0
+                        self.subviewOfTransparentView.alpha = 0.0
+                        self.caseDidNotBuyLabel.alpha = 0.0
+                        
                         self.transparentSubiew.isHidden = false
-                        self.caseDidNotBuyLabel.isEnabled = false
+                        self.subviewOfTransparentView.isHidden = false
+                        self.caseDidNotBuyLabel.isHidden = false
+                        self.caseDidNotBuyLabel.text = "Directions Limit reached."
+                        
                         UIView.animate(withDuration: 0.5, animations: { 
                             self.transparentSubiew.alpha = 1.0
-                            
-                            self.caseDidNotBuyLabel.text = "Directions Limit reached."
+                            self.subviewOfTransparentView.alpha = 1.0
                             self.caseDidNotBuyLabel.alpha = 1.0
                         })
                     }

@@ -21,7 +21,6 @@
 		699502851EC5F5E200FE1866 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 699502831EC5F5E200FE1866 /* Main.storyboard */; };
 		699502871EC5F5E200FE1866 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699502861EC5F5E200FE1866 /* Assets.xcassets */; };
 		6995028A1EC5F5E200FE1866 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 699502881EC5F5E200FE1866 /* LaunchScreen.storyboard */; };
-		699502951EC5F5E200FE1866 /* Midnight_DonutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699502941EC5F5E200FE1866 /* Midnight_DonutTests.swift */; };
 		69BCCA8C1EE1768B00FA8020 /* Sniglet-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69BCCA8B1EE1767E00FA8020 /* Sniglet-Regular.ttf */; };
 		69F7C8FD1EF2D206005F430F /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C8FC1EF2D206005F430F /* AboutViewController.swift */; };
 		69F7C8FF1EF3B1C2005F430F /* ShopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7C8FE1EF3B1C2005F430F /* ShopViewController.swift */; };
@@ -58,8 +57,6 @@
 		699502891EC5F5E200FE1866 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6995028B1EC5F5E200FE1866 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		699502901EC5F5E200FE1866 /* Midnight DonutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Midnight DonutTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		699502941EC5F5E200FE1866 /* Midnight_DonutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Midnight_DonutTests.swift; sourceTree = "<group>"; };
-		699502961EC5F5E200FE1866 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69BCCA8B1EE1767E00FA8020 /* Sniglet-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sniglet-Regular.ttf"; sourceTree = "<group>"; };
 		69F7C8FC1EF2D206005F430F /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		69F7C8FE1EF3B1C2005F430F /* ShopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopViewController.swift; sourceTree = "<group>"; };
@@ -153,7 +150,6 @@
 			isa = PBXGroup;
 			children = (
 				6995027C1EC5F5E200FE1866 /* Midnight Donut */,
-				699502931EC5F5E200FE1866 /* Midnight DonutTests */,
 				6995027B1EC5F5E200FE1866 /* Products */,
 				924DAD373076DDF336029B61 /* Pods */,
 				112441D27F25156CF5AF7660 /* Frameworks */,
@@ -186,15 +182,6 @@
 				6995028B1EC5F5E200FE1866 /* Info.plist */,
 			);
 			path = "Midnight Donut";
-			sourceTree = "<group>";
-		};
-		699502931EC5F5E200FE1866 /* Midnight DonutTests */ = {
-			isa = PBXGroup;
-			children = (
-				699502941EC5F5E200FE1866 /* Midnight_DonutTests.swift */,
-				699502961EC5F5E200FE1866 /* Info.plist */,
-			);
-			path = "Midnight DonutTests";
 			sourceTree = "<group>";
 		};
 		69FC48AF1EE02D06005593C3 /* fonts */ = {
@@ -440,7 +427,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				699502951EC5F5E200FE1866 /* Midnight_DonutTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
