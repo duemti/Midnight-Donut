@@ -82,6 +82,9 @@ class FirstViewController: UIViewController {
     
     // Search for a place.
     @IBAction func getCurrentPlace(_ sender: UIButton) {
+        defer {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }
         var showAlert = false
         
         // Animate when user clicked the button !!!
@@ -104,7 +107,6 @@ class FirstViewController: UIViewController {
                                     self.getInfoFor(places: places, completion: { () in
                                         DispatchQueue.main.async {
                                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                                            self.stopAnimate()
                                             
                                             self.sendPlacesToPlacesVC(places: places)
                                             self.displayMessage(message: "You got Your Places! 😎", err: false)
@@ -136,7 +138,6 @@ class FirstViewController: UIViewController {
             } else {
                 print("Location services are not enabled")
             }
-            self.stopAnimate() // showing back button.
             
             if showAlert {
                 let alert = UIAlertController(title: "Please enable location from Settings->Midnight Donut", message: "Used to detect places near you.", preferredStyle: UIAlertControllerStyle.alert)
@@ -153,25 +154,15 @@ extension FirstViewController {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         UIView.animate(withDuration: 0.25, animations: { 
-            self.findAPlace.transform = CGAffineTransform(rotationAngle: 3 * CGFloat.pi / 2)
+            self.findAPlace.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2).scaledBy(x: 0.9, y: 0.9)
         }) { (nil) in
 
-            UIView.animate(withDuration: 1.0, delay: 0, options: [.repeat, .autoreverse], animations: {
-                
-                self.findAPlace.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
+            UIView.animate(withDuration: 0.5, animations: { 
+                self.findAPlace.transform = .identity
+            }, completion: { (nil) in
+                complete(true)
             })
-            complete(true)
         }
-    }
-    
-    func stopAnimate() {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        
-        
-        UIView.animate(withDuration: 1.0, animations: {
-            self.findAPlace.transform = .identity
-            self.findAPlace.layer.removeAnimation(forKey: "transform")
-        })
     }
 }
 
